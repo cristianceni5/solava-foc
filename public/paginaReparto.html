@@ -1,0 +1,53 @@
+<!-- Cristian Ceni - 2026 -->
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reparto - Factory Operation Panel</title>
+    <link rel="shortcut icon" href="./assets/logo-solava-rid.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/styles.css">
+    <!-- CDN di FA -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        referrerpolicy="no-referrer">
+</head>
+
+<body>
+    <header class="navigazione">
+        <a href="index.html" class="nav-back"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Indietro</a>
+        <a href="index.html" class="nav-brand" aria-label="Factory Operation Panel - pagina principale">
+            <img src="./assets/logo-solava-rossaccio.svg" alt="Solava" class="logo">
+            <span id="nome-reparto-head">Reparto...</span>
+        </a>
+    </header>
+    <!-- Container con la tabelle delle lavorazioni -->
+    <div class="container">
+        <div id="status-banner" role="status" aria-live="polite">
+            <h1 id="stato"><i class="fa-solid fa-spinner fa-spin"></i> Caricamento dati...</h1>
+            <p id="risposta"></p>
+            <p id="ultimo-aggiornamento" class="ultimo-aggiornamento"></p>
+        </div>
+        <div class="table-wrapper">
+            <table id="tabella-reparto">
+                <thead id="tabella-intestazione">
+                </thead>
+                <tbody id="tabella-dati">
+                </tbody>
+            </table>
+        </div>
+
+        <br>
+
+        <!-- Se fornino = true nei reparti, allora verrà mostrato anche qui, solo per gli Scarichi -->
+        <div class="table-wrapper" id="wrapper-fornino" style="display:none">
+            <table id="tabella-fornino">
+                <thead id="tabella-intestazione-fornino"></thead>
+                <tbody id="tabella-dati-fornino"></tbody>
+            </table>
+        </div>
+    </div>
+    <script src="./js/reparto.js"></script>
+</body>
+
+</html>

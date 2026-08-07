@@ -1,0 +1,56 @@
+<!-- Cristian Ceni - 2026 -->
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factory Operation Panel - Solava</title>
+    <link rel="shortcut icon" href="./assets/logo-solava-rid.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/styles.css">
+    <!-- CDN di FA -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        referrerpolicy="no-referrer">
+</head>
+
+<body>
+    <header class="navigazione">
+        <span class="nav-spacer" aria-hidden="true"></span>
+        <a href="index.html" class="nav-brand" aria-label="Factory Operation Panel - pagina principale">
+            <img src="./assets/logo-solava-rossaccio.svg" alt="Solava" class="logo">
+            <span>Factory Operation Panel</span>
+        </a>
+    </header>
+    <!-- Container con la lista di reparti, popolata da indice.js -->
+    <div class="container">
+        <h1>Monitor lavorazioni</h1>
+        <p>Seleziona cliccando sul reparto desiderato:</p>
+        <p id="stato-reparti" class="stato-caricamento" role="status" aria-live="polite">Caricamento reparti...</p>
+        <div class="lista-reparti" id="lista-reparti"></div>
+    </div>
+    <!-- Container con il link alla pagina compilazione etichette -->
+    <div class="sotto-container">
+        <h1>Compilazione etichette</h1>
+        <p>Qui puoi compilare le etichette manualmente inserendo il codice articolo:</p>
+        <div class="lista-reparti">
+            <a href="paginaEtichetta.html">
+                <i class="fa-solid fa-barcode"></i>
+                Pagina etichetta
+            </a>
+        </div>
+    </div>
+    <!-- Container docs -->
+    <div class="sotto-container">
+        <h1>Documentazione</h1>
+        <p>Consulta la documentazione:</p>
+        <div class="lista-reparti">
+            <a href="documentazione.html">
+                <i class="fa-solid fa-file-word"></i>
+                Documentazione
+            </a>
+        </div>
+    </div>
+    <script src="./js/indice.js"></script>
+</body>
+
+</html>

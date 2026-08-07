@@ -1,0 +1,51 @@
+<!-- Cristian Ceni - 2026 -->
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etichette - Factory Operation Panel</title>
+    <link rel="shortcut icon" href="./assets/logo-solava-rid.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/styles.css">
+    <!-- CDN di FA -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        referrerpolicy="no-referrer">
+</head>
+
+<body>
+    <header class="navigazione">
+        <a href="index.html" class="nav-back"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Indietro</a>
+        <a href="index.html" class="nav-brand" aria-label="Factory Operation Panel - pagina principale">
+            <img src="./assets/logo-solava-rossaccio.svg" alt="Solava" class="logo">
+            <span>Etichette</span>
+        </a>
+    </header>
+    <!-- Container per UI fissa, risultato e anteprima popolati da etichette.js -->
+    <div class="container">
+        <h1>Compilazione Etichette</h1>
+        <p>Scrivi il numero di articolo, compila il lotto, i pezzi e stampa</p>
+        <br>
+        <div class="ricerca">
+            <label for="inputArticolo" class="sr-only">Codice articolo</label>
+            <input type="text" id="inputArticolo" placeholder="Codice articolo" autocomplete="off" autofocus>
+            <button type="button" id="btnCerca">Cerca</button>
+        </div>
+        <!-- Cronologia delle ultime ricerche, salvata in localStorage -->
+        <div class="cronologia" id="cronologia"></div>
+
+        <p id="errore" class="errore" role="alert" aria-live="assertive"></p>
+        <!-- Risultato della ricerca -->
+        <div id="risultato"></div>
+        <!-- Anteprima di stampa -->
+        <div id="anteprima"></div>
+    </div>
+
+    <button type="button" id="frecciaTeletrasporto" class="freccia-teletrasporto" title="Vai alla sezione di stampa" aria-label="Vai alla sezione di stampa">
+        <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+    </button>
+
+    <script src="./js/etichette.js"></script>
+</body>
+
+</html>
