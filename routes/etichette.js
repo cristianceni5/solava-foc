@@ -53,6 +53,7 @@ async function caricaArticolo(codice) {
                 A.UM_ETICHETTA,
                 B.UM1,
                 B.UM2,
+                B.PEZZIUM2,
                 B.FATTORE_CONVERSIONE
             FROM ${TABELLA_ATTRIBUTI} AS A
             LEFT JOIN ${TABELLA_ATTRIBUTI_ADD} AS B
@@ -133,19 +134,20 @@ async function generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, pezziP
         err.status = 404;
         throw err;
     }
-    
-    //TODO: Rifare tutto Dio merda
-    // Calcolo pezzi effettivi, se l'operatore ha modificato i pezzi
-    const pezziEffettivi =
-    (pezziPacco !== undefined && pezziPacco !== null && pezziPacco !== '')
-    ? pezziPacco
-    : datiArticolo.pezziPerPacco;
 
+    // TODO: rifare tutta questa logica al più presto
+    
+    // Calcolo il valoreEffettivoPrinc considerando l'input dell'utente pezziPacco e il nuovo dato per la conversione effettiva della quantità
+    // Faccio quindi pezziPerPacco / pezziPerSec per risolvere il problema delle wuantità PZ e BLK, pezziPerSec mi dice quanti pezzi servono per l'UM2
+    const quantEffettivaPrinc = (pezziPacco !== undefined && pezziPacco !== null && pezziPacco !== '')
+            ? pezziPacco
+            : (datiArticolo.pezziPerPacco / datiArticolo.pezziPerSec);
+    
     // Calcolo della giuste UM con i loro valori
     const doppiaUnita = datiArticolo.stampaUnitaMisuraSecondaria;
 
     // Calcolo con il fattore di peso
-    const metriPacco = doppiaUnita? (pezziEffettivi * datiArticolo.fattoreConv).toFixed(2): '';
+    const quantEffettivaSec = doppiaUnita ? (quantEffettivaPrinc * datiArticolo.fattoreConv).toFixed(2) : '';
 
     // Calcolo effettivo delle UM - maledetti
     const um1Eff = doppiaUnita ? datiArticolo.um2 + "/Pallet" : datiArticolo.um1 + "/Pallet";
@@ -161,8 +163,8 @@ async function generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, pezziP
         DESCRIZIONE: datiArticolo.descrizione,
         DESCR_AGG: datiArticolo.descrizioneAggiuntiva,
         // Se l'operatore ha modificato il campo in pagina uso quel valore, sennò quello del DB
-        PEZZI_PACCO: pezziEffettivi,
-        MT_PACCO: metriPacco,
+        PEZZI_PACCO: quantEffettivaPrinc,
+        MT_PACCO: quantEffettivaSec,
         COD_LOTTO: lotto,
         PROGRESSIVO: progressivo,
         BARCODE: lotto,
@@ -175,7 +177,7 @@ async function generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, pezziP
         UM1: um1Eff,
         UM2: um2Eff,
         LINK: 'https://www.solava.it',
-        QR: `${datiArticolo.codice};${lotto};${pezziEffettivi}`
+        QR: `${datiArticolo.codice};${lotto};${quantEffettivaPrinc}`
     };
 
     // Qui carico il template, sceglilo dall'oggetto in alto TEMPLATE, sennò se sbagli una lettera non va più nullaa

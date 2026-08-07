@@ -222,3 +222,17 @@ Stacktrace:   in System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInter
 2026-08-04 10:00:54 - Finished solavammes.exe
 2026-08-04 11:08:54 - Starting C:\Program Files\nodejs\node.exe  --harmony "C:\Users\Confezionamento\Documents\Monitor MES - Solava\node_modules\node-windows\lib\wrapper.js" --file "C:\Users\Confezionamento\Documents\Monitor MES - Solava\server.js" --scriptoptions= --log "SolavaMMES wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
 2026-08-04 11:08:54 - Started 15288
+2026-08-07 14:34:35 - Stopping solavammes.exe
+2026-08-07 14:34:35 - ProcessKill 15288
+2026-08-07 14:34:35 - Found child process: 11424 Name: conhost.exe
+2026-08-07 14:34:35 - Found child process: 7564 Name: node.exe
+2026-08-07 14:34:36 - Stopping process 11424
+2026-08-07 14:34:36 - Send SIGINT 11424
+2026-08-07 14:34:36 - SIGINT to 11424 failed - Killing as fallback
+2026-08-07 14:34:36 - Stopping process 7564
+2026-08-07 14:34:36 - Send SIGINT 7564
+2026-08-07 14:34:36 - SIGINT to 7564 failed - Killing as fallback
+2026-08-07 14:34:36 - Stopping process 15288
+2026-08-07 14:34:36 - Send SIGINT 15288
+2026-08-07 14:34:36 - SIGINT to 15288 failed - Killing as fallback
+2026-08-07 14:34:36 - Finished solavammes.exe

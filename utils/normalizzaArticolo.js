@@ -39,7 +39,8 @@ function normalizzaArticolo(riga) {
     norma: etichette.norma,
     campiZpl: etichette.campiZpl,
     um1: testoDb(riga.UM1),
-    um2: testoDb(riga.UM2)
+    um2: testoDb(riga.UM2),
+    pezziPerSec: riga.PEZZIUM2
   };
 }
 
