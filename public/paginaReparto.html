@@ -37,14 +37,27 @@
             </table>
         </div>
 
+        <dialog id="anteprima-lavorazione" class="anteprima-lavorazione" aria-labelledby="anteprima-titolo">
+            <div class="anteprima-lavorazione-header">
+                <div>
+                    <p class="anteprima-eyebrow">Dettaglio lavorazione</p>
+                    <h2 id="anteprima-titolo">Anteprima estesa</h2>
+                </div>
+                <button type="button" id="chiudi-anteprima" class="chiudi-anteprima" aria-label="Chiudi anteprima">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+            <dl id="anteprima-valori" class="anteprima-valori"></dl>
+        </dialog>
+
         <br>
 
-        <!-- Se fornino = true nei reparti, allora verrà mostrato anche qui, solo per gli Scarichi -->
-        <div class="table-wrapper" id="wrapper-fornino" style="display:none">
-            <table id="tabella-fornino">
-                <thead id="tabella-intestazione-fornino"></thead>
-                <tbody id="tabella-dati-fornino"></tbody>
-            </table>
+        <div class="legenda-wrapper">
+            <h2>Legenda stato</h2>
+            <ul class="legenda">
+                <li><div class="stato-bono"></div> Ripresa, Lanciata o Iniziata</li>
+                <li><div class="stato-attenzione"></div> Sospesa</li>
+            </ul>
         </div>
     </div>
     <script src="./js/reparto.js"></script>

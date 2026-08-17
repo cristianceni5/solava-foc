@@ -135,18 +135,13 @@ async function generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, pezziP
         throw err;
     }
 
-    // TODO: rifare tutta questa logica al più presto
-    
-    // Calcolo il valoreEffettivoPrinc considerando l'input dell'utente pezziPacco e il nuovo dato per la conversione effettiva della quantità
-    // Faccio quindi pezziPerPacco / pezziPerSec per risolvere il problema delle wuantità PZ e BLK, pezziPerSec mi dice quanti pezzi servono per l'UM2
-    const quantEffettivaPrinc = (pezziPacco !== undefined && pezziPacco !== null && pezziPacco !== '')
-            ? pezziPacco
-            : (datiArticolo.pezziPerPacco / datiArticolo.pezziPerSec);
-    
-    // Calcolo della giuste UM con i loro valori
+    // Calcolo delle quantità effettive - articolo con o senza doppia UM
+    const valoreStandardConversionePezzi = (datiArticolo.pezziPerSec == null) ? 1 : datiArticolo.pezziPerSec;
     const doppiaUnita = datiArticolo.stampaUnitaMisuraSecondaria;
 
-    // Calcolo con il fattore di peso
+    const quantEffettivaPrinc = (doppiaUnita && pezziPacco == datiArticolo.pezziPerPacco) ? (datiArticolo.pezziPerPacco / valoreStandardConversionePezzi) : pezziPacco;
+
+    // Calcolo con il fattore di peso l'altra UM se presente    
     const quantEffettivaSec = doppiaUnita ? (quantEffettivaPrinc * datiArticolo.fattoreConv).toFixed(2) : '';
 
     // Calcolo effettivo delle UM - maledetti

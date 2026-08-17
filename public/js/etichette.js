@@ -217,11 +217,17 @@ function mostraRisultato(dati) {
         </div>
 
         <div class="sezione-articolo">
-            <p class="sezione-titolo" id="teletrasporto">Quantità per pacco</p>
-            <p class="sezione-sottotitolo">In caso di errata quantità, correggere questo valore per variare anche la seconda UM</p>
+            <p class="sezione-titolo" id="teletrasporto">Pezzi per pacco</p>
+            <p class="sezione-sottotitolo">Per gli articoli aggiornati, le quantità BLK, MQ e ML verranno generate automaticamente, se ci dovessero essere problemi, toccare questo valore.</p>
             <div class="riga-dati-stampa">
                 <label for="inPezziPacco" class="sr-only">Pezzi per pacco</label>
                 <input type="number" id="inPezziPacco" min="0" step="1" value="${escapeHtml(a.pezziPerPacco ?? '')}">
+            </div>
+
+            <p class="sezione-titolo">Pezzi per BLK</p>
+            <div class="riga-dati-stampa">
+                <label for="inPezziBLK" class="sr-only">Pezzi per unità di misura secondaria: ${escapeHtml(a.pezziPerSec ?? '')}</label>
+                <input type="number" id="inPezziBLK" min="0" step="1" value="${escapeHtml(a.pezziPerSec ?? '')}">
             </div>
 
             <p class="sezione-titolo">Lotto</p>

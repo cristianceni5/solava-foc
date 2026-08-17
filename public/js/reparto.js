@@ -5,6 +5,8 @@
 const OGNI_QUANTO_RICARICA = 5;
 const INTERVALLO_REFRESH_MS = OGNI_QUANTO_RICARICA * 1000;
 const LUNGHEZZA_MAX_DESCRIZIONE = 25;
+// Colonne nascoste nella tabella principale ma chiamate nella query, sicchè modificare qui per altre colonne.
+const COLONNE_NASCOSTE = new Set(['OPERATORE', 'STATO', 'QTA ORD']);
 const params = new URLSearchParams(window.location.search);
 const reparto = params.get('reparto');
 let refreshTimer;
@@ -21,14 +23,42 @@ function classeStato(statoRipresa) {
     return mappa[statoRipresa] ?? 'stato-sconosciuto';
 }
 
+function formattaValore(colonna, valore) {
+    if (colonna === 'OPERATORE' && valore === 'Operatore non presidiata ') return 'Auto PowerMES';
+    if (colonna === 'IMPIANTO' && valore === 'FORNO TERMORETRAIBILE1') return 'Fornino';
+    if (colonna === 'IMPIANTO' && valore === 'Termoretraibile1') return 'Etichettatura';
+    return valore ?? '—';
+}
+
+function apriAnteprima(riga) {
+    const dialog = document.getElementById('anteprima-lavorazione');
+    const valori = document.getElementById('anteprima-valori');
+    valori.innerHTML = '';
+
+    for (const [colonna, valore] of Object.entries(riga)) {
+        const campo = document.createElement('div');
+        campo.className = 'anteprima-campo';
+        const etichetta = document.createElement('dt');
+        etichetta.textContent = colonna;
+        const contenuto = document.createElement('dd');
+        contenuto.textContent = formattaValore(colonna, valore);
+        campo.append(etichetta, contenuto);
+        valori.appendChild(campo);
+    }
+
+    if (dialog.open) dialog.close();
+    dialog.showModal();
+}
+
 function costruisciTabella(elIntestazione, elCorpo, righe) {
     elIntestazione.innerHTML = '';
     elCorpo.innerHTML = '';
     if (righe.length === 0) return;
 
     const colonne = Object.keys(righe[0]);
+    const colonneVisibili = colonne.filter((colonna) => !COLONNE_NASCOSTE.has(colonna));
     const headRow = document.createElement('tr');
-    for (const colonna of colonne) {
+    for (const colonna of colonneVisibili) {
         const th = document.createElement('th');
         th.scope = 'col';
         th.textContent = colonna;
@@ -39,26 +69,41 @@ function costruisciTabella(elIntestazione, elCorpo, righe) {
     for (const riga of righe) {
         const row = elCorpo.insertRow();
         row.classList.add(classeStato(riga.STATO));
-        for (const colonna of colonne) {
-            const cell = row.insertCell();
-            let valore = riga[colonna];
+        row.classList.add('riga-cliccabile');
+        row.tabIndex = 0;
+        row.setAttribute('role', 'button');
+        row.setAttribute('aria-haspopup', 'dialog');
+        row.setAttribute('aria-label', 'Apri il dettaglio completo della lavorazione');
+        row.title = 'Apri il dettaglio completo';
+        row.addEventListener('click', () => apriAnteprima(riga));
+        row.addEventListener('keydown', (evento) => {
+            if (evento.key === 'Enter' || evento.key === ' ') {
+                evento.preventDefault();
+                apriAnteprima(riga);
+            }
+        });
 
-            if (colonna === 'OPERATORE' && valore === 'Operatore non presidiata ') {
-                valore = 'Auto PowerMES';
-            } else if (colonna === 'DESCRIZIONE' && typeof valore === 'string' && valore.length > LUNGHEZZA_MAX_DESCRIZIONE) {
-                cell.title = valore;
+        for (const colonna of colonneVisibili) {
+            const cell = row.insertCell();
+            const valoreCompleto = formattaValore(colonna, riga[colonna]);
+            let valore = valoreCompleto;
+
+            if (colonna === 'DESCRIZIONE' && typeof valore === 'string' && valore.length > LUNGHEZZA_MAX_DESCRIZIONE) {
+                cell.title = valoreCompleto;
                 valore = `${valore.slice(0, LUNGHEZZA_MAX_DESCRIZIONE)}...`;
-            } else if (colonna === 'IMPIANTO' && valore === 'FORNO TERMORETRAIBILE1') {
-                valore = 'Fornino';
-            } else if (colonna === 'IMPIANTO' && valore === 'Termoretraibile1') {
-                valore = 'Etichettatura';
             }
 
-            cell.textContent = valore ?? '—';
+            cell.textContent = valore;
             cell.dataset.label = colonna;
         }
     }
 }
+
+const dialogAnteprima = document.getElementById('anteprima-lavorazione');
+document.getElementById('chiudi-anteprima').addEventListener('click', () => dialogAnteprima.close());
+dialogAnteprima.addEventListener('click', (evento) => {
+    if (evento.target === dialogAnteprima) dialogAnteprima.close();
+});
 
 async function caricaStato() {
     const banner = document.getElementById('status-banner');
@@ -105,19 +150,6 @@ async function caricaStato() {
             setStato('fa-solid fa-circle-check', 'Lavorazioni aggiornate');
             risposta.textContent = '';
             costruisciTabella(intestazione, tabella, righe);
-        }
-
-        const wrapperFornino = document.getElementById('wrapper-fornino');
-        if (json.datiFornino) {
-            const righeFornino = Array.isArray(json.datiFornino) ? json.datiFornino : [json.datiFornino];
-            costruisciTabella(
-                document.getElementById('tabella-intestazione-fornino'),
-                document.getElementById('tabella-dati-fornino'),
-                righeFornino
-            );
-            wrapperFornino.style.display = righeFornino.length ? '' : 'none';
-        } else {
-            wrapperFornino.style.display = 'none';
         }
     } catch (errore) {
         console.error('Errore caricamento reparto:', errore);

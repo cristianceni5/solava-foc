@@ -30,13 +30,6 @@ router.get('/api/stato', async (req, res) => {
       dati: righe,
     };
 
-    // Scarico Lingl e Scarico Capelletti mostrano anche Fornino - Termo1 accanto ai propri dati
-    /*
-    if (reparto.fornino) {
-      risposta.datiFornino = await eseguiQueryReparto('fornino');
-      risposta.nomeFornino = getReparto('fornino').nome;
-    }
-    */
     res.json(risposta);
   } catch (errore) {
     res.status(503).json({

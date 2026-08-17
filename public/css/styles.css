@@ -76,6 +76,110 @@ table thead th {
     top: 0;
 }
 
+.riga-cliccabile {
+    cursor: pointer;
+    transition: filter 0.15s ease, outline 0.15s ease;
+}
+
+.riga-cliccabile:hover {
+    filter: brightness(1.08);
+}
+
+.riga-cliccabile:focus-visible {
+    position: relative;
+    z-index: 1;
+    outline: 3px solid var(--colore-text);
+    outline-offset: -3px;
+}
+
+.anteprima-lavorazione {
+    width: min(760px, calc(100% - 32px));
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    padding: 0;
+    color: var(--colore-text);
+    background: var(--colore-card);
+    border: 1px solid var(--colore-border);
+    border-radius: 20px;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+}
+
+.anteprima-lavorazione::backdrop {
+    background: rgba(0, 0, 0, 0.58);
+    backdrop-filter: blur(2px);
+}
+
+.anteprima-lavorazione-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 24px 28px 18px;
+    border-bottom: 1px solid var(--colore-border);
+}
+
+.anteprima-lavorazione-header h2,
+.anteprima-eyebrow {
+    margin: 0;
+}
+
+.anteprima-eyebrow {
+    margin-bottom: 4px;
+    color: var(--colore-subtext);
+    font-family: var(--font-family-heading);
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.chiudi-anteprima {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    color: var(--colore-text);
+    background: var(--colore-bg);
+    border: 1px solid var(--colore-border);
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.chiudi-anteprima:hover {
+    background: var(--colore-border);
+}
+
+.anteprima-valori {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 28px;
+    margin: 0;
+    padding: 8px 28px 28px;
+}
+
+.anteprima-campo {
+    min-width: 0;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--colore-border);
+}
+
+.anteprima-campo dt {
+    margin-bottom: 5px;
+    color: var(--colore-subtext);
+    font-family: var(--font-family-heading);
+    font-size: 0.78rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.anteprima-campo dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+    font-size: 1.05rem;
+    font-weight: bold;
+    color: var(--colore-text);
+}
+
 /* Riga colorata in base allo stato font cambia colore in base allo stato */
 .stato-bono {
     background-color: var(--colore-tranquillo);
@@ -143,6 +247,27 @@ table thead th {
     to {
         transform: rotate(360deg);
     }
+}
+
+.legenda {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.legenda li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+.legenda div {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
 }
 
 /* Pagina etichette: ricerca e cronologia */
@@ -572,5 +697,20 @@ input[aria-invalid="true"] {
         font-family: var(--font-family-heading);
         color: var(--colore-bg);
         text-align: left;
+    }
+
+    .anteprima-lavorazione {
+        width: calc(100% - 20px);
+        max-height: calc(100vh - 20px);
+        border-radius: 14px;
+    }
+
+    .anteprima-lavorazione-header {
+        padding: 20px;
+    }
+
+    .anteprima-valori {
+        grid-template-columns: 1fr;
+        padding: 4px 20px 20px;
     }
 }

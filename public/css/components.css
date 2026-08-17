@@ -65,7 +65,8 @@ h6 {
 
 p,
 a,
-li {
+li,
+dd {
     font-family: var(--font-family-base);
     color: var(--colore-subtext);
 }
