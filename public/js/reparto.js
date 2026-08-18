@@ -124,18 +124,14 @@ async function caricaStato() {
     const risposta = document.getElementById('risposta');
     const ultimoAggiornamento = document.getElementById('ultimo-aggiornamento');
 
-    function setStato(iconClass, testo) {
+    function setStato(testo) {
         stato.innerHTML = '';
-        const icona = document.createElement('i');
-        icona.className = iconClass;
-        icona.setAttribute('aria-hidden', 'true');
-        stato.appendChild(icona);
         stato.appendChild(document.createTextNode(` ${testo}`));
     }
 
     if (!reparto) {
         banner.className = 'stato-errore';
-        setStato('fa-solid fa-triangle-exclamation', 'Reparto non specificato');
+        setStato('Reparto non specificato');
         risposta.innerHTML = 'Torna alla <a href="index.html">selezione del reparto</a>.';
         return;
     }
@@ -154,12 +150,12 @@ async function caricaStato() {
 
         if (righe.length === 0) {
             banner.className = 'stato-vuoto';
-            setStato('fa-solid fa-circle-info', 'Nessuna lavorazione');
+            setStato('Nessuna lavorazione');
             risposta.textContent = 'Non risultano lavorazioni aperte in questo reparto, controlla MES.Frontend.';
             costruisciTabella(intestazione, tabella, righe, json.reparto);
         } else {
             banner.className = 'stato-ok';
-            setStato('fa-solid fa-circle-check', 'Lavorazioni aggiornate');
+            setStato('Lavorazioni aggiornate');
             risposta.textContent = '';
             costruisciTabella(intestazione, tabella, righe);
         }

@@ -282,7 +282,17 @@ table thead th {
 }
 
 /* Legenda sotto la pagina per schema colori */
+.legenda-container {
+    background-color: var(--colore-card);
+    padding: 20px;
+    border-radius: 35px;
+    border: 1px solid var(--colore-border);
+}
+
 .legenda-li {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -292,7 +302,6 @@ table thead th {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 8px;
     font-size: 1.1rem;
 }
 
