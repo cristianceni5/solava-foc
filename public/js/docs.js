@@ -46,6 +46,23 @@ const DOCUMENTAZIONE = `
         nel terminale appena aperto.
     </p>
     <p>Questi errori non sempre compaiono direttamente a schermo, questo per la volontà di tenerlo uno strumento semplice alla vista. Quindi necessario aprire la console del browser per una diagnostica più affidabile</p>
+    <p>Nota: la gestione degli errori non prevede un middleware o una classficiazione strutturata ma semplici risposte o direttamente risposte raw.</p>
+    <h3>Come arrestare o fare un reset a FOP:</h3>
+    <p>
+        Essendo un <b>servizio di Windows</b>, <b>cercare</b> nella barra di ricerca <b>'Servizi'</b> oppure premere la <b>combinazione di tasti</b> Win+R ed eseguire <b>'services.msc'</b>,
+        Dopodiché cercare nell'elenco dei servizi <b>'SolavaMMES'</b>, come descrizione riporta 'Servizio per l'esecuzione automatica di Solava MMES Server', fare click con tasto destro e selezionare:
+    </p>
+    <p>
+        <ul>
+            <li><b>Arresta</b> se desiderate arrestare il servizio e cessare la comunicazione con SQL_Server</li>
+            <li><b>Riavvia</b> se desiderate riavviare il servizio a seguito di qualche problema o modifica al codice sorgente</li>
+        </ul>
+    </p>
+    <p>
+        Non appena fatta l'operazione è possibile chiudere la finestra e controllare praticamente se il servizio è ancora attivo semplicemente recandosi alle sue pagine sul browser.
+        Se il servizio è spento, l'URL rifiuterà la connessione, se il servizio è in esecuzione invece l'URL ti mostrerà
+    </p>
+    
     <h3>Qui l'elenco</h3>
     <p>
         <ul>

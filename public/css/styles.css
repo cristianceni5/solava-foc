@@ -5,6 +5,9 @@
 */
 @import url('./components.css');
 
+/* Nota: per l'hover sto usando da tutte le parti il brightness a 0.9 */
+
+/* INDICE - index.html */
 /* Home */
 .lista-reparti {
     display: flex;
@@ -23,8 +26,15 @@
 
     border-radius: 99px;
     border: 1px solid var(--colore-border);
+    transition: filter 0.15s ease, outline 0.15s ease;
 }
 
+.lista-reparti a:hover {
+    filter: brightness(0.9);
+}
+
+/* PAGINA REPARTO - paginaReparto.html */
+/* Stati di caricamento */
 .stato-caricamento {
     min-height: 1.5em;
     margin: 20px 0 0;
@@ -45,7 +55,7 @@
     cursor: pointer;
 }
 
-/* Monitor reparto */
+/* Monitor reparto - tabella risultati */
 .table-wrapper {
     width: 100%;
     overflow-x: auto;
@@ -76,13 +86,14 @@ table thead th {
     top: 0;
 }
 
+/* Riga cliccabile per anteprima */
 .riga-cliccabile {
     cursor: pointer;
     transition: filter 0.15s ease, outline 0.15s ease;
 }
 
 .riga-cliccabile:hover {
-    filter: brightness(1.08);
+    filter: brightness(0.9);
 }
 
 .riga-cliccabile:focus-visible {
@@ -92,6 +103,7 @@ table thead th {
     outline-offset: -3px;
 }
 
+/* Anteprima dialog box con i dati completi */
 .anteprima-lavorazione {
     width: min(760px, calc(100% - 32px));
     max-height: calc(100vh - 48px);
@@ -106,7 +118,7 @@ table thead th {
 
 .anteprima-lavorazione::backdrop {
     background: rgba(0, 0, 0, 0.58);
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(5px);
 }
 
 .anteprima-lavorazione-header {
@@ -146,7 +158,7 @@ table thead th {
 }
 
 .chiudi-anteprima:hover {
-    background: var(--colore-border);
+    filter: brightness(0.90);
 }
 
 .anteprima-valori {
@@ -208,14 +220,34 @@ table thead th {
     color: var(--colore-card);
 }
 
-/* Banner di stato sopra la tabella: nessuno sfondo, il colore del testo
-   segnala lo stato (verde se ci sono dati, rosso se c'è un errore) */
+.stato-sodo {
+    background-color: var(--colore-errore);
+}
+
+.riga-errore {
+    background-color: var(--colore-errore);
+}
+
+.riga-errore td {
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+/* Banner di stato sopra la tabella */
 #status-banner {
     margin-bottom: 26px;
 }
 
+#status-banner h1{
+    margin-bottom: 20px;    
+}
+
 .ultimo-aggiornamento {
+    color: var(--colore-subtext);
+    font-family: var(--font-family-heading);
     font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 #status-banner.stato-ok h1 {
@@ -249,13 +281,14 @@ table thead th {
     }
 }
 
-.legenda {
+/* Legenda sotto la pagina per schema colori */
+.legenda-li {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.legenda li {
+.legenda-li li {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -263,14 +296,19 @@ table thead th {
     font-size: 1.1rem;
 }
 
-.legenda div {
+.legenda-li div {
     display: inline-block;
     width: 25px;
     height: 25px;
     border-radius: 50%;
 }
 
-/* Pagina etichette: ricerca e cronologia */
+.legenda-li p {
+    margin: 0;
+}
+
+/* PAGINA ETICHETTA - paginaEtichetta.html */
+/* Ricerca e cronologia */
 .ricerca {
     display: flex;
     gap: 12px;
@@ -301,6 +339,12 @@ table thead th {
     border-radius: 99px;
     border: none;
     cursor: pointer;
+
+    transition: filter 0.15s ease;
+}
+
+.ricerca button:hover {
+    filter: brightness(0.9);
 }
 
 .ricerca button:disabled {
@@ -325,6 +369,12 @@ table thead th {
 
     border-radius: 99px;
     border: 1px solid var(--colore-border);
+
+    transition: filter 0.15s ease;
+}
+
+.cronologia-item:hover {
+    filter: brightness(0.90);
 }
 
 .cronologia-testo {
@@ -377,7 +427,7 @@ input[aria-invalid="true"] {
     box-shadow: 0 0 0 2px rgba(175, 56, 54, 0.16);
 }
 
-/* Pagina etichette: scheda articolo e stampa */
+/* Scheda articolo e stampa */
 #risultato {
     display: none;
     background-color: transparent;
@@ -422,6 +472,7 @@ input[aria-invalid="true"] {
     text-align: right;
 }
 
+/* Righe di compilazione dati */
 .sezione-titolo {
     margin: 16px 0 12px;
     font-family: var(--font-family-heading);
@@ -441,19 +492,31 @@ input[aria-invalid="true"] {
     font-size: 0.9rem;
 }
 
-.azioni-anteprima {
-    display: flex;
-    gap: 8px;
-    border-top: 1px solid var(--colore-border);
-    margin: 24px 0 0;
-    padding: 20px 0 0;
-}
-
 .riga-dati-stampa {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
     margin: 8px auto 16px auto;
+}
+
+.riga-dati-um {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 8px auto 16px auto;
+    border-bottom: 1px solid var(--colore-border);
+    padding-bottom: 20px;
+}
+
+.valore-um {
+    margin: 16px 0 12px;
+    background-color: var(--colore-card);
+    border-radius: 99px;
+    padding: 0 12px 0 12px;
+    font-family: var(--font-family-base);
+    font-weight: bold;
+    color: var(--colore-text);
 }
 
 .riga-dati-stampa input {
@@ -487,6 +550,15 @@ input[aria-invalid="true"] {
     cursor: pointer;
 }
 
+/* Buttons */
+.azioni-anteprima {
+    display: flex;
+    gap: 8px;
+    border-top: 1px solid var(--colore-border);
+    margin: 24px 0 0;
+    padding: 20px 0 0;
+}
+
 .btn-anteprima,
 .btn-stampa {
     flex: 1;
@@ -505,25 +577,32 @@ input[aria-invalid="true"] {
     cursor: not-allowed;
 }
 
+/* Button di anteprima */
 .btn-anteprima {
     color: #FFFFFF;
     background-color: var(--solava-princ);
+
+    transition: filter 0.15s ease;
 }
 
 .btn-anteprima:hover {
-    background-color: var(--solava-sec);
+    filter: brightness(0.90);
 }
 
+/* Button di stampa */
 .btn-stampa {
     color: var(--colore-text);
     background-color: var(--colore-card);
     border: 1px solid var(--colore-border);
+
+    transition: filter 0.15s ease;
 }
 
 .btn-stampa:hover {
-    background-color: var(--colore-bg);
+    filter: brightness(0.90);
 }
 
+/* Anteprima */
 .container-anteprima {
     margin: auto;
 }
@@ -584,7 +663,7 @@ input[aria-invalid="true"] {
     padding: 10px 14px;
     font-family: var(--font-family-base);
     color: var(--colore-text);
-    margin: 0 0 8px 0 ;
+    margin: 0 0 8px 0;
     background-color: var(--colore-bg);
     border: 1px solid var(--colore-border);
     border-radius: 99px;
@@ -610,17 +689,25 @@ input[aria-invalid="true"] {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
     font-size: 0.85rem;
     cursor: pointer;
+
+    transition: filter 0.15s ease;
 }
 
 .freccia-teletrasporto:hover {
-    background-color: var(--solava-sec);
+    filter: brightness(0.90);
 }
 
+/* PAGINA DOCUMENTAZIONE - documentazione.html */
 /* Documentazione */
 .docs li {
     padding: 10px 0 0 0;
-} 
+}
 
+.docs b {
+    color: var(--colore-text);
+}
+
+/* GENERALE */
 /* Responsive */
 @media (max-width: 640px) {
     .navigazione {

@@ -12,7 +12,10 @@ const net = require('net');
 const { componiZPL, componiTimestamp, estraiEtichettaReale, rimuoviLogoCE, rimuoviLogoICMQ } = require('../utils/componiZpl');
 
 // Nome della tabella attributi estesi, mi aveva rotto le palle di rompersi
-const TABELLA_ATTRIBUTI = "NVS_T_ATTEST_ANAGART"
+// Dal 17/08/26 la tabella NVS_T_ATTEST_ANAGART non fornisce più nessun dato, come se fosse stato cancellata
+// const TABELLA_ATTRIBUTI = "NVS_T_ATTEST_ANAGART"
+
+// Fortuito fallback su quest'altra tabella che è la copia precisa dell'altra ma con più valori
 const TABELLA_ATTRIBUTI_ADD = "NVS_T_ATTRIBUTI_ARTICOLI"
 
 // Nome del file .PRN da seguire
@@ -32,6 +35,8 @@ router.get('/api/etichette/stampante', (req, res) => {
     res.json({ ip, port });
 });
 
+// TODO: Sentire i Forcesi per l'errore nella tabella ATTEST_ANAGART, nel caso sfruttare solo ATTRIBUTI_ARTICOLI come già stiamo facendo
+// ma riscrivendo questa query qui sotto senza JOIN
 // Unico punto di accesso e normalizzazione dei dati articolo usati dall'app.
 async function caricaArticolo(codice) {
     const pool = await getPool();
@@ -55,7 +60,7 @@ async function caricaArticolo(codice) {
                 B.UM2,
                 B.PEZZIUM2,
                 B.FATTORE_CONVERSIONE
-            FROM ${TABELLA_ATTRIBUTI} AS A
+            FROM ${TABELLA_ATTRIBUTI_ADD} AS A
             LEFT JOIN ${TABELLA_ATTRIBUTI_ADD} AS B
                 ON LTRIM(RTRIM(B.ARTICOLO)) COLLATE DATABASE_DEFAULT
                 = LTRIM(RTRIM(A.ARTICOLO)) COLLATE DATABASE_DEFAULT
@@ -111,7 +116,7 @@ function caricaTemplate(nomeFile) {
 
 // Funzione condivisa: costruisce lo ZPL finale per un articolo.
 // Usata sia dalla preview (Labelary) sia dalla stampa reale (socket stampante),
-async function generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, pezziPacco, quantitaEtichette }) {
+async function generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, pezziPacco, pezziBLK, quantitaEtichette }) {
     // Default: visibili se non specificato (query string manda stringhe, il body JSON manda booleani)
     const ceVisibile = mostraCE !== 'false' && mostraCE !== false;
     const icmqVisibile = mostraICMQ !== 'false' && mostraICMQ !== false;
@@ -126,6 +131,11 @@ async function generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, pezziP
         err.status = 400;
         throw err;
     }
+     if (pezziBLK === '' || !Number.isInteger(Number(pezziBLK)) || Number(pezziBLK) < 0) {
+        const err = new Error('I pezzi per BLK devono essere un intero uguale o maggiore di zero');
+        err.status = 400;
+        throw err;
+    }
 
     const datiArticolo = await caricaArticolo(articolo);
 
@@ -136,7 +146,7 @@ async function generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, pezziP
     }
 
     // Calcolo delle quantità effettive - articolo con o senza doppia UM
-    const valoreStandardConversionePezzi = (datiArticolo.pezziPerSec == null) ? 1 : datiArticolo.pezziPerSec;
+    const valoreStandardConversionePezzi = (datiArticolo.pezziPerSec == null) ? pezziBLK : datiArticolo.pezziPerSec;
     const doppiaUnita = datiArticolo.stampaUnitaMisuraSecondaria;
 
     const quantEffettivaPrinc = (doppiaUnita && pezziPacco == datiArticolo.pezziPerPacco) ? (datiArticolo.pezziPerPacco / valoreStandardConversionePezzi) : pezziPacco;
@@ -192,9 +202,9 @@ async function generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, pezziP
 router.get('/api/etichette/preview/:cod', async (req, res) => {
     try {
         const articolo = String(req.params.cod || '').trim();
-        const { lotto, mostraCE, mostraICMQ, pezziPacco, quantitaEtichette } = req.query;
+        const { lotto, mostraCE, mostraICMQ, pezziPacco, pezziBLK, quantitaEtichette } = req.query;
 
-        const zplFinale = await generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, pezziPacco, quantitaEtichette });
+        const zplFinale = await generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, pezziPacco, pezziBLK, quantitaEtichette });
 
         const labelaryRes = await fetch(
             'http://api.labelary.com/v1/printers/12dpmm/labels/5.91x8.27/0/',  // ← indice 0
@@ -264,9 +274,9 @@ router.post('/api/etichette/stampa/:cod/:stamp', async (req, res) => {
         const articolo = String(req.params.cod || '').trim();
         const stampante = String(req.params.stamp || 'stampante1').trim();
 
-        const { lotto, mostraCE, mostraICMQ, pezziPacco, quantitaEtichette } = req.body;
+        const { lotto, mostraCE, mostraICMQ, pezziPacco, pezziBLK, quantitaEtichette } = req.body;
 
-        const zplFinale = await generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, pezziPacco, quantitaEtichette });
+        const zplFinale = await generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, pezziPacco, pezziBLK, quantitaEtichette });
         await stampaZpl(zplFinale, stampante);
 
         // La stampante Zebra non manda una vera conferma applicativa di stampa: questo timestamp

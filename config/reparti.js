@@ -7,9 +7,8 @@ const REPARTI = {
     tcape: { nome: "Trafila Capelletti", codiceReparto: "01" },
     clingl: { nome: "Carico Lingl", codiceReparto: "05" },
     ccape: { nome: "Carico Capelletti", codiceReparto: "04" },
-    slingl: { nome: "Scarico Lingl", codiceReparto: "07", fornino: true },
-    scape: { nome: "Scarico Capelletti", codiceReparto: "06", fornino: true },
-    // fornino: { nome: "Fornino - Termo1", codiceReparto: "10" },
+    slingl: { nome: "Scarico Lingl", codiceReparto: "07" },
+    scape: { nome: "Scarico Capelletti", codiceReparto: "06" },
 }
 
 function getReparto(id) {

@@ -158,11 +158,13 @@ function leggiDatiStampa(stampaLotto) {
     const elementi = {
         lotto: document.getElementById('inLotto'),
         pezzi: document.getElementById('inPezziPacco'),
+        pezziBLK: document.getElementById('inPezziBLK'),
         quantita: document.getElementById('inQuantita'),
     };
     const dati = {
         lotto: elementi.lotto.value.trim(),
         pezziPacco: elementi.pezzi.value,
+        pezziBLK: elementi.pezziBLK.value,
         quantitaEtichette: elementi.quantita.value,
         mostraCE: document.getElementById('inMostraCE').checked,
         mostraICMQ: document.getElementById('inMostraICMQ').checked,
@@ -173,6 +175,8 @@ function leggiDatiStampa(stampaLotto) {
         campoNonValido = elementi.lotto;
     } else if (dati.pezziPacco === '' || !Number.isInteger(Number(dati.pezziPacco)) || Number(dati.pezziPacco) < 0) {
         campoNonValido = elementi.pezzi;
+    } else if (!Number.isInteger(Number(dati.pezziBLK)) || Number(dati.pezziBLK) <= 0) {
+        campoNonValido = elementi.pezziBLK;
     } else if (!Number.isInteger(Number(dati.quantitaEtichette)) || Number(dati.quantitaEtichette) < 1 || Number(dati.quantitaEtichette) > 999) {
         campoNonValido = elementi.quantita;
     }
@@ -218,17 +222,25 @@ function mostraRisultato(dati) {
 
         <div class="sezione-articolo">
             <p class="sezione-titolo" id="teletrasporto">Pezzi per pacco</p>
-            <p class="sezione-sottotitolo">Per gli articoli aggiornati, le quantità BLK, MQ e ML verranno generate automaticamente, se ci dovessero essere problemi, toccare questo valore.</p>
+            <p class="sezione-sottotitolo">Pezzi effettivi sul pacco, dati dall'attributo esteso</p>
             <div class="riga-dati-stampa">
                 <label for="inPezziPacco" class="sr-only">Pezzi per pacco</label>
                 <input type="number" id="inPezziPacco" min="0" step="1" value="${escapeHtml(a.pezziPerPacco ?? '')}">
             </div>
 
             <p class="sezione-titolo">Pezzi per BLK</p>
+            <p class="sezione-sottotitolo">Quanti pezzi servono per fare un BLK, per prodotti senza questa unità di misura lasciare 1</p>
             <div class="riga-dati-stampa">
                 <label for="inPezziBLK" class="sr-only">Pezzi per unità di misura secondaria: ${escapeHtml(a.pezziPerSec ?? '')}</label>
-                <input type="number" id="inPezziBLK" min="0" step="1" value="${escapeHtml(a.pezziPerSec ?? '')}">
+                <input type="number" id="inPezziBLK" min="0" step="1" value="${escapeHtml(a.pezziPerSec ?? '1')}">
             </div>
+
+                <div class="riga-dati-um">
+                <p class="sezione-titolo">Unità di misura 1:</p>
+                <p class="valore-um">${escapeHtml(a.um1)}<p>
+                <p class="sezione-titolo">Unità di misura 2:</p>
+                <p class="valore-um">${escapeHtml(a.um2 ?? 'non presente')}<p>
+            </div>  
 
             <p class="sezione-titolo">Lotto</p>
             <div class="riga-dati-stampa">

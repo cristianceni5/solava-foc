@@ -7,7 +7,7 @@ const { getReparto } = require('../config/reparti');
 // Nome vista del DB
 const TABELLA_BOLLE = "NVS_V_IT_BOLLE";
 
-// Per prova sentendo Emanuele ho inserito il filtro su RAGGR_CODICE_REPARTO anziché su CODICE_REPARTO - da testare - rimesso l'originale
+// Def: uso come raggruppamento il nuovo RAGGR_CODICE_REPARTO
 const QUERY_STATO_REPARTO = `
   SELECT 
     DESCR_MACCHINA AS IMPIANTO,

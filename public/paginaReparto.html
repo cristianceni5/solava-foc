@@ -24,9 +24,9 @@
     <!-- Container con la tabelle delle lavorazioni -->
     <div class="container">
         <div id="status-banner" role="status" aria-live="polite">
+            <p id="ultimo-aggiornamento" class="ultimo-aggiornamento"></p>
             <h1 id="stato"><i class="fa-solid fa-spinner fa-spin"></i> Caricamento dati...</h1>
             <p id="risposta"></p>
-            <p id="ultimo-aggiornamento" class="ultimo-aggiornamento"></p>
         </div>
         <div class="table-wrapper">
             <table id="tabella-reparto">
@@ -54,9 +54,23 @@
 
         <div class="legenda-wrapper">
             <h2>Legenda stato</h2>
-            <ul class="legenda">
-                <li><div class="stato-bono"></div> Ripresa, Lanciata o Iniziata</li>
-                <li><div class="stato-attenzione"></div> Sospesa</li>
+            <ul class="legenda-li">
+                <li>
+                    <div class="stato-sodo"></div>
+                    <p>Assente</p>
+                </li>
+                <li>
+                    <div class="stato-attenzione"></div>
+                    <p>Sospesa</p>
+                </li>
+                <li>
+                    <div class="stato-bono"></div>
+                    <p>Ripresa, Iniziata o Lanciata</p>
+                </li>
+                <li>
+                    <div class="stato-finita"></div>
+                    <p>Finita</p>
+                </li>
             </ul>
         </div>
     </div>

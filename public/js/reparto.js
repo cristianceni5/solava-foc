@@ -11,6 +11,8 @@ const params = new URLSearchParams(window.location.search);
 const reparto = params.get('reparto');
 let refreshTimer;
 let ultimoAggiornamentoRiuscito = null;
+// Colonne che fisso quando il DB risponde con nessuna riga, non hanno un significato reale le ho messe per coerenza con la risposta del DB
+const COLONNE_FISSE_DALLA_QUERY = ['IMPIANTO', 'LOTTO', 'ARTICOLO', 'DESCRIZIONE', 'CODICE OP', 'QTA TOT', 'QTA GG'];
 
 function classeStato(statoRipresa) {
     const mappa = {
@@ -23,6 +25,7 @@ function classeStato(statoRipresa) {
     return mappa[statoRipresa] ?? 'stato-sconosciuto';
 }
 
+// Formattazione dei nomi per renderli più decenti e capibili
 function formattaValore(colonna, valore) {
     if (colonna === 'OPERATORE' && valore === 'Operatore non presidiata ') return 'Auto PowerMES';
     if (colonna === 'IMPIANTO' && valore === 'FORNO TERMORETRAIBILE1') return 'Fornino';
@@ -50,12 +53,11 @@ function apriAnteprima(riga) {
     dialog.showModal();
 }
 
-function costruisciTabella(elIntestazione, elCorpo, righe) {
+function costruisciTabella(elIntestazione, elCorpo, righe, nomeReparto = '') {
     elIntestazione.innerHTML = '';
     elCorpo.innerHTML = '';
-    if (righe.length === 0) return;
 
-    const colonne = Object.keys(righe[0]);
+    const colonne = righe.length > 0 ? Object.keys(righe[0]) : COLONNE_FISSE_DALLA_QUERY;
     const colonneVisibili = colonne.filter((colonna) => !COLONNE_NASCOSTE.has(colonna));
     const headRow = document.createElement('tr');
     for (const colonna of colonneVisibili) {
@@ -65,6 +67,17 @@ function costruisciTabella(elIntestazione, elCorpo, righe) {
         headRow.appendChild(th);
     }
     elIntestazione.appendChild(headRow);
+
+    if (righe.length === 0) {
+        const row = elCorpo.insertRow();
+        row.classList.add('riga-errore');
+        for (const colonna of colonneVisibili) {
+            const cell = row.insertCell();
+            cell.textContent = colonna === 'IMPIANTO' ? nomeReparto : '—';
+            cell.dataset.label = colonna;
+        }
+        return;
+    }
 
     for (const riga of righe) {
         const row = elCorpo.insertRow();
@@ -143,8 +156,7 @@ async function caricaStato() {
             banner.className = 'stato-vuoto';
             setStato('fa-solid fa-circle-info', 'Nessuna lavorazione');
             risposta.textContent = 'Non risultano lavorazioni aperte in questo reparto, controlla MES.Frontend.';
-            intestazione.innerHTML = '';
-            tabella.innerHTML = '';
+            costruisciTabella(intestazione, tabella, righe, json.reparto);
         } else {
             banner.className = 'stato-ok';
             setStato('fa-solid fa-circle-check', 'Lavorazioni aggiornate');
