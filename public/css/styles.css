@@ -238,8 +238,32 @@ table thead th {
     margin-bottom: 26px;
 }
 
-#status-banner h1{
-    margin-bottom: 20px;    
+#status-banner h1 {
+    margin-bottom: 20px;
+}
+
+
+/* Link alla coda per reparti di scarico */
+.container-puls-coda {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#status-banner a {
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--colore-text);
+    background-color: var(--colore-card);
+    padding: 15px 25px;
+    max-width: 150px;
+    
+    border-radius: 99px;
+    border: 1px solid var(--colore-border);
+    transition: filter 0.15s ease, outline 0.15s ease;
+}
+
+#status-banner a:hover {
+    filter: brightness(0.90);
 }
 
 .ultimo-aggiornamento {
@@ -265,6 +289,7 @@ table thead th {
 }
 
 #stato i,
+.container-puls-coda i,
 .lista-reparti a i {
     margin-right: 2px;
 }

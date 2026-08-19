@@ -49,3 +49,5 @@ Errore stampa etichetta: Error: connect ECONNREFUSED 172.16.0.110:9100
 (Use `node --trace-deprecation ...` to show where the warning was created)
 (node:17212) [DEP0123] DeprecationWarning: Setting the TLS ServerName to an IP address is not permitted by RFC 6066. This will be ignored in a future version.
 (Use `node --trace-deprecation ...` to show where the warning was created)
+(node:5760) [DEP0123] DeprecationWarning: Setting the TLS ServerName to an IP address is not permitted by RFC 6066. This will be ignored in a future version.
+(Use `node --trace-deprecation ...` to show where the warning was created)

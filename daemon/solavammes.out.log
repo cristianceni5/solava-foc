@@ -54,3 +54,5 @@ Server in ascolto sulla porta 65535
 Server in ascolto sulla porta 65535
 ◇ injected env (4) from .env // tip: ⌘ enable debugging { debug: true }
 Server in ascolto sulla porta 65535
+◇ injected env (4) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Server in ascolto sulla porta 65535

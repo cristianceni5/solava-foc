@@ -270,3 +270,19 @@ Stacktrace:   in System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInter
 2026-08-18 17:24:28 - Finished solavammes.exe
 2026-08-18 18:28:15 - Starting C:\Program Files\nodejs\node.exe  --harmony "C:\Users\Confezionamento\Documents\Monitor MES - Solava\node_modules\node-windows\lib\wrapper.js" --file "C:\Users\Confezionamento\Documents\Monitor MES - Solava\server.js" --scriptoptions= --log "SolavaMMES wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
 2026-08-18 18:28:15 - Started 1960
+2026-08-19 12:42:12 - Stopping solavammes.exe
+2026-08-19 12:42:12 - ProcessKill 1960
+2026-08-19 12:42:12 - Shutdown exception
+Message:È in corso l'arresto del sistema.
+
+Stacktrace:   in System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   in System.Management.ManagementScope.InitializeGuts(Object o)
+   in System.Management.ManagementScope.Initialize()
+   in System.Management.ManagementObjectSearcher.Initialize()
+   in System.Management.ManagementObjectSearcher.Get()
+   in winsw.WrapperService.GetChildPids(Int32 pid)
+   in winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   in winsw.WrapperService.StopIt()
+   in winsw.WrapperService.OnShutdown()
+2026-08-19 12:42:56 - Starting C:\Program Files\nodejs\node.exe  --harmony "C:\Users\Confezionamento\Documents\Monitor MES - Solava\node_modules\node-windows\lib\wrapper.js" --file "C:\Users\Confezionamento\Documents\Monitor MES - Solava\server.js" --scriptoptions= --log "SolavaMMES wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2026-08-19 12:42:56 - Started 3692

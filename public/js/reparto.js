@@ -124,6 +124,17 @@ async function caricaStato() {
     const risposta = document.getElementById('risposta');
     const ultimoAggiornamento = document.getElementById('ultimo-aggiornamento');
 
+    // In base al reparto mi mostri un button con la coda - chiaro solo Scarico Lingl e Capelletti
+    const caricaCoda = document.getElementById('apri-coda')
+    caricaCoda.style.display = "inline-block";
+
+    if (reparto == "scape")
+        caricaCoda.href = "http://10.40.43.105:8001/Monitor?Machine=Linea2";
+    else if (reparto == "slingl")
+        caricaCoda.href = "http://10.40.43.105:8001/Monitor?Machine=Linea1"
+    else
+        caricaCoda.style.display = "none";
+
     function setStato(testo) {
         stato.innerHTML = '';
         stato.appendChild(document.createTextNode(` ${testo}`));
