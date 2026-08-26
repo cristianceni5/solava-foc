@@ -33,6 +33,18 @@
     filter: brightness(0.9);
 }
 
+.lista-impostazioni {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.fila-impostazioni {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
 /* PAGINA REPARTO - paginaReparto.html */
 /* Stati di caricamento */
 .stato-caricamento {

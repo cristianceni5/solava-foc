@@ -22,67 +22,70 @@
         </a>
     </header>
     <!-- Container con la tabelle delle lavorazioni -->
-    <div class="container">
-        <div id="status-banner" role="status" aria-live="polite">
-            <p id="ultimo-aggiornamento" class="ultimo-aggiornamento"></p>
-            <h1 id="stato"><i class="fa-solid fa-spinner fa-spin"></i> Caricamento dati...</h1>
-            <p id="risposta"></p>
-            <div class="container-puls-coda">
-                <a href="" id="apri-coda" onclick="window.open(this.href, '_blank', 'width=1024,height=600'); return false;">
-                    <i class="fa-solid fa-box"></i>
-                    Apri coda
-                </a>
-            </div>
-        </div>
-        <div class="table-wrapper">
-            <table id="tabella-reparto">
-                <thead id="tabella-intestazione">
-                </thead>
-                <tbody id="tabella-dati">
-                </tbody>
-            </table>
-        </div>
-
-        <dialog id="anteprima-lavorazione" class="anteprima-lavorazione" aria-labelledby="anteprima-titolo">
-            <div class="anteprima-lavorazione-header">
-                <div>
-                    <p class="anteprima-eyebrow">Dettaglio lavorazione</p>
-                    <h2 id="anteprima-titolo">Anteprima estesa</h2>
+    <div class="mega-container">
+        <div class="container">
+            <div id="status-banner" role="status" aria-live="polite">
+                <p id="ultimo-aggiornamento" class="ultimo-aggiornamento"></p>
+                <h1 id="stato"><i class="fa-solid fa-spinner fa-spin"></i> Caricamento dati...</h1>
+                <p id="risposta"></p>
+                <div class="container-puls-coda">
+                    <a href="" id="apri-coda"
+                        onclick="window.open(this.href, '_blank', 'width=1024,height=600'); return false;">
+                        <i class="fa-solid fa-box"></i>
+                        Apri coda
+                    </a>
                 </div>
-                <button type="button" id="chiudi-anteprima" class="chiudi-anteprima" aria-label="Chiudi anteprima">
-                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-                </button>
             </div>
-            <dl id="anteprima-valori" class="anteprima-valori"></dl>
-        </dialog>
+            <div class="table-wrapper">
+                <table id="tabella-reparto">
+                    <thead id="tabella-intestazione">
+                    </thead>
+                    <tbody id="tabella-dati">
+                    </tbody>
+                </table>
+            </div>
 
-        <br>
+            <dialog id="anteprima-lavorazione" class="anteprima-lavorazione" aria-labelledby="anteprima-titolo">
+                <div class="anteprima-lavorazione-header">
+                    <div>
+                        <p class="anteprima-eyebrow">Dettaglio lavorazione</p>
+                        <h2 id="anteprima-titolo">Anteprima estesa</h2>
+                    </div>
+                    <button type="button" id="chiudi-anteprima" class="chiudi-anteprima" aria-label="Chiudi anteprima">
+                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <dl id="anteprima-valori" class="anteprima-valori"></dl>
+            </dialog>
 
-        <div class="legenda-wrapper">
-            <h2>Legenda stato</h2>
-            <div class="legenda-container">
-                <ul class="legenda-li">
-                    <li>
-                        <div class="stato-sodo"></div>
-                        <p>Assente</p>
-                    </li>
-                    <li>
-                        <div class="stato-attenzione"></div>
-                        <p>Sospesa</p>
-                    </li>
-                    <li>
-                        <div class="stato-bono"></div>
-                        <p>Ripresa, Iniziata o Lanciata</p>
-                    </li>
-                    <li>
-                        <div class="stato-finita"></div>
-                        <p>Finita</p>
-                    </li>
-                </ul>
+            <br>
+
+            <div class="legenda-wrapper">
+                <h2>Legenda stato</h2>
+                <div class="legenda-container">
+                    <ul class="legenda-li">
+                        <li>
+                            <div class="stato-sodo"></div>
+                            <p>Assente</p>
+                        </li>
+                        <li>
+                            <div class="stato-attenzione"></div>
+                            <p>Sospesa</p>
+                        </li>
+                        <li>
+                            <div class="stato-bono"></div>
+                            <p>Ripresa, Iniziata o Lanciata</p>
+                        </li>
+                        <li>
+                            <div class="stato-finita"></div>
+                            <p>Finita</p>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-    <script src="./js/focus-finestra.js"></script>
+
     <script src="./js/reparto.js"></script>
 </body>
 

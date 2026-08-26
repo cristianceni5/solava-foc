@@ -1,100 +1,93 @@
 const DOCUMENTAZIONE = `
-    <h1>Documentazione e funzionamento di Solava Factory Operation Panel</h1>
-    <p>Documento scritto il 28/07/26 da <b>Cristian Ceni</b></p>
+    <h1>Documentazione Tecnica e Operativa - Solava Factory Operation Panel (FOP)</h1>
+    <p>Ultimo aggiornamento: <b>26/08/2026</b> | Autore: <b>Cristian Ceni</b></p>
 
-    <br>
-
-    <h2>Funzionalità</h2>
-    <p>Ad oggi Factory Operation Panel (da ora in poi FOP). ha 2 funzioni principali:</p>
+    <h2>1. Funzionalità Principali</h2>
+    <p>Factory Operation Panel (FOP) è un'interfaccia operativa con le seguenti funzioni attive:</p>
     <ul>
-        <li>Controllare le lavorazioni con una bolla attiva in quel tale momento</li>
-        <li>Stampare le etichette con le stampanti Zebra (ufficio e box)</li>
+        <li><b>Monitoraggio Lavorazioni:</b> visualizzazione in tempo reale dello stato avanzamento e delle bolle di produzione attive per ciascun reparto.</li>
+        <li><b>Stampa Etichette:</b> generazione e invio stampe verso i dispositivi Zebra dedicati (postazioni ufficio e box confezionamento).</li>
+        <li><b>Gestione Automazione & Flag Operativi:</b> sincronizzazione e persistenza dei consensi operativi tramite API dedicate e file di configurazione locale.</li>
     </ul>
-    <p>In futuro sono previste aggiunte per la coda dei pacchi nelle 2 linee e una gestione più semplice per operazioni basi lato MES</p>
+    <p><i>Implementazioni pianificate:</i> gestione della coda pacchi sulle due linee di produzione e integrazione di moduli semplificati per transazioni MES di base.</p>
 
     <br>
 
-    <h2>Funzionamento</h2>
+    <h2>2. Architettura e Flusso Dati</h2>
     <p>
-        FOP è un servizio hostato su <b>SLVW10BOX</b> sulla porta <b>65535</b>. Dietro c'è un server Node.js con librerie standard per: la comunicazione con SQL Server,
-        dotenv per le variabili d'ambiente ed express per le route API da cui le 2 pagine paginaReparto e paginaEtichetta prendono le loro informazioni.
+        L'applicazione è distribuita come servizio sull'host <b>SLVW10BOX</b> ed è in ascolto sulla porta TCP <b>65535</b>.
+        Il backend è strutturato su runtime Node.js con Express per l'esposizione degli endpoint REST, il modulo <code>mssql</code> per la persistenza e <code>dotenv</code> per la configurazione d'ambiente.
     </p>
-    <p>
-        In questa configurazione i PC connessi al FOP <b>non aprono mai una connessione verso SQL-Server</b>, ma sfruttano SLVW10BOX che è l'unico ad avere un pool di connessioni
-        con MSSQL. Il codice è scritto per non creare mai più di un pool se il precedente è attivo, in questo modo il DB <b>non si satura</b> di richieste anche se ci sono più PC connessi al pannello.
-        Quindi tecnicamente tutti i PC della rete possono connettersi a SLVW10BOX:65535 tramite un semplice browser, comunicano tramite <b>HTTP/TCP</b>, poi il backend Node.js con il pool
-        verso il DB comunica con <b>TDS</b> mantendendo tutto logico e affidabile.
-    </p>
-    <p>
-        Per la configurazione è necessario un file dotenv per le <b>variabili d'ambiente</b>.
-        Quest'ultime sono le informazioni sensibili per la connessione a MSSQL (nome DB, utente, password), per cui devono stare in un file separato, raggiungibile tramite gli script del server e mai messe in chiaro.
-        Non essenziale nel nostro caso dato che il FOP è usato nella rete aziendale, ma comunque meglio partire prevenuti per futuri ampliamenti che potrebbero prevedere un uso anche esterno dalla LAN.
-        Il file dotenvdotexample è il file placeholder con i campi necessari per il funzionamento. In caso di perdita del dotenv principale, ricrearlo da quel template.
-    </p>
-    <p>
-        I file del server Node.js sono tutti nelle cartelle /config, /db, /utils, /route e la /public per i file esposti sulla 65535. I nomi delle cartelle parlono già da soli, gli script sono
-        volutamente logicamente semplici e pieni di commmenti per aiutare nella compresione del codice una persona esterna. 
-    </p>
-    
+
+    <h3>Topologia delle Connessioni</h3>
+    <ul>
+        <li><b>Client → Backend (HTTP/TCP):</b> i client browser della LAN aziendale si collegano a <code>http://SLVW10BOX:65535</code> per scaricare l'interfaccia statica (dalla cartella <code>/public</code>) ed eseguire chiamate API asincrone. Nessun client apre connessioni dirette verso il database.</li>
+        <li><b>Backend → SQL Server (TDS):</b> il backend Node.js gestisce un <b>Connection Pool singleton</b> verso MSSQL. Questo pattern garantisce che il carico sul database sia costante e controllato, prevenendo la saturazione delle connessioni anche in caso di accessi concorrenti multipli.</li>
+    </ul>
+
+    <h3>Configurazione e Sicurezza</h3>
+    <ul>
+        <li><b>File <code>.env</code>:</b> contiene i parametri sensibili per l'autenticazione a SQL Server (host, istanza, database, credenziali utente). Non deve essere esposto né tracciato in chiaro. In caso di riconfigurazione, fare riferimento al template <code>.env.example</code>.</li>
+        <li><b>File <code>/config/settaggi.json</code>:</b> mantiene lo stato persistente delle configurazioni dell'applicazione (es. consenso automazione), gestito programmaticamente tramite gli endpoint <code>GET /api/automazione</code> e <code>POST /api/set-automazione</code>.</li>
+    </ul>
+
+    <h3>Struttura del Progetto</h3>
+    <ul>
+        <li><code>/config</code>: file di configurazione persistente e mapping statici.</li>
+        <li><code>/db</code>: gestione del pool di connessione MSSQL e query di business logic.</li>
+        <li><code>/route</code>: definizione degli endpoint REST (reparti, etichette, automazione).</li>
+        <li><code>/utils</code>: helper per formattazione dati e comunicazione con le stampanti.</li>
+        <li><code>/public</code>: asset frontend statici (HTML, CSS, JS Vanilla).</li>
+    </ul>
+
     <br>
 
-    <h2>Errori possibili e soluzioni</h2>
-    <h3>Nota importante</h3>
-    <p>
-        Nel normale esercizio, FOP è un servizio in esecuzione automatica, quindi non ha un terminale da cui poter vedere i log direttamente. Però è possibile controllare la console nel browser
-        per del semplice debug. Se i problemi persistono senza una spiegazione, arrestare il servizio, aprire un terminale dentro la dir del progetto, eseguire npm start e controllare i log in tempo reale
-        nel terminale appena aperto.
-    </p>
-    <p>Questi errori non sempre compaiono direttamente a schermo, questo per la volontà di tenerlo uno strumento semplice alla vista. Quindi necessario aprire la console del browser per una diagnostica più affidabile</p>
-    <p>Nota: la gestione degli errori non prevede un middleware o una classficiazione strutturata ma semplici risposte o direttamente risposte raw.</p>
-    <h3>Come arrestare o fare un reset a FOP:</h3>
-    <p>
-        Essendo un <b>servizio di Windows</b>, <b>cercare</b> nella barra di ricerca <b>'Servizi'</b> oppure premere la <b>combinazione di tasti</b> Win+R ed eseguire <b>'services.msc'</b>,
-        Dopodiché cercare nell'elenco dei servizi <b>'SolavaMMES'</b>, come descrizione riporta 'Servizio per l'esecuzione automatica di Solava MMES Server', fare click con tasto destro e selezionare:
-    </p>
-    <p>
-        <ul>
-            <li><b>Arresta</b> se desiderate arrestare il servizio e cessare la comunicazione con SQL_Server</li>
-            <li><b>Riavvia</b> se desiderate riavviare il servizio a seguito di qualche problema o modifica al codice sorgente</li>
-        </ul>
-    </p>
-    <p>
-        Non appena fatta l'operazione è possibile chiudere la finestra e controllare praticamente se il servizio è ancora attivo semplicemente recandosi alle sue pagine sul browser.
-        Se il servizio è spento, l'URL rifiuterà la connessione, se il servizio è in esecuzione invece l'URL ti mostrerà
-    </p>
-    
-    <h3>Qui l'elenco</h3>
-    <p>
-        <ul>
-            <li><b>Reparto sconosciuto o mancante - 400</b></li>
-            <p>Il reparto selezionato non corrisponde a nessuno di quelli presenti, controlla il nome.</p>
+    <h2>3. Gestione Servizio e Diagnostica</h2>
 
-            <li><b>Il numero di etichette deve essere un intero compreso tra 1 e 999 - 400</b></li>
-            <p>Attenzione al numero etichette.</p>
+    <h3>Controllo del Servizio Windows</h3>
+    <p>In produzione, FOP viene eseguito come servizio di sistema in background (<b>SolavaMMES</b>):</p>
+    <ol>
+        <li>Aprire la finestra <i>Esegui</i> (<kbd>Win</kbd> + <kbd>R</kbd>) e digitare <code>services.msc</code>.</li>
+        <li>Individuare la voce <b>SolavaMMES</b> (<i>"Servizio per l'esecuzione automatica di Solava MMES Server"</i>).</li>
+        <li>Fare clic con il tasto destro per:
+            <ul>
+                <li><b>Riavvia:</b> per applicare modifiche ai file sorgente o sbloccare anomalie di runtime.</li>
+                <li><b>Arresta:</b> per disattivare l'ascolto sulla porta e chiudere il pool verso SQL Server.</li>
+            </ul>
+        </li>
+    </ol>
 
-            <li><b>I pezzi per pacco devono essere un intero uguale o maggiore di zero - 400</b></li>
-            <p>Attenzione ai pezzi pacco.</p>
-
-            <li><b>Articolo non trovato - 404</b></li>
-            <p>L'articolo inserito risulta non trovato, controlla di averlo inserito bene.</p>
-
-            <li><b>Il database non risponde, riprova tra poco - 503</b></li>
-            <p>Come scritto, attendere qualche minuto in attesa e controllare se il DB riprende.</p>
-
-            <li><b>Failed to fetch - 500</b></li>
-            <p>La chiamata al backend Node.js è fallita. Alta probabilità che il server ha interrotto l'esecuzione di FOP.</p>
-        </ul>
+    <h3>Debug e Analisi Errori</h3>
+    <p>
+        Poiché il servizio Windows non espone un terminale interattivo:
     </p>
-    `;
+    <ul>
+        <li><b>Lato Client:</b> aprire la Console degli Strumenti di Sviluppo del browser (<kbd>F12</kbd> o <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd>) per verificare codici di stato HTTP e messaggi di errore restituiti dalle chiamate <code>fetch</code>.</li>
+        <li><b>Lato Server (Debug Diretto):</b> arrestare il servizio da <code>services.msc</code>, aprire un prompt comandi nella cartella radice del progetto ed eseguire <code>npm start</code> per monitorare l'output dei log e le eccezioni non gestite in tempo reale.</li>
+    </ul>
+
+    <br>
+
+    <h2>4. Codici di Stato ed Errori Ricorrenti</h2>
+    <ul>
+        <li><b>400 - Reparto sconosciuto o mancante:</b> l'identificativo reparto passato nei parametri URL o nel body della richiesta non corrisponde a un record valido in anagrafica.</li>
+        <li><b>400 - Numero di etichette non valido:</b> il valore inviato non è un intero compreso nel range ammesso (1 - 999).</li>
+        <li><b>400 - Pezzi per pacco non validi:</b> il parametro numerico deve essere un intero maggiore o uguale a 0.</li>
+        <li><b>404 - Articolo non trovato:</b> il codice articolo specificato non è presente nell'anagrafica del database MES/SQL Server.</li>
+        <li><b>500 - Failed to fetch / Errore di connessione:</b> la richiesta verso il backend è fallita. Il server Node.js potrebbe essere arrestato, non raggiungibile sulla porta 65535, o c'è un blocco a livello di firewall di rete.</li>
+        <li><b>503 - Il database non risponde:</b> il pool di connessione verso MSSQL è andato in timeout o il server SQL non accetta nuove sessioni. Attendere il ripristino o verificare lo stato dell'istanza DB.</li>
+    </ul>
+`;
 
 function caricaNelDom() {
     const container = document.getElementById('container-docs');
-    container.innerHTML = `
-        <div class="docs">
-            ${DOCUMENTAZIONE}
-        </div>
-    `;
+    if (container) {
+        container.innerHTML = `
+            <div class="docs">
+                ${DOCUMENTAZIONE}
+            </div>
+        `;
+    }
 }
 
 caricaNelDom();
-

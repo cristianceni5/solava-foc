@@ -12,13 +12,17 @@ const app = express();
 app.use(express.static('public'));
 
 // Importo il router per la route di stato
-const routerStato = require('./routes/stato');
-app.use(routerStato);
+const statoRouter = require('./routes/stato');
+app.use(statoRouter);
 
 // Importo il router per la route delle etichette
 app.use(express.json());
 const etichetteRouter = require('./routes/etichette');
 app.use(etichetteRouter);
+
+// Importo router per automazione finestra
+const automRouter = require('./routes/automazione');
+app.use(automRouter);
 
 // Imposto la porta su cui il server ascolterà le richieste, per adesso è la 3000 ma si pole fare come si vole
 const PORT = 65535;

@@ -22,26 +22,29 @@
         </a>
     </header>
     <!-- Container per UI fissa, risultato e anteprima popolati da etichette.js -->
-    <div class="container">
-        <h1>Compilazione Etichette</h1>
-        <p>Scrivi il numero di articolo, compila il lotto, i pezzi e stampa</p>
-        <br>
-        <div class="ricerca">
-            <label for="inputArticolo" class="sr-only">Codice articolo</label>
-            <input type="text" id="inputArticolo" placeholder="Codice articolo" autocomplete="off" autofocus>
-            <button type="button" id="btnCerca">Cerca</button>
-        </div>
-        <!-- Cronologia delle ultime ricerche, salvata in localStorage -->
-        <div class="cronologia" id="cronologia"></div>
+    <div class="mega-container">
+        <div class="container">
+            <h1>Compilazione Etichette</h1>
+            <p>Scrivi il numero di articolo, compila il lotto, i pezzi e stampa</p>
+            <br>
+            <div class="ricerca">
+                <label for="inputArticolo" class="sr-only">Codice articolo</label>
+                <input type="text" id="inputArticolo" placeholder="Codice articolo" autocomplete="off" autofocus>
+                <button type="button" id="btnCerca">Cerca</button>
+            </div>
+            <!-- Cronologia delle ultime ricerche, salvata in localStorage -->
+            <div class="cronologia" id="cronologia"></div>
 
-        <p id="errore" class="errore" role="alert" aria-live="assertive"></p>
-        <!-- Risultato della ricerca -->
-        <div id="risultato"></div>
-        <!-- Anteprima di stampa -->
-        <div id="anteprima"></div>
+            <p id="errore" class="errore" role="alert" aria-live="assertive"></p>
+            <!-- Risultato della ricerca -->
+            <div id="risultato"></div>
+            <!-- Anteprima di stampa -->
+            <div id="anteprima"></div>
+        </div>
     </div>
 
-    <button type="button" id="frecciaTeletrasporto" class="freccia-teletrasporto" title="Vai alla sezione di stampa" aria-label="Vai alla sezione di stampa">
+    <button type="button" id="frecciaTeletrasporto" class="freccia-teletrasporto" title="Vai alla sezione di stampa"
+        aria-label="Vai alla sezione di stampa">
         <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
     </button>
 

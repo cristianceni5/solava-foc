@@ -22,32 +22,54 @@
         </a>
     </header>
     <!-- Container con la lista di reparti, popolata da indice.js -->
-    <div class="container">
-        <h1>Monitor lavorazioni</h1>
-        <p>Seleziona cliccando sul reparto desiderato:</p>
-        <p id="stato-reparti" class="stato-caricamento" role="status" aria-live="polite">Caricamento reparti...</p>
-        <div class="lista-reparti" id="lista-reparti"></div>
-    </div>
-    <!-- Container con il link alla pagina compilazione etichette -->
-    <div class="sotto-container">
-        <h1>Compilazione etichette</h1>
-        <p>Qui puoi compilare le etichette manualmente inserendo il codice articolo:</p>
-        <div class="lista-reparti">
-            <a href="paginaEtichetta.html">
-                <i class="fa-solid fa-barcode"></i>
-                Pagina etichetta
-            </a>
+    <div class="mega-container">
+        <div class="container">
+            <h1>Monitor lavorazioni</h1>
+            <p>Seleziona cliccando sul reparto desiderato:</p>
+            <p id="stato-reparti" class="stato-caricamento" role="status" aria-live="polite">Caricamento reparti...</p>
+            <div class="lista-reparti" id="lista-reparti"></div>
         </div>
-    </div>
-    <!-- Container docs -->
-    <div class="sotto-container">
-        <h1>Documentazione</h1>
-        <p>Consulta la documentazione:</p>
-        <div class="lista-reparti">
-            <a href="documentazione.html">
-                <i class="fa-solid fa-file-word"></i>
-                Documentazione
-            </a>
+        <!-- Container con il link alla pagina compilazione etichette -->
+        <div class="sotto-container">
+            <h1>Compilazione etichette</h1>
+            <p>Qui puoi compilare le etichette manualmente inserendo il codice articolo:</p>
+            <div class="lista-reparti">
+                <a href="paginaEtichetta.html">
+                    <i class="fa-solid fa-barcode"></i>
+                    Pagina etichetta
+                </a>
+            </div>
+        </div>
+        <!-- Container docs -->
+        <div class="sotto-container">
+            <h1>Documentazione</h1>
+            <p>Consulta la documentazione:</p>
+            <div class="lista-reparti">
+                <a href="documentazione.html">
+                    <i class="fa-solid fa-file-word"></i>
+                    Documentazione
+                </a>
+            </div>
+        </div>
+        <div class="sotto-container">
+            <h1>Impostazioni</h1>
+            <p>Setta alcune impostazioni:</p>
+            <div class="lista-impostazioni">
+                <div class="fila-impostazioni">
+                    <label class="switch">
+                        <input type="checkbox" id="check-auto">
+                        <span class="slider round"></span>
+                    </label>
+                    <p>Attiva riapertura automatica della pagina reparti.</p>
+                </div>
+                <div class="fila-impostazioni">
+                    <label class="switch">
+                        <input type="checkbox" id="check-ind">
+                        <span class="slider round"></span>
+                    </label>
+                    <p>Mostra il pulsante indietro nelle pagine reparti.</p>
+                </div>
+            </div>
         </div>
     </div>
     <script src="./js/indice.js"></script>
