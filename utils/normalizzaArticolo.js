@@ -44,4 +44,25 @@ function normalizzaArticolo(riga) {
   };
 }
 
-module.exports = { normalizzaArticolo };
+// Contratto pubblico dell'endpoint GET /api/etichette/articolo/:cod.
+// I campi usati solo per calcolare lo ZPL (es. fattoreConv) restano interni.
+function creaRispostaArticolo(articolo) {
+  if (!articolo) return null;
+
+  const {
+    caratteristicheTecniche,
+    norma,
+    campiZpl,
+    fattoreConv,
+    ...datiArticolo
+  } = articolo;
+
+  return {
+    articolo: datiArticolo,
+    caratteristicheTecniche,
+    norma,
+    campiZpl
+  };
+}
+
+module.exports = { normalizzaArticolo, creaRispostaArticolo };

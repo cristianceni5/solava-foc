@@ -316,3 +316,99 @@ Stacktrace:   in System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInter
 2026-08-24 09:37:44 - Send SIGINT 10884
 2026-08-24 09:37:44 - SIGINT to 10884 failed - Killing as fallback
 2026-08-24 09:37:44 - Finished solavammes.exe
+2026-08-26 10:04:42 - Starting C:\Program Files\nodejs\node.exe  --harmony "C:\Users\Confezionamento\Documents\Monitor MES - Solava\node_modules\node-windows\lib\wrapper.js" --file "C:\Users\Confezionamento\Documents\Monitor MES - Solava\server.js" --scriptoptions= --log "SolavaMMES wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2026-08-26 10:04:42 - Started 8160
+2026-08-31 11:28:19 - Stopping solavammes.exe
+2026-08-31 11:28:19 - ProcessKill 8160
+2026-08-31 11:28:19 - Shutdown exception
+Message:È in corso l'arresto del sistema.
+
+Stacktrace:   in System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   in System.Management.ManagementScope.InitializeGuts(Object o)
+   in System.Management.ManagementScope.Initialize()
+   in System.Management.ManagementObjectSearcher.Initialize()
+   in System.Management.ManagementObjectSearcher.Get()
+   in winsw.WrapperService.GetChildPids(Int32 pid)
+   in winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   in winsw.WrapperService.StopIt()
+   in winsw.WrapperService.OnShutdown()
+2026-08-31 11:29:11 - Starting C:\Program Files\nodejs\node.exe  --harmony "C:\Users\Confezionamento\Documents\Monitor MES - Solava\node_modules\node-windows\lib\wrapper.js" --file "C:\Users\Confezionamento\Documents\Monitor MES - Solava\server.js" --scriptoptions= --log "SolavaMMES wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2026-08-31 11:29:11 - Started 5092
+2026-08-31 21:00:37 - Stopping solavammes.exe
+2026-08-31 21:00:37 - ProcessKill 5092
+2026-08-31 21:00:37 - Shutdown exception
+Message:È in corso l'arresto del sistema.
+
+Stacktrace:   in System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   in System.Management.ManagementScope.InitializeGuts(Object o)
+   in System.Management.ManagementScope.Initialize()
+   in System.Management.ManagementObjectSearcher.Initialize()
+   in System.Management.ManagementObjectSearcher.Get()
+   in winsw.WrapperService.GetChildPids(Int32 pid)
+   in winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   in winsw.WrapperService.StopIt()
+   in winsw.WrapperService.OnShutdown()
+2026-08-31 21:01:24 - Starting C:\Program Files\nodejs\node.exe  --harmony "C:\Users\Confezionamento\Documents\Monitor MES - Solava\node_modules\node-windows\lib\wrapper.js" --file "C:\Users\Confezionamento\Documents\Monitor MES - Solava\server.js" --scriptoptions= --log "SolavaMMES wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2026-08-31 21:01:24 - Started 5856
+2026-09-01 12:42:16 - Stopping solavammes.exe
+2026-09-01 12:42:16 - ProcessKill 5856
+2026-09-01 12:42:16 - Found child process: 5864 Name: conhost.exe
+2026-09-01 12:42:16 - Found child process: 6012 Name: node.exe
+2026-09-01 12:42:16 - Stopping process 5864
+2026-09-01 12:42:16 - Send SIGINT 5864
+2026-09-01 12:42:16 - SIGINT to 5864 failed - Killing as fallback
+2026-09-01 12:42:16 - Stopping process 6012
+2026-09-01 12:42:16 - Send SIGINT 6012
+2026-09-01 12:42:16 - SIGINT to 6012 failed - Killing as fallback
+2026-09-01 12:42:16 - Stopping process 5856
+2026-09-01 12:42:16 - Send SIGINT 5856
+2026-09-01 12:42:16 - SIGINT to 5856 failed - Killing as fallback
+2026-09-01 12:42:16 - Finished solavammes.exe
+2026-09-01 17:29:56 - Starting C:\Program Files\nodejs\node.exe  --harmony "C:\Users\Confezionamento\Documents\Monitor MES - Solava\node_modules\node-windows\lib\wrapper.js" --file "C:\Users\Confezionamento\Documents\Monitor MES - Solava\server.js" --scriptoptions= --log "SolavaMMES wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2026-09-01 17:29:56 - Started 6680
+2026-09-01 19:06:58 - Stopping solavammes.exe
+2026-09-01 19:06:58 - ProcessKill 6680
+2026-09-01 19:06:58 - Found child process: 6688 Name: conhost.exe
+2026-09-01 19:06:58 - Found child process: 7312 Name: node.exe
+2026-09-01 19:06:58 - Stopping process 6688
+2026-09-01 19:06:58 - Send SIGINT 6688
+2026-09-01 19:06:58 - SIGINT to 6688 failed - Killing as fallback
+2026-09-01 19:06:58 - Stopping process 7312
+2026-09-01 19:06:58 - Send SIGINT 7312
+2026-09-01 19:06:58 - SIGINT to 7312 failed - Killing as fallback
+2026-09-01 19:06:58 - Stopping process 6680
+2026-09-01 19:06:58 - Send SIGINT 6680
+2026-09-01 19:06:58 - SIGINT to 6680 failed - Killing as fallback
+2026-09-01 19:06:58 - Finished solavammes.exe
+2026-09-01 19:07:01 - Starting C:\Program Files\nodejs\node.exe  --harmony "C:\Users\Confezionamento\Documents\Monitor MES - Solava\node_modules\node-windows\lib\wrapper.js" --file "C:\Users\Confezionamento\Documents\Monitor MES - Solava\server.js" --scriptoptions= --log "SolavaMMES wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2026-09-01 19:07:01 - Started 13260
+2026-09-01 21:00:37 - Stopping solavammes.exe
+2026-09-01 21:00:37 - ProcessKill 13260
+2026-09-01 21:00:37 - Shutdown exception
+Message:È in corso l'arresto del sistema.
+
+Stacktrace:   in System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   in System.Management.ManagementScope.InitializeGuts(Object o)
+   in System.Management.ManagementScope.Initialize()
+   in System.Management.ManagementObjectSearcher.Initialize()
+   in System.Management.ManagementObjectSearcher.Get()
+   in winsw.WrapperService.GetChildPids(Int32 pid)
+   in winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   in winsw.WrapperService.StopIt()
+   in winsw.WrapperService.OnShutdown()
+2026-09-01 21:01:29 - Starting C:\Program Files\nodejs\node.exe  --harmony "C:\Users\Confezionamento\Documents\Monitor MES - Solava\node_modules\node-windows\lib\wrapper.js" --file "C:\Users\Confezionamento\Documents\Monitor MES - Solava\server.js" --scriptoptions= --log "SolavaMMES wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2026-09-01 21:01:29 - Started 3404
+2026-09-02 12:27:43 - Stopping solavammes.exe
+2026-09-02 12:27:43 - ProcessKill 3404
+2026-09-02 12:27:43 - Found child process: 5212 Name: conhost.exe
+2026-09-02 12:27:43 - Found child process: 5432 Name: node.exe
+2026-09-02 12:27:43 - Stopping process 5212
+2026-09-02 12:27:43 - Send SIGINT 5212
+2026-09-02 12:27:43 - SIGINT to 5212 failed - Killing as fallback
+2026-09-02 12:27:43 - Stopping process 5432
+2026-09-02 12:27:43 - Send SIGINT 5432
+2026-09-02 12:27:43 - SIGINT to 5432 failed - Killing as fallback
+2026-09-02 12:27:43 - Stopping process 3404
+2026-09-02 12:27:43 - Send SIGINT 3404
+2026-09-02 12:27:43 - SIGINT to 3404 failed - Killing as fallback
+2026-09-02 12:27:43 - Finished solavammes.exe

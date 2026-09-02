@@ -6,13 +6,13 @@ const OGNI_QUANTO_RICARICA = 5;
 const INTERVALLO_REFRESH_MS = OGNI_QUANTO_RICARICA * 1000;
 const LUNGHEZZA_MAX_DESCRIZIONE = 25;
 // Colonne nascoste nella tabella principale ma chiamate nella query, sicchè modificare qui per altre colonne.
-const COLONNE_NASCOSTE = new Set(['OPERATORE', 'STATO', 'QTA ORD']);
+const COLONNE_NASCOSTE = new Set(['OPERATORE', 'STATO', 'QTA ORD', 'QTA GG']);
 const params = new URLSearchParams(window.location.search);
 const reparto = params.get('reparto');
 let refreshTimer;
 let ultimoAggiornamentoRiuscito = null;
 // Colonne che fisso quando il DB risponde con nessuna riga, non hanno un significato reale le ho messe per coerenza con la risposta del DB
-const COLONNE_FISSE_DALLA_QUERY = ['IMPIANTO', 'LOTTO', 'ARTICOLO', 'DESCRIZIONE', 'CODICE OP', 'QTA TOT', 'QTA GG'];
+const COLONNE_FISSE_DALLA_QUERY = ['IMPIANTO', 'LOTTO', 'ARTICOLO', 'DESCRIZIONE', 'CODICE OP', 'QTA TOT', 'QTA OP'];
 
 function classeStato(statoRipresa) {
     const mappa = {

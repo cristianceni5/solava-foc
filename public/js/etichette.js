@@ -103,6 +103,8 @@ async function cerca() {
     }
 
     erroreEl.textContent = '';
+    risultato.replaceChildren();
+    anteprima.replaceChildren();
     risultato.style.display = 'none';
     anteprima.style.display = 'none';
     aggiornaFreccia();
@@ -132,8 +134,66 @@ async function cerca() {
     }
 }
 
-function campo(label, valore) {
-    return `<div class="campo"><span>${escapeHtml(label)}</span><span>${escapeHtml(valore ?? '—')}</span></div>`;
+function creaElemento(tag, { className, text, id } = {}) {
+    const elemento = document.createElement(tag);
+    if (className) elemento.className = className;
+    if (text !== undefined) elemento.textContent = text;
+    if (id) elemento.id = id;
+    return elemento;
+}
+
+function creaCampo(label, valore) {
+    const campo = creaElemento('div', { className: 'campo' });
+    campo.append(
+        creaElemento('span', { text: label }),
+        creaElemento('span', { text: valore ?? '—' })
+    );
+    return campo;
+}
+
+function creaUnitaMisura(codice, valore) {
+    const unita = creaElemento('div', { className: 'unita-misura' });
+    unita.append(
+        creaElemento('span', { className: 'unita-misura-codice', text: codice }),
+        creaElemento('strong', { className: 'unita-misura-valore', text: valore || 'Non presente' })
+    );
+    return unita;
+}
+
+function creaSezioneArticolo(eyebrow, titolo, idTitolo) {
+    const sezione = creaElemento('section', { className: 'sezione-articolo' });
+    const etichetta = creaElemento('p', { className: 'home-eyebrow', text: eyebrow });
+    const heading = creaElemento('h2', { className: 'sezione-titolo', text: titolo, id: idTitolo });
+    sezione.setAttribute('aria-labelledby', idTitolo);
+    sezione.append(etichetta, heading);
+    return sezione;
+}
+
+function creaBloccoStampa(titolo, contenuto, descrizione) {
+    const blocco = creaElemento('section', { className: 'blocco-stampa' });
+    blocco.append(creaElemento('h3', { className: 'blocco-stampa-titolo', text: titolo }));
+    if (descrizione) blocco.append(creaElemento('p', { className: 'sezione-sottotitolo', text: descrizione }));
+    blocco.append(contenuto);
+    return blocco;
+}
+
+function creaInput({ id, tipo, valore, placeholder, min, max, required, label }) {
+    const riga = creaElemento('div', { className: 'riga-dati-stampa' });
+    const etichetta = creaElemento('label', { className: 'sr-only', text: label });
+    etichetta.htmlFor = id;
+
+    const input = creaElemento('input', { id });
+    input.type = tipo;
+    input.value = valore ?? '';
+    input.placeholder = placeholder || '';
+    input.autocomplete = 'off';
+    if (min !== undefined) input.min = min;
+    if (max !== undefined) input.max = max;
+    if (tipo === 'number') input.step = '1';
+    if (required) input.required = true;
+
+    riga.append(etichetta, input);
+    return riga;
 }
 
 // Cooldown dopo la stampa: il bottone resta disabilitato qualche secondo
@@ -161,7 +221,7 @@ function leggiDatiStampa(stampaLotto) {
         pezziBLK: document.getElementById('inPezziBLK'),
         quantita: document.getElementById('inQuantita'),
     };
-    const dati = {
+    const valori = {
         lotto: elementi.lotto.value.trim(),
         pezziPacco: elementi.pezzi.value,
         pezziBLK: elementi.pezziBLK.value,
@@ -171,13 +231,13 @@ function leggiDatiStampa(stampaLotto) {
     };
     let campoNonValido = null;
 
-    if (stampaLotto && !dati.lotto) {
+    if (stampaLotto && !valori.lotto) {
         campoNonValido = elementi.lotto;
-    } else if (dati.pezziPacco === '' || !Number.isInteger(Number(dati.pezziPacco)) || Number(dati.pezziPacco) < 0) {
+    } else if (valori.pezziPacco === '' || !Number.isInteger(Number(valori.pezziPacco)) || Number(valori.pezziPacco) < 0) {
         campoNonValido = elementi.pezzi;
-    } else if (!Number.isInteger(Number(dati.pezziBLK)) || Number(dati.pezziBLK) <= 0) {
+    } else if (!Number.isInteger(Number(valori.pezziBLK)) || Number(valori.pezziBLK) <= 0) {
         campoNonValido = elementi.pezziBLK;
-    } else if (!Number.isInteger(Number(dati.quantitaEtichette)) || Number(dati.quantitaEtichette) < 1 || Number(dati.quantitaEtichette) > 999) {
+    } else if (!Number.isInteger(Number(valori.quantitaEtichette)) || Number(valori.quantitaEtichette) < 1 || Number(valori.quantitaEtichette) > 999) {
         campoNonValido = elementi.quantita;
     }
 
@@ -187,102 +247,112 @@ function leggiDatiStampa(stampaLotto) {
         campoNonValido.focus();
         return null;
     }
-    return dati;
+    return {
+        ...valori,
+        pezziPacco: Number(valori.pezziPacco),
+        pezziBLK: Number(valori.pezziBLK),
+        quantitaEtichette: Number(valori.quantitaEtichette)
+    };
 }
 
-// Funzione per mostrare i risultati della query con il numero di articolo
+function creaSezioneAnagrafica(articolo) {
+    const sezione = creaSezioneArticolo('Articolo', 'Anagrafica', 'titolo-anagrafica');
+    const campi = [
+        ['Articolo', articolo.codice], ['Descrizione', articolo.descrizione], ['Categoria', articolo.categoria],
+        ['DOP', articolo.dop], ['Ente certificatore', articolo.enteCertificatore],
+        ['Numero di marcatura CE', articolo.numeroMarcaturaCE], ['Peso (gr)', articolo.pesoGrammi],
+        ['Descrizione aggiuntiva', articolo.descrizioneAggiuntiva], ['Stampa lotto', articolo.stampaLotto ? 'Sì' : 'No'],
+        ['Stampa unità misura secondaria', articolo.stampaUnitaMisuraSecondaria ? 'Sì' : 'No']
+    ];
+    campi.forEach(([label, valore]) => sezione.append(creaCampo(label, valore)));
+    return sezione;
+}
+
+function creaSezioneAttributi(caratteristiche) {
+    const sezione = creaSezioneArticolo('Specifiche', 'Attributi estesi', 'titolo-attributi');
+    const attributi = (caratteristiche || []).filter(({ etichetta, valore }) => etichetta || valore);
+    if (attributi.length === 0) {
+        sezione.append(creaElemento('p', { className: 'attr-vuoto', text: 'Nessun attributo esteso per questo articolo' }));
+        return sezione;
+    }
+    attributi.forEach(({ etichetta, valore }) => sezione.append(creaCampo(etichetta || '—', valore)));
+    return sezione;
+}
+
+function creaSezioneStampa(articolo) {
+    const sezione = creaSezioneArticolo('Stampa etichetta', 'Dati del pacco', 'teletrasporto');
+    const unita = creaElemento('div', { className: 'riga-dati-um' });
+    unita.append(
+        creaUnitaMisura('UM1', articolo.um1),
+        creaUnitaMisura('UM2', articolo.um2)
+    );
+
+    const opzioni = creaElemento('div', { className: 'riga-opzioni-stampa' });
+    [['inMostraCE', 'Mostra marchio CE'], ['inMostraICMQ', 'Mostra marchio ICMQ']].forEach(([id, testo]) => {
+        const etichetta = creaElemento('label');
+        const checkbox = creaElemento('input', { id });
+        checkbox.type = 'checkbox';
+        checkbox.checked = true;
+        etichetta.append(checkbox, document.createTextNode(testo));
+        opzioni.append(etichetta);
+    });
+
+    const stato = creaElemento('div', { className: 'container-stato-stampa' });
+    const select = creaElemento('select', { id: 'select-stampanti' });
+    select.name = 'stampanti';
+    [['stampante1', 'Stampante Uffici - Tiziana'], ['stampante2', 'Stampante Produzione - Box']].forEach(([valore, testo]) => {
+        const opzione = creaElemento('option', { text: testo });
+        opzione.value = valore;
+        select.append(opzione);
+    });
+    const messaggio = creaElemento('p', { className: 'stato-stampa', text: 'In attesa', id: 'statoStampa' });
+    messaggio.setAttribute('role', 'status');
+    messaggio.setAttribute('aria-live', 'polite');
+    stato.append(select, messaggio);
+
+    const azioni = creaElemento('div', { className: 'azioni-anteprima' });
+    const anteprima = creaElemento('button', { className: 'btn-anteprima', text: 'Anteprima', id: 'btnAnteprima' });
+    const stampa = creaElemento('button', { className: 'btn-stampa', text: 'Stampa', id: 'btnStampa' });
+    anteprima.type = stampa.type = 'button';
+    azioni.append(anteprima, stampa);
+
+    const stampaContenuto = document.createDocumentFragment();
+    stampaContenuto.append(stato, azioni);
+    sezione.append(
+        creaBloccoStampa(
+            'Pezzi per pacco',
+            creaInput({ id: 'inPezziPacco', tipo: 'number', valore: articolo.pezziPerPacco, min: 0, label: 'Pezzi per pacco' }),
+            'Pezzi effettivi sul pacco, dati dall’attributo esteso.'
+        ),
+        creaBloccoStampa(
+            'Pezzi per BLK',
+            creaInput({ id: 'inPezziBLK', tipo: 'number', valore: articolo.pezziPerSec ?? 1, min: 1, label: 'Pezzi per unità di misura secondaria' }),
+            'Per prodotti senza questa unità di misura, lascia 1.'
+        ),
+        creaBloccoStampa('Unità di misura', unita),
+        creaBloccoStampa(
+            'Lotto',
+            creaInput({ id: 'inLotto', tipo: 'text', placeholder: 'Lotto', required: articolo.stampaLotto, label: 'Lotto' })
+        ),
+        creaBloccoStampa(
+            'Numero etichette da stampare',
+            creaInput({ id: 'inQuantita', tipo: 'number', valore: 1, min: 1, max: 999, required: true, label: 'Numero etichette da stampare' })
+        ),
+        creaBloccoStampa('Normative nell’etichetta', opzioni),
+        creaBloccoStampa('Stampante', stampaContenuto, 'Seleziona la stampante.')
+    );
+    return sezione;
+}
+
+// Costruisce le tre aree della pagina senza interpolare i dati del database in HTML.
 function mostraRisultato(dati) {
     const a = dati.articolo;
-
-    const attributiEstesi = (dati.caratteristicheTecniche || [])
-        .filter(c => c.etichetta || c.valore)
-        .map(c => campo(c.etichetta || '—', c.valore))
-        .join('');
-
-    risultato.innerHTML = `
-        <div class="sezione-articolo">
-            <p class="sezione-titolo">Anagrafica</p>
-            ${campo('Articolo', a.codice)}
-            ${campo('Descrizione', a.descrizione)}
-            ${campo('Categoria', a.categoria)}
-            ${campo('DOP', a.dop)}
-            ${campo('Ente certificatore', a.enteCertificatore)}
-            ${campo('Numero di marcatura CE', a.numeroMarcaturaCE)}
-            ${campo('Peso (gr)', a.pesoGrammi)}
-            ${campo('Descrizione aggiuntiva', a.descrizioneAggiuntiva)}
-            ${campo('Stampa lotto', a.stampaLotto ? 'Sì' : 'No')}
-            ${campo('Stampa unità misura secondaria', a.stampaUnitaMisuraSecondaria ? 'Sì' : 'No')}
-            ${campo('File etichetta', a.fileEtichetta)}
-        </div>
-        
-        <div class="sezione-articolo">
-            <p class="sezione-titolo">Attributi estesi</p>
-            ${attributiEstesi || '<p class="attr-vuoto">Nessun attributo esteso per questo articolo</p>'}
-        </div>
-
-        <div class="sezione-articolo">
-            <p class="sezione-titolo" id="teletrasporto">Pezzi per pacco</p>
-            <p class="sezione-sottotitolo">Pezzi effettivi sul pacco, dati dall'attributo esteso</p>
-            <div class="riga-dati-stampa">
-                <label for="inPezziPacco" class="sr-only">Pezzi per pacco</label>
-                <input type="number" id="inPezziPacco" min="0" step="1" value="${escapeHtml(a.pezziPerPacco ?? '')}">
-            </div>
-
-            <p class="sezione-titolo">Pezzi per BLK</p>
-            <p class="sezione-sottotitolo">Quanti pezzi servono per fare un BLK, per prodotti senza questa unità di misura lasciare 1</p>
-            <div class="riga-dati-stampa">
-                <label for="inPezziBLK" class="sr-only">Pezzi per unità di misura secondaria: ${escapeHtml(a.pezziPerSec ?? '')}</label>
-                <input type="number" id="inPezziBLK" min="0" step="1" value="${escapeHtml(a.pezziPerSec ?? '1')}">
-            </div>
-
-                <div class="riga-dati-um">
-                <p class="sezione-titolo">Unità di misura 1:</p>
-                <p class="valore-um">${escapeHtml(a.um1)}<p>
-                <p class="sezione-titolo">Unità di misura 2:</p>
-                <p class="valore-um">${escapeHtml(a.um2 ?? 'non presente')}<p>
-            </div>  
-
-            <p class="sezione-titolo">Lotto</p>
-            <div class="riga-dati-stampa">
-                <label for="inLotto" class="sr-only">Lotto</label>
-                <input type="text" id="inLotto" placeholder="Lotto" autocomplete="off" ${a.stampaLotto ? 'required' : ''}>
-            </div>
-        
-            <p class="sezione-titolo">Numero etichette da stampare</p>
-            <div class="riga-dati-stampa">
-                <label for="inQuantita" class="sr-only">Numero etichette da stampare</label>
-                <input type="number" id="inQuantita" placeholder="Numero etichette" min="1" max="999" step="1" value="1" required>
-            </div>
-        
-            <p class="sezione-titolo">Normative nell'etichetta</p>
-            <div class="riga-opzioni-stampa">
-            <label>
-                <input type="checkbox" id="inMostraCE" checked>
-                Mostra marchio CE
-                </label>
-                <label>
-                <input type="checkbox" id="inMostraICMQ" checked>
-                Mostra marchio ICMQ
-                </label>
-            </div>
-        
-            <p class="sezione-titolo">Stampante</p>
-            <p class="sezione-sottotitolo">Seleziona la stampante</p>
-            <div class="container-stato-stampa">
-                <select name="stamapanti" id="select-stampanti">
-                    <option value="stampante1">Stampante Uffici - Tiziana</option>
-                    <option value="stampante2">Stampante Produzione - Box</option>
-                </select>
-                <p id="statoStampa" class="stato-stampa" role="status" aria-live="polite">In attesa</p>
-            </div>
-
-            <div class="azioni-anteprima">
-                <button type="button" id="btnAnteprima" class="btn-anteprima">Anteprima</button>
-                <button type="button" id="btnStampa" class="btn-stampa">Stampa</button>
-            </div>
-        </div>
-    `;
-    risultato.style.display = 'block';
+    risultato.replaceChildren(
+        creaSezioneAnagrafica(a),
+        creaSezioneAttributi(dati.caratteristicheTecniche),
+        creaSezioneStampa(a)
+    );
+    risultato.style.display = 'grid';
     aggiornaFreccia();
 
     const inputStampanti = document.getElementById('select-stampanti');

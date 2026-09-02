@@ -21,57 +21,56 @@
             <span>Factory Operation Panel</span>
         </a>
     </header>
-    <!-- Container con la lista di reparti, popolata da indice.js -->
-    <div class="mega-container">
-        <div class="container">
-            <h1>Monitor lavorazioni</h1>
-            <p>Seleziona cliccando sul reparto desiderato:</p>
+    <main class="mega-container home">
+        <!-- Attività principale: monitor delle lavorazioni, popolato da indice.js -->
+        <section class="home-sezione" aria-labelledby="titolo-monitor">
+            <p class="home-eyebrow">Reparti produzione</p>
+            <h1 id="titolo-monitor">Monitor lavorazioni</h1>
+            <p>Seleziona il reparto da controllare.</p>
             <p id="stato-reparti" class="stato-caricamento" role="status" aria-live="polite">Caricamento reparti...</p>
             <div class="lista-reparti" id="lista-reparti"></div>
-        </div>
-        <!-- Container con il link alla pagina compilazione etichette -->
-        <div class="sotto-container">
-            <h1>Compilazione etichette</h1>
-            <p>Qui puoi compilare le etichette manualmente inserendo il codice articolo:</p>
+        </section>
+
+        <!-- Attività secondaria di produzione -->
+        <section class="home-sezione" aria-labelledby="titolo-etichette">
+            <p class="home-eyebrow">Stampa etichette</p>
+            <h2 id="titolo-etichette">Compilazione etichette</h2>
+            <p>Cerca un articolo, completa i dati del pacco e invia la stampa.</p>
             <div class="lista-reparti">
                 <a href="paginaEtichetta.html">
-                    <i class="fa-solid fa-barcode"></i>
-                    Pagina etichetta
+                    <i class="fa-solid fa-barcode" aria-hidden="true"></i>
+                    Apri etichette
                 </a>
             </div>
-        </div>
-        <!-- Container docs -->
-        <div class="sotto-container">
-            <h1>Documentazione</h1>
-            <p>Consulta la documentazione:</p>
-            <div class="lista-reparti">
-                <a href="documentazione.html">
-                    <i class="fa-solid fa-file-word"></i>
-                    Documentazione
-                </a>
-            </div>
-        </div>
-        <div class="sotto-container">
-            <h1>Impostazioni</h1>
-            <p>Setta alcune impostazioni:</p>
-            <div class="lista-impostazioni">
-                <div class="fila-impostazioni">
-                    <label class="switch">
-                        <input type="checkbox" id="check-auto">
-                        <span class="slider round"></span>
-                    </label>
-                    <p>Attiva riapertura automatica della pagina reparti.</p>
+        </section>
+
+        <!-- Strumenti non operativi -->
+        <div class="home-utilita">
+            <section class="home-sezione" aria-labelledby="titolo-documentazione">
+                <h2 id="titolo-documentazione">Documentazione</h2>
+                <p>Consulta istruzioni operative e informazioni tecniche.</p>
+                <div class="lista-reparti">
+                    <a href="documentazione.html">
+                        <i class="fa-solid fa-file-word" aria-hidden="true"></i>
+                        Apri documentazione
+                    </a>
                 </div>
-                <div class="fila-impostazioni">
-                    <label class="switch">
-                        <input type="checkbox" id="check-ind">
-                        <span class="slider round"></span>
-                    </label>
-                    <p>Mostra il pulsante indietro nelle pagine reparti.</p>
+            </section>
+            <section class="home-sezione" aria-labelledby="titolo-impostazioni">
+                <h2 id="titolo-impostazioni">Impostazioni</h2>
+                <p>Preferenze riapertura monitor lavorazioni.</p>
+                <div class="lista-impostazioni">
+                    <div class="fila-impostazioni">
+                        <label class="switch">
+                            <input type="checkbox" id="check-auto">
+                            <span class="slider round"></span>
+                        </label>
+                        <p>Riapri automaticamente la pagina dei reparti.</p>
+                    </div>
                 </div>
-            </div>
+            </section>
         </div>
-    </div>
+    </main>
     <script src="./js/indice.js"></script>
 </body>
 

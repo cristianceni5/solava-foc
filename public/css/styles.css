@@ -9,6 +9,46 @@
 
 /* INDICE - index.html */
 /* Home */
+.home-sezione {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 36px 20px;
+    border-top: 1px solid var(--colore-border);
+}
+
+.home-eyebrow {
+    margin: 0 0 6px;
+    color: var(--colore-subtext);
+    font-family: var(--font-family-heading);
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.home > .home-sezione:first-child {
+    border-top: 0;
+}
+
+.home-sezione h1,
+.home-sezione h2 {
+    margin-top: 0;
+}
+
+.home-utilita {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+}
+
+.home-utilita .home-sezione + .home-sezione {
+    border-left: 1px solid var(--colore-border);
+}
+
+.home-sezione .lista-reparti,
+.home-sezione .lista-impostazioni {
+    margin-top: 24px;
+}
+
 .lista-reparti {
     display: flex;
     flex-wrap: wrap;
@@ -476,6 +516,7 @@ input[aria-invalid="true"] {
 /* Scheda articolo e stampa */
 #risultato {
     display: none;
+    gap: 20px;
     background-color: transparent;
 }
 
@@ -486,10 +527,11 @@ input[aria-invalid="true"] {
 }
 
 .sezione-articolo {
-    margin: 16px auto;
-    padding: 16px 32px 32px;
+    min-width: 0;
+    margin: 0;
+    padding: 32px;
     background-color: var(--colore-card);
-    border-radius: 35px;
+    border-radius: 24px;
     border: 1px solid var(--colore-border);
 }
 
@@ -498,7 +540,8 @@ input[aria-invalid="true"] {
     justify-content: space-between;
     align-items: center;
     gap: 12px;
-    padding: 14px 0;
+    min-width: 0;
+    padding: 13px 0;
     border-bottom: 1px solid var(--colore-border);
 }
 
@@ -516,18 +559,42 @@ input[aria-invalid="true"] {
     font-family: var(--font-family-base);
     color: var(--colore-text);
     text-align: right;
+    overflow-wrap: anywhere;
 }
 
-/* Righe di compilazione dati */
+/* Intestazioni e blocchi di compilazione */
 .sezione-titolo {
-    margin: 16px 0 12px;
+    margin: 0;
     font-family: var(--font-family-heading);
     font-weight: bold;
     color: var(--colore-text);
 }
 
+.sezione-articolo > .home-eyebrow + .sezione-titolo {
+    margin: 0 0 20px;
+    font-size: 1.5rem;
+}
+
+.blocco-stampa {
+    margin: 0;
+    padding: 0;
+}
+
+.blocco-stampa + .blocco-stampa {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--colore-border);
+}
+
+.blocco-stampa-titolo {
+    margin: 0 0 8px;
+    color: var(--colore-text);
+    font-family: var(--font-family-heading);
+    font-size: 1rem;
+}
+
 .sezione-sottotitolo {
-    margin: -5px 0 16px;
+    margin: 0 0 14px;
     font-family: var(--font-family-base);
     color: var(--colore-subtext);
     font-size: 0.8rem;
@@ -542,33 +609,50 @@ input[aria-invalid="true"] {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-    margin: 8px auto 16px auto;
+    margin: 0;
 }
 
 .riga-dati-um {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin: 8px auto 16px auto;
-    border-bottom: 1px solid var(--colore-border);
-    padding-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0;
 }
 
-.valore-um {
-    margin: 16px 0 12px;
+.unita-misura {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    padding: 14px 16px;
+    background-color: var(--colore-bg);
+    border: 1px solid var(--colore-border);
+    border-radius: 16px;
+}
+
+.unita-misura-codice {
+    flex: 0 0 auto;
+    padding: 5px 7px;
+    color: var(--colore-subtext);
     background-color: var(--colore-card);
-    border-radius: 99px;
-    padding: 0 12px 0 12px;
-    font-family: var(--font-family-base);
-    font-weight: bold;
+    border: 1px solid var(--colore-border);
+    border-radius: 8px;
+    font-family: var(--font-family-heading);
+    font-size: 0.75rem;
+}
+
+.unita-misura-valore {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
     color: var(--colore-text);
+    font-family: var(--font-family-base);
 }
 
 .riga-dati-stampa input {
     flex: 1;
-    min-width: 100px;
-    padding: 10px 14px;
+    min-width: 180px;
+    padding: 12px 16px;
     font-family: var(--font-family-base);
     color: var(--colore-text);
     background-color: var(--colore-bg);
@@ -579,8 +663,13 @@ input[aria-invalid="true"] {
 .riga-opzioni-stampa {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 8px;
+    margin: 0;
+    padding: 14px 16px;
     font-family: var(--font-family-base);
+    background-color: var(--colore-bg);
+    border: 1px solid var(--colore-border);
+    border-radius: 16px;
 }
 
 .riga-opzioni-stampa label {
@@ -599,10 +688,9 @@ input[aria-invalid="true"] {
 /* Buttons */
 .azioni-anteprima {
     display: flex;
-    gap: 8px;
-    border-top: 1px solid var(--colore-border);
-    margin: 24px 0 0;
-    padding: 20px 0 0;
+    gap: 12px;
+    margin: 20px 0 0;
+    padding: 0;
 }
 
 .btn-anteprima,
@@ -638,7 +726,7 @@ input[aria-invalid="true"] {
 /* Button di stampa */
 .btn-stampa {
     color: var(--colore-text);
-    background-color: var(--colore-card);
+    background-color: var(--colore-bg);
     border: 1px solid var(--colore-border);
 
     transition: filter 0.15s ease;
@@ -697,7 +785,7 @@ input[aria-invalid="true"] {
 .container-stato-stampa {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 6px;
 }
 
 .container-stato-stampa p {
@@ -706,10 +794,10 @@ input[aria-invalid="true"] {
 
 .container-stato-stampa select {
     flex: 1;
-    padding: 10px 14px;
+    padding: 12px 16px;
     font-family: var(--font-family-base);
     color: var(--colore-text);
-    margin: 0 0 8px 0;
+    margin: 0;
     background-color: var(--colore-bg);
     border: 1px solid var(--colore-border);
     border-radius: 99px;
@@ -756,6 +844,14 @@ input[aria-invalid="true"] {
 /* GENERALE */
 /* Responsive */
 @media (max-width: 640px) {
+    .home-utilita {
+        grid-template-columns: 1fr;
+    }
+
+    .home-utilita .home-sezione + .home-sezione {
+        border-left: 0;
+    }
+
     .navigazione {
         min-height: 64px;
         padding: 10px 12px;
@@ -786,6 +882,22 @@ input[aria-invalid="true"] {
 
     .campo span:last-child {
         text-align: left;
+    }
+
+    .sezione-articolo {
+        padding: 24px 20px;
+    }
+
+    .riga-dati-um {
+        grid-template-columns: 1fr;
+    }
+
+    .azioni-anteprima {
+        flex-direction: column;
+    }
+
+    .riga-dati-stampa input {
+        min-width: 0;
     }
 
     /* La tabella diventa un elenco di card, una per riga. */

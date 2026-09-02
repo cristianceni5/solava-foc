@@ -4,7 +4,6 @@
 // Importo modulo express e creo un router express, metto anche il pool del DB per lo stato e il getReparto per l'URL
 const express = require('express');
 const router = express.Router();
-const { getPool } = require('../db/pool');
 const { getReparto } = require('../config/reparti');
 const { eseguiQueryReparto } = require('../db/queries');
 const { REPARTI } = require('../config/reparti');

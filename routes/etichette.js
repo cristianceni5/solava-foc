@@ -3,25 +3,15 @@
 
 const express = require('express');
 const router = express.Router();
-const sql = require('mssql');
-const { getPool } = require('../db/pool');
-const { normalizzaArticolo } = require('../utils/normalizzaArticolo');
+const { cercaArticoloEtichetta } = require('../db/queries');
+const { creaRispostaArticolo } = require('../utils/normalizzaArticolo');
 const fs = require('fs');
 const path = require('path');
 const net = require('net');
 const { componiZPL, componiTimestamp, estraiEtichettaReale, rimuoviLogoCE, rimuoviLogoICMQ } = require('../utils/componiZpl');
 
-// Nome della tabella attributi estesi, mi aveva rotto le palle di rompersi
-// Dal 17/08/26 la tabella NVS_T_ATTEST_ANAGART non fornisce più nessun dato, come se fosse stato cancellata
-// const TABELLA_ATTRIBUTI = "NVS_T_ATTEST_ANAGART"
-
-// Fortuito fallback su quest'altra tabella che è la copia precisa dell'altra ma con più valori
-const TABELLA_ATTRIBUTI_ADD = "NVS_T_ATTRIBUTI_ARTICOLI"
-
 // Nome del file .PRN da seguire
-const TEMPLATE_ETICHETTE = {
-    templateDef: "CAM_redesign_def_2.prn",
-}
+const TEMPLATE_ETICHETTE = 'CAM_redesign_def_2.prn';
 
 // Stampanti Zebra in rete
 const STAMPANTI = {
@@ -35,41 +25,6 @@ router.get('/api/etichette/stampante', (req, res) => {
     res.json({ ip, port });
 });
 
-// TODO: Sentire i Forcesi per l'errore nella tabella ATTEST_ANAGART, nel caso sfruttare solo ATTRIBUTI_ARTICOLI come già stiamo facendo
-// ma riscrivendo questa query qui sotto senza JOIN
-// Unico punto di accesso e normalizzazione dei dati articolo usati dall'app.
-async function caricaArticolo(codice) {
-    const pool = await getPool();
-    const result = await pool.request()
-        .input('articolo', sql.VarChar, codice)
-        .query(`
-            SELECT
-                A.ARTICOLO,
-                A.DESCRIZIONE,
-                A.PESO,
-                A.PEZZIPACCO,
-                A.ETICHETTE,
-                A.DESCR_AGGIUNTIVE,
-                A.CATEGORIA,
-                A.ENTE,
-                A.DOP,
-                A.MARCATURA,
-                A.STLOTTO,
-                A.UM_ETICHETTA,
-                B.UM1,
-                B.UM2,
-                B.PEZZIUM2,
-                B.FATTORE_CONVERSIONE
-            FROM ${TABELLA_ATTRIBUTI_ADD} AS A
-            LEFT JOIN ${TABELLA_ATTRIBUTI_ADD} AS B
-                ON LTRIM(RTRIM(B.ARTICOLO)) COLLATE DATABASE_DEFAULT
-                = LTRIM(RTRIM(A.ARTICOLO)) COLLATE DATABASE_DEFAULT
-            WHERE LTRIM(RTRIM(A.ARTICOLO)) = @articolo
-        `);
-
-    return normalizzaArticolo(result.recordset[0]);
-}
-
 // Route di selezione articolo dal DB
 router.get('/api/etichette/articolo/:cod', async (req, res) => {
     const articolo = String(req.params.cod || '').trim();
@@ -79,27 +34,16 @@ router.get('/api/etichette/articolo/:cod', async (req, res) => {
     }
 
     try {
-        const datiArticolo = await caricaArticolo(articolo);
+        const datiArticolo = await cercaArticoloEtichetta(articolo);
 
         if (!datiArticolo) {
             return res.status(404).json({ error: 'Articolo non trovato' });
         }
 
-        const {
-            caratteristicheTecniche,
-            norma,
-            campiZpl,
-            fattoreConv,
-            ...articoloNormalizzato
-        } = datiArticolo;
+        const risposta = creaRispostaArticolo(datiArticolo);
 
         // Risposta in JSON, occhio a modificare i nomi degli id perchè al 69% si rompe 
-        res.json({
-            articolo: articoloNormalizzato,
-            caratteristicheTecniche,
-            norma,
-            campiZpl
-        });
+        res.json(risposta);
     } catch (err) {
         console.error('Errore query etichetta:', err);
         res.status(500).json({ error: 'Errore interno' });
@@ -114,45 +58,70 @@ function caricaTemplate(nomeFile) {
     return contenuto; // ← nessuna estrazione/fusione, file intero così com'è
 }
 
+function erroreValidazione(messaggio) {
+    const errore = new Error(messaggio);
+    errore.status = 400;
+    return errore;
+}
+
+function leggiIntero(valore, nome, minimo, massimo = Infinity) {
+    if (valore === '' || valore === null || valore === undefined) {
+        throw erroreValidazione(`${nome} obbligatorio`);
+    }
+
+    const numero = Number(valore);
+    if (!Number.isInteger(numero) || numero < minimo || numero > massimo) {
+        throw erroreValidazione(`${nome} non valido`);
+    }
+    return numero;
+}
+
+function normalizzaDatiStampa(input = {}) {
+    const lotto = String(input.lotto ?? '').trim();
+    if (/[\^~]/.test(lotto)) {
+        throw erroreValidazione('Il lotto contiene caratteri non validi');
+    }
+
+    return {
+        lotto,
+        mostraCE: input.mostraCE !== 'false' && input.mostraCE !== false,
+        mostraICMQ: input.mostraICMQ !== 'false' && input.mostraICMQ !== false,
+        pezziPacco: leggiIntero(input.pezziPacco, 'I pezzi per pacco', 0),
+        pezziBLK: leggiIntero(input.pezziBLK, 'I pezzi per BLK', 1),
+        quantitaEtichette: leggiIntero(input.quantitaEtichette, 'Il numero di etichette', 1, 999)
+    };
+}
+
 // Funzione condivisa: costruisce lo ZPL finale per un articolo.
 // Usata sia dalla preview (Labelary) sia dalla stampa reale (socket stampante),
 async function generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, pezziPacco, pezziBLK, quantitaEtichette }) {
-    // Default: visibili se non specificato (query string manda stringhe, il body JSON manda booleani)
-    const ceVisibile = mostraCE !== 'false' && mostraCE !== false;
-    const icmqVisibile = mostraICMQ !== 'false' && mostraICMQ !== false;
-    const quantita = Number(quantitaEtichette);
-    if (!Number.isInteger(quantita) || quantita < 1 || quantita > 999) {
-        const err = new Error('Il numero di etichette deve essere un intero compreso tra 1 e 999');
-        err.status = 400;
-        throw err;
-    }
-    if (pezziPacco === '' || !Number.isInteger(Number(pezziPacco)) || Number(pezziPacco) < 0) {
-        const err = new Error('I pezzi per pacco devono essere un intero uguale o maggiore di zero');
-        err.status = 400;
-        throw err;
-    }
-     if (pezziBLK === '' || !Number.isInteger(Number(pezziBLK)) || Number(pezziBLK) < 0) {
-        const err = new Error('I pezzi per BLK devono essere un intero uguale o maggiore di zero');
-        err.status = 400;
-        throw err;
-    }
+    const datiStampa = normalizzaDatiStampa({ lotto, mostraCE, mostraICMQ, pezziPacco, pezziBLK, quantitaEtichette });
 
-    const datiArticolo = await caricaArticolo(articolo);
+    const datiArticolo = await cercaArticoloEtichetta(articolo);
 
     if (!datiArticolo) {
         const err = new Error('Articolo non trovato');
         err.status = 404;
         throw err;
     }
+    if (datiArticolo.stampaLotto && !datiStampa.lotto) {
+        throw erroreValidazione('Il lotto Ã¨ obbligatorio per questo articolo');
+    }
 
     // Calcolo delle quantità effettive - articolo con o senza doppia UM
-    const valoreStandardConversionePezzi = (datiArticolo.pezziPerSec == null) ? pezziBLK : datiArticolo.pezziPerSec;
     const doppiaUnita = datiArticolo.stampaUnitaMisuraSecondaria;
+    const pezziPerBLK = Number(datiArticolo.pezziPerSec ?? datiStampa.pezziBLK);
+    if (doppiaUnita && (!Number.isFinite(pezziPerBLK) || pezziPerBLK <= 0)) {
+        throw new Error('Configurazione pezzi per BLK non valida per questo articolo');
+    }
 
-    const quantEffettivaPrinc = (doppiaUnita && pezziPacco == datiArticolo.pezziPerPacco) ? (datiArticolo.pezziPerPacco / valoreStandardConversionePezzi) : pezziPacco;
+    const quantEffettivaPrinc = doppiaUnita && datiStampa.pezziPacco === Number(datiArticolo.pezziPerPacco)
+        ? Number(datiArticolo.pezziPerPacco) / pezziPerBLK
+        : datiStampa.pezziPacco;
 
-    // Calcolo con il fattore di peso l'altra UM se presente    
-    const quantEffettivaSec = doppiaUnita ? (quantEffettivaPrinc * datiArticolo.fattoreConv).toFixed(2) : '';
+    const quantEffettivaSec = doppiaUnita && Number.isFinite(datiArticolo.fattoreConv)
+        ? (quantEffettivaPrinc * datiArticolo.fattoreConv).toFixed(2)
+        : '';
 
     // Calcolo effettivo delle UM - maledetti
     const um1Eff = doppiaUnita ? datiArticolo.um2 + "/Pallet" : datiArticolo.um1 + "/Pallet";
@@ -170,30 +139,30 @@ async function generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, pezziP
         // Se l'operatore ha modificato il campo in pagina uso quel valore, sennò quello del DB
         PEZZI_PACCO: quantEffettivaPrinc,
         MT_PACCO: quantEffettivaSec,
-        COD_LOTTO: lotto,
+        COD_LOTTO: datiStampa.lotto,
         PROGRESSIVO: progressivo,
-        BARCODE: lotto,
-        MARCATURA: ceVisibile ? (datiArticolo.numeroMarcaturaCE || '') : '',
-        ENTE: ceVisibile ? datiArticolo.enteCertificatore : '',
-        DOP: ceVisibile ? datiArticolo.dop : '',
-        NORMA: ceVisibile ? datiArticolo.norma : '',
+        BARCODE: datiStampa.lotto,
+        MARCATURA: datiStampa.mostraCE ? (datiArticolo.numeroMarcaturaCE || '') : '',
+        ENTE: datiStampa.mostraCE ? datiArticolo.enteCertificatore : '',
+        DOP: datiStampa.mostraCE ? datiArticolo.dop : '',
+        NORMA: datiStampa.mostraCE ? datiArticolo.norma : '',
         CAMPO_1: datiArticolo.campiZpl.CLASSIFICAZIONE,
         CAMPO_2: datiArticolo.categoria,
         UM1: um1Eff,
         UM2: um2Eff,
         LINK: 'https://www.solava.it',
-        QR: `${datiArticolo.codice};${lotto};${quantEffettivaPrinc}`
+        QR: `${datiArticolo.codice};${datiStampa.lotto};${quantEffettivaPrinc}`
     };
 
     // Qui carico il template, sceglilo dall'oggetto in alto TEMPLATE, sennò se sbagli una lettera non va più nullaa
-    const template = caricaTemplate(TEMPLATE_ETICHETTE.templateDef);
+    const template = caricaTemplate(TEMPLATE_ETICHETTE);
 
     const templateUnificato = estraiEtichettaReale(template);
     let zplFinale = componiZPL(templateUnificato, dati);
-    if (!ceVisibile) zplFinale = rimuoviLogoCE(zplFinale);
-    if (!icmqVisibile) zplFinale = rimuoviLogoICMQ(zplFinale);
+    if (!datiStampa.mostraCE) zplFinale = rimuoviLogoCE(zplFinale);
+    if (!datiStampa.mostraICMQ) zplFinale = rimuoviLogoICMQ(zplFinale);
     // ^PQ è il comando ZPL di quantità di stampa (^PQ1,0,1,Y nel template): sostituisco solo il numero
-    zplFinale = zplFinale.replace(/\^PQ\d+,/, `^PQ${quantita},`);
+    zplFinale = zplFinale.replace(/\^PQ\d+,/, `^PQ${datiStampa.quantitaEtichette},`);
     return zplFinale;
 }
 

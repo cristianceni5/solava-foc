@@ -38,7 +38,6 @@ async function caricaIndice() {
 
 async function caricaImpostazioni() {
   const checkAutomatico = document.getElementById('check-auto');
-  const checkIndietro = document.getElementById('check-ind');
 
   // Recupera il valore true/false puro
   try {
@@ -69,44 +68,6 @@ async function caricaImpostazioni() {
         console.error("Errore durante l'invio:", error);
       }
     });
-  }
-
-  if (checkIndietro) {
-    checkIndietro.addEventListener('change', (event) => {
-      abilitazioneIndietro = event.target.checked;
-    });
-  }
-}
-
-async function caricaIndice() {
-  const contenitore = document.getElementById('lista-reparti');
-  const stato = document.getElementById('stato-reparti');
-  stato.className = 'stato-caricamento';
-  stato.textContent = 'Caricamento reparti...';
-  contenitore.innerHTML = '';
-
-  try {
-    const res = await fetch('/api/reparti');
-    if (!res.ok) throw new Error('Risposta non valida');
-    const reparti = await res.json();
-
-    for (const [id, info] of Object.entries(reparti)) {
-      const link = document.createElement('a');
-      link.href = `paginaReparto.html?reparto=${encodeURIComponent(id)}`;
-
-      const icona = document.createElement('i');
-      icona.className = 'fa-solid fa-industry';
-      icona.setAttribute('aria-hidden', 'true');
-      link.appendChild(icona);
-      link.appendChild(document.createTextNode(' ' + info.nome));
-
-      contenitore.appendChild(link);
-    }
-    stato.textContent = '';
-  } catch (errore) {
-    stato.className = 'stato-caricamento errore';
-    stato.innerHTML = 'Impossibile caricare i reparti. <button type="button" id="riprova-reparti">Riprova</button>';
-    document.getElementById('riprova-reparti')?.addEventListener('click', caricaIndice);
   }
 }
 
