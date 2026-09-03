@@ -53,6 +53,14 @@ const QUERY_ARTICOLO_ETICHETTA = `
   WHERE LTRIM(RTRIM(ARTICOLO)) = @articolo
 `;
 
+// Query per estrarre tutti gli attributi di un articolo, filtrando per codice articolo. Restituisce un oggetto con i campi di TeamSystem pari pari.
+const QUERY_ARTICOLO_ATTRIBUTI = `
+  SELECT *
+  FROM ${TABELLA_ATTRIBUTI_ARTICOLI}
+
+  WHERE LTRIM(RTRIM(ARTICOLO)) = @articolo
+`;
+
 // Funzione che lancia la query filtrata per reparto e ne ritorna i risultati
 async function eseguiQueryReparto(idReparto) {
   const reparto = getReparto(idReparto);
@@ -79,4 +87,15 @@ async function cercaArticoloEtichetta(codice) {
   return normalizzaArticolo(risultato.recordset[0]);
 }
 
-module.exports = { eseguiQueryReparto, cercaArticoloEtichetta };
+// Restituisce tutti gli attributi di un articolo, filtrando per codice articolo. Restituisce un oggetto con i campi di TeamSystem pari pari.
+async function cercaArticoloAttributi(codice) {
+  const pool = await getPool();
+  const risultato = await pool.request()
+    .input('articolo', sql.VarChar, codice)
+    .query(QUERY_ARTICOLO_ATTRIBUTI);
+
+  return risultato.recordset[0]; // Restituisce l'oggetto con tutti gli attributi dell'articolo
+}
+
+module.exports = { eseguiQueryReparto, cercaArticoloEtichetta, cercaArticoloAttributi };
+

@@ -24,6 +24,10 @@ app.use(etichetteRouter);
 const automRouter = require('./routes/automazione');
 app.use(automRouter);
 
+// Importo router per attributi esteso
+const attrRouter = require('./routes/attributi');
+app.use(attrRouter);
+
 // Imposto la porta su cui il server ascolterà le richieste, per adesso è la 3000 ma si pole fare come si vole
 const PORT = 65535;
 

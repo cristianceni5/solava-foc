@@ -84,7 +84,7 @@ function vicinoAlFondo() {
 }
 
 function aggiornaFreccia() {
-    if (risultato.style.display !== 'block') {
+    if (risultato.style.display !== 'grid') {
         frecciaTeletrasporto.style.display = 'none';
         return;
     }
