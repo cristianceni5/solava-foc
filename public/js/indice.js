@@ -38,37 +38,39 @@ async function caricaIndice() {
 
 async function caricaImpostazioni() {
   const checkAutomatico = document.getElementById('check-auto');
+  const minutiRiapertura = document.getElementById('minuti-riapertura');
 
-  // Recupera il valore true/false puro
   try {
     const res = await fetch('/api/automazione');
     if (res.ok) {
-      const testo = await res.text();
-      consensoAuto = (testo.trim() === 'true');
+      const risposta = await res.json();
+      const configurazione = Array.isArray(risposta) ? risposta[0] : risposta;
+      consensoAuto = Boolean(configurazione.consenso ?? configurazione.consensoAuto);
       if (checkAutomatico) checkAutomatico.checked = consensoAuto;
+      if (minutiRiapertura) minutiRiapertura.value = configurazione.minuti ?? 0;
     }
   } catch (err) {
     console.error('Errore recupero consenso iniziale:', err);
   }
 
-  // Listener checkbox automazione
-  if (checkAutomatico) {
-    checkAutomatico.addEventListener('change', async (event) => {
-      consensoAuto = event.target.checked;
+  const salvaImpostazioni = async () => {
+    consensoAuto = checkAutomatico?.checked ?? consensoAuto;
+    const minuti = minutiRiapertura?.value ?? 0;
 
-      try {
-        const res = await fetch('/api/set-automazione', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ consensoAuto })
-        });
-        const data = await res.json();
-        console.log('Risposta del server:', data.messaggio);
-      } catch (error) {
-        console.error("Errore durante l'invio:", error);
-      }
-    });
-  }
+    try {
+      const res = await fetch('/api/set-automazione', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ consensoAuto, minuti })
+      });
+      if (!res.ok) throw new Error('Risposta non valida');
+    } catch (error) {
+      console.error("Errore durante l'invio:", error);
+    }
+  };
+
+  checkAutomatico?.addEventListener('change', salvaImpostazioni);
+  minutiRiapertura?.addEventListener('change', salvaImpostazioni);
 }
 
 caricaImpostazioni();

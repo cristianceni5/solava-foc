@@ -81,8 +81,19 @@
 
 .fila-impostazioni {
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.riga-impostazione {
+    display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
+}
+
+.riga-impostazione p {
+    margin: 0;
 }
 
 /* PAGINA REPARTO - paginaReparto.html */

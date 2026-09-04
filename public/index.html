@@ -73,11 +73,19 @@
                 <p>Preferenze riapertura monitor lavorazioni.</p>
                 <div class="lista-impostazioni">
                     <div class="fila-impostazioni">
-                        <label class="switch">
-                            <input type="checkbox" id="check-auto">
-                            <span class="slider round"></span>
-                        </label>
-                        <p>Riapri automaticamente la pagina dei reparti.</p>
+                        <div class="riga-impostazione">
+                            <label class="switch">
+                                <input type="checkbox" id="check-auto">
+                                <span class="slider round"></span>
+                            </label>
+                            <p>Riapri automaticamente la pagina dei reparti.</p>
+                        </div>
+                        <div class="riga-impostazione">
+                            <label class="sr-only" for="minuti-riapertura">Ogni quanti minuti riapro?</label>
+                            <input id="minuti-riapertura" type="number" min="0" step="1" inputmode="numeric"
+                                placeholder="Minuti" autocomplete="off">
+                            <p>Minuti fino alla riapertura.</p>
+                        </div>
                     </div>
                 </div>
             </section>

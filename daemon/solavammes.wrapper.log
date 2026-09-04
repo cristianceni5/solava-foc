@@ -462,3 +462,19 @@ Stacktrace:   in System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInter
 2026-09-02 18:46:22 - Finished solavammes.exe
 2026-09-02 19:02:27 - Starting C:\Program Files\nodejs\node.exe  --harmony "C:\Users\Confezionamento\Documents\Monitor MES - Solava\node_modules\node-windows\lib\wrapper.js" --file "C:\Users\Confezionamento\Documents\Monitor MES - Solava\server.js" --scriptoptions= --log "SolavaMMES wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
 2026-09-02 19:02:27 - Started 6696
+2026-09-04 15:31:05 - Stopping solavammes.exe
+2026-09-04 15:31:05 - ProcessKill 6696
+2026-09-04 15:31:05 - Found child process: 2040 Name: conhost.exe
+2026-09-04 15:31:05 - Found child process: 8764 Name: node.exe
+2026-09-04 15:31:05 - Stopping process 2040
+2026-09-04 15:31:05 - Send SIGINT 2040
+2026-09-04 15:31:05 - SIGINT to 2040 failed - Killing as fallback
+2026-09-04 15:31:05 - Stopping process 8764
+2026-09-04 15:31:05 - Send SIGINT 8764
+2026-09-04 15:31:05 - SIGINT to 8764 failed - Killing as fallback
+2026-09-04 15:31:05 - Stopping process 6696
+2026-09-04 15:31:05 - Send SIGINT 6696
+2026-09-04 15:31:05 - SIGINT to 6696 failed - Killing as fallback
+2026-09-04 15:31:05 - Finished solavammes.exe
+2026-09-04 15:31:06 - Starting C:\Program Files\nodejs\node.exe  --harmony "C:\Users\Confezionamento\Documents\Monitor MES - Solava\node_modules\node-windows\lib\wrapper.js" --file "C:\Users\Confezionamento\Documents\Monitor MES - Solava\server.js" --scriptoptions= --log "SolavaMMES wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2026-09-04 15:31:06 - Started 14772

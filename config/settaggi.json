@@ -1,3 +1,4 @@
 {
-  "consensoAuto": true
+  "consensoAuto": true,
+  "minuti": 5
 }
