@@ -173,7 +173,7 @@ async function caricaStato() {
     } catch (errore) {
         console.error('Errore caricamento reparto:', errore);
         banner.className = 'stato-errore';
-        setStato('fa-solid fa-triangle-exclamation', 'Dati non aggiornati');
+        setStato('Dati non aggiornati');
         risposta.textContent = errore.message || 'Impossibile connettersi al server.';
         ultimoAggiornamento.textContent = ultimoAggiornamentoRiuscito
             ? `I dati visibili risalgono alle ${ultimoAggiornamentoRiuscito.toLocaleTimeString('it-IT')}.`

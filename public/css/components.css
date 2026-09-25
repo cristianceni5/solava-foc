@@ -66,7 +66,8 @@ h6 {
 p,
 a,
 li,
-dd {
+dd,
+span {
     font-family: var(--font-family-base);
     color: var(--colore-subtext);
 }
@@ -92,6 +93,11 @@ dd {
 
 .navigazione a {
     text-decoration: none;
+    font-family: var(--font-family-heading);
+    color: var(--colore-text);
+}
+
+.navigazione span {
     font-family: var(--font-family-heading);
     color: var(--colore-text);
 }

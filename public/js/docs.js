@@ -1,13 +1,14 @@
 const DOCUMENTAZIONE = `
-    <h1>Documentazione Tecnica e Operativa - Solava Factory Operation Panel (FOP)</h1>
-    <p>Ultimo aggiornamento: <b>26/08/2026</b> | Autore: <b>Cristian Ceni</b></p>
+    <h1>Documentazione - Solava Factory Operation Panel (FOP)</h1>
+    <p>Ultimo aggiornamento: <b>07/09/2026</b> | Autore: <b>Cristian Ceni</b></p>
 
     <h2>1. Funzionalità Principali</h2>
     <p>Factory Operation Panel (FOP) è un'interfaccia operativa con le seguenti funzioni attive:</p>
     <ul>
         <li><b>Monitoraggio Lavorazioni:</b> visualizzazione in tempo reale dello stato avanzamento e delle bolle di produzione attive per ciascun reparto.</li>
         <li><b>Stampa Etichette:</b> generazione e invio stampe verso i dispositivi Zebra dedicati (postazioni ufficio e box confezionamento).</li>
-        <li><b>Gestione Automazione & Flag Operativi:</b> sincronizzazione e persistenza dei consensi operativi tramite API dedicate e file di configurazione locale.</li>
+        <li><b>Controllo attributi estesi:</b> verifica degli attributi estesi associati ad ogni articolo.</li>
+        <li><b>Gestione automazione per riapertura finestre:</b> sincronizzazione e persistenza dei consensi operativi tramite API dedicate e file di configurazione locale.</li>
     </ul>
     <p><i>Implementazioni pianificate:</i> gestione della coda pacchi sulle due linee di produzione e integrazione di moduli semplificati per transazioni MES di base.</p>
 
@@ -21,8 +22,8 @@ const DOCUMENTAZIONE = `
 
     <h3>Topologia delle Connessioni</h3>
     <ul>
-        <li><b>Client → Backend (HTTP/TCP):</b> i client browser della LAN aziendale si collegano a <code>http://SLVW10BOX:65535</code> per scaricare l'interfaccia statica (dalla cartella <code>/public</code>) ed eseguire chiamate API asincrone. Nessun client apre connessioni dirette verso il database.</li>
-        <li><b>Backend → SQL Server (TDS):</b> il backend Node.js gestisce un <b>Connection Pool singleton</b> verso MSSQL. Questo pattern garantisce che il carico sul database sia costante e controllato, prevenendo la saturazione delle connessioni anche in caso di accessi concorrenti multipli.</li>
+        <li><b>Client - Backend (HTTP/TCP):</b> i client browser della LAN aziendale si collegano a <code>http://SLVW10BOX:65535</code> per scaricare l'interfaccia statica (dalla cartella <code>/public</code>) ed eseguire chiamate API asincrone. Nessun client apre connessioni dirette verso il database.</li>
+        <li><b>Backend - SQL Server (TDS sempre su TCP):</b> il backend Node.js gestisce un <b>Connection Pool singleton</b> verso MSSQL. Questo pattern garantisce che il carico sul database sia costante e controllato, prevenendo la saturazione delle connessioni anche in caso di accessi concorrenti multipli.</li>
     </ul>
 
     <h3>Configurazione e Sicurezza</h3>

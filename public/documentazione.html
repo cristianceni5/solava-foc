@@ -23,6 +23,58 @@
     </header>
     <!-- Container -->
     <div class="mega-container">
+        <div class="container">
+            <div class="docs">
+                <h1>Programmi complementari</h1>
+                <p>
+                    Di seguito sono disponibili i programmi complementari per l'uso di Solava FOP. <br>
+                    Scarica e installa i programmi necessari per il corretto funzionamento del sistema.
+                </p>
+                <div class="lista-prof">
+                    <a href="./assets/programmi/Setup_PLCCOM.exe" class="href">
+                        <i class="fa-solid fa-download" aria-hidden="true"></i>
+                        Setup PLCCOM Old
+                    </a>
+                    <span>Setup della vecchia versione di PLCCOM, senza servizio di riapertura automatica.</span>
+                    <a href="./assets/programmi/Setup_ServizioFOP_PLCCOM.exe" class="href">
+                        <i class="fa-solid fa-download" aria-hidden="true"></i>
+                        Setup Servizio FOP-PLCCOM
+                    </a>
+                    <span>Setup del servizio FOP-PLCCOM, con servizio di riapertura automatica.</span>
+                    <a href="./assets/programmi/ChromeSetup.exe" class="href">
+                        <i class="fa-solid fa-download" aria-hidden="true"></i>
+                        Chrome
+                    </a>
+                </div>
+                <p><i>Nota: Chrome è l'unico browser supportato per la riaperutra automatica di FOP.</i></p>
+
+                <h2>Configurazione Servizio FOP-PLCCOM</h2>
+                <h3>FOP</h3>
+                <ul>
+                    <li>
+                        <b>URL connessione automatica da FOP:</b>
+                        <code>http://slvw10box:65535/api/automazione</code>
+                    </li>
+                </ul>
+
+                <h3>PLCCOM</h3>
+                <ul>
+                    <li><b>Indirizzo IP del PLC (S7 1500 Confezionamento):</b>
+                        <code>10.50.1.25</code>
+                    </li>
+                    <li>
+                        <b>Porta del PLC in ascolto:</b>
+                        <code>353x</code>
+                        <span>La porta 3535 è riservata ai test. Sentire Lorenzo o Cristian per altre porte</span>
+                    </li>
+                    <li>
+                        <b>Nome dell'eseguibile da analizzare:</b>
+                        <code>MES.FrontEnd.exe</code>
+                        <span>L'estensione non è obbligatoria</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <div class="container" id="container-docs"> </div>
     </div>
     <script src="./js/docs.js"></script>

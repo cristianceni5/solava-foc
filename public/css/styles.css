@@ -907,6 +907,27 @@ input[aria-invalid="true"] {
     border-radius: 24px;
 }
 
+.lista-prof {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 20px 0 0;
+}
+
+.lista-prof a {
+    color: var(--colore-text);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.lista-prof a:hover {
+    text-decoration: underline;
+}
+
+.lista-prof i {
+    margin-right: 4px;
+}
+
 .docs h1 {
     margin: 0 0 8px;
     font-size: clamp(1.8rem, 3vw, 2.4rem);
@@ -925,6 +946,11 @@ input[aria-invalid="true"] {
 .docs p,
 .docs li {
     line-height: 1.6;
+}
+
+.docs span {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
 }
 
 .docs ul,
