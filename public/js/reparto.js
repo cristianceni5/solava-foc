@@ -127,12 +127,13 @@ async function caricaStato() {
 
     // In base al reparto mi mostri un button con la coda - chiaro solo Scarico Lingl e Capelletti
     const caricaCoda = document.getElementById('apri-coda')
+    
     caricaCoda.style.display = "inline-block";
 
     if (reparto == "scape")
-        caricaCoda.href = "http://10.40.43.105:8001/Monitor?Machine=Linea2";
+        caricaCoda.onclick = new function(){window.open('http://10.40.43.105:8001/Monitor?Machine=Linea2', '_blank', 'width=1024,height=600'); return false;};
     else if (reparto == "slingl")
-        caricaCoda.href = "http://10.40.43.105:8001/Monitor?Machine=Linea1"
+        caricaCoda.onclick = new function(){window.open('http://10.40.43.105:8001/Monitor?Machine=Linea1', '_blank', 'width=1024,height=600'); return false;};
     else
         caricaCoda.style.display = "none";
 

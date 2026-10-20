@@ -6,13 +6,7 @@
     --report-muted: #f2eee8;
 }
 
-.pagina-interna main.salvataggi-pagina {
-    margin-top: 104px;
-    max-width: min(94%, 1640px);
-}
-
 .salvataggi-pagina>.container {
-    padding: 24px 0;
     min-width: 0;
 }
 
@@ -21,19 +15,12 @@
 }
 
 .salvataggi-intro {
-    padding: 16px 0 26px;
+    margin-top: 36px;
+    padding-bottom: 26px;
 }
 
 .salvataggi-intro .ultimo-aggiornamento {
-    margin: 0 0 10px;
-    font-size: .73rem;
-    letter-spacing: .025em;
-}
-
-.pagina-interna .salvataggi-intro h1 {
-    margin: 0 0 12px;
-    font-size: clamp(1.8rem, 3vw, 2.7rem);
-    line-height: 1.12;
+    margin: 0;
 }
 
 #stato-salvataggi {
@@ -582,19 +569,6 @@
 }
 
 @media (max-width: 640px) {
-    .pagina-interna main.salvataggi-pagina {
-        margin-top: 88px;
-        max-width: calc(100% - 24px);
-    }
-
-    .salvataggi-pagina>.container {
-        padding: 12px 0;
-    }
-
-    .salvataggi-intro {
-        padding-top: 8px;
-    }
-
     .salvataggi-paginazione {
         gap: 8px;
         width: 100%;

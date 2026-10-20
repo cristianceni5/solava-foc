@@ -33,6 +33,7 @@ function normalizzaDatiStampa(input = {}) {
         lotto,
         mostraCE: input.mostraCE !== 'false' && input.mostraCE !== false,
         mostraICMQ: input.mostraICMQ !== 'false' && input.mostraICMQ !== false,
+        mostraStabilimento: input.mostraStabilimento !== 'false' && input.mostraStabilimento !== false,
         invertiValoriUM: input.invertiValoriUM === 'true' || input.invertiValoriUM === true,
         pezziPacco: leggiIntero(input.pezziPacco, 'I pezzi per pacco', 0),
         pezziBLK: leggiIntero(input.pezziBLK, 'I pezzi per BLK', 1),
@@ -82,6 +83,9 @@ function compilaZplEtichetta(template, dati, datiStampa) {
     let zplFinale = componiZPL(templateUnificato, dati);
     if (!datiStampa.mostraCE) zplFinale = rimuoviLogoCE(zplFinale);
     if (!datiStampa.mostraICMQ) zplFinale = rimuoviLogoICMQ(zplFinale);
+    if (datiStampa.mostraStabilimento === false) {
+        zplFinale = zplFinale.replace(/\^FT[^\r\n]*?\^FDStabilimento di produzione[^\r\n]*?\^FS/g, '');
+    }
     // ^PQ definisce la quantita' di stampa (^PQ1,0,1,Y nel template): sostituisce solo il numero.
     zplFinale = zplFinale.replace(/\^PQ\d+,/, `^PQ${datiStampa.quantitaEtichette},`);
     return zplFinale;

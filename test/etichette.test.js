@@ -32,13 +32,26 @@ const data = new Date(2026, 9, 10, 12, 34, 56);
 test('normalizza parametri della query e del body, inclusi i toggle', () => {
     const dati = normalizzaDatiStampa(input);
     assert.deepEqual(dati, {
-        lotto: 'LOT001', mostraCE: true, mostraICMQ: true, invertiValoriUM: false,
+        lotto: 'LOT001', mostraCE: true, mostraICMQ: true, mostraStabilimento: true, invertiValoriUM: false,
         pezziPacco: 120, pezziBLK: 10, quantitaEtichette: 3
     });
     for (const valore of [false, 'false']) {
         const disattivati = normalizzaDatiStampa({ ...input, mostraCE: valore, mostraICMQ: valore });
         assert.equal(disattivati.mostraCE, false);
         assert.equal(disattivati.mostraICMQ, false);
+    }
+});
+
+test('il testo stabilimento viene escluso dallo ZPL solo quando disattivato', () => {
+    const template = fs.readFileSync(path.join(__dirname, '..', 'template_etichette', 'CAM_redesign_def_2.prn'), 'utf8');
+    for (const valore of [undefined, true, 'true', false, 'false']) {
+        const dati = normalizzaDatiStampa({ ...input, mostraStabilimento: valore });
+        const campi = creaCampiEtichetta(articolo, dati, data);
+        const zpl = compilaZplEtichetta(template, campi, dati);
+        assert.equal(zpl.includes('Stabilimento di produzione'), valore !== false && valore !== 'false');
+        assert.ok(zpl.includes('Via Urbinese'));
+        assert.ok(zpl.includes('ART001'));
+        assert.match(zpl, /\^PQ3,/);
     }
 });
 

@@ -39,8 +39,7 @@
     max-width: min(90%, 1400px);
 }
 
-.pagina-interna .container > h1,
-.pagina-interna .salvataggi-intro h1 {
+.pagina-interna .container>h1 {
     color: var(--colore-text);
     font-size: clamp(2.1rem, 3.4vw, 3.5rem);
     letter-spacing: -.025em;
@@ -93,7 +92,9 @@
     font-family: var(--font-family-heading);
 }
 
-.pagina-interna .campo:hover { filter: none; }
+.pagina-interna .campo:hover {
+    filter: none;
+}
 
 .pagina-interna :is(a, button, input, select):focus-visible {
     outline: 3px solid var(--solava-princ);
@@ -113,5 +114,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .pagina-interna * { transition-duration: .01ms !important; }
+    .pagina-interna * {
+        transition-duration: .01ms !important;
+    }
 }

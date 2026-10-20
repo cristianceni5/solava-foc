@@ -90,7 +90,9 @@ const NOMI_CAMPI = {
     DATA_ORA: 'Data e ora', ID: 'ID', RICETTA_OMR: 'Ricetta OMR', RICETTA_MES: 'Ricetta MES',
     ORE_IMP_ACCESO_L1: 'L1 - Accensione (h)', ORE_IMP_LAVORAZIONE_L1: 'L1 - Lavorazione (h)',
     ORE_IMP_ACCESO_L2: 'L2 - Accensione (h)', ORE_IMP_LAVORAZIONE_L2: 'L2 - Lavorazione (h)',
-    TONN_TERRA: 'Terra (t)',
+    MIN_IMP_ACCESO_L1: 'L1 - Accensione (min)', MIN_IMP_LAVORAZIONE_L1: 'L1 - Lavorazione (min)',
+    MIN_IMP_ACCESO_L2: 'L2 - Accensione (min)', MIN_IMP_LAVORAZIONE_L2: 'L2 - Lavorazione (min)',
+    TONN_TERRA: 'Terra (t)', 
     ...Object.fromEntries([1, 2, 3, 4, 5].map(n => [`HZ_CASSONE_${n}`, `Cassone ${n} (Hz)`]))
 };
 const nomeCampo = nome => NOMI_CAMPI[nome] || nome.replaceAll('_', ' ');
@@ -160,8 +162,8 @@ function mostraReport(risultati) {
     const usati = new Set();
     const gruppi = [
         { titolo: richiesto ? 'Identificazione' : 'Giornata', classe: 'report-identita', campi: ['ID', 'SALVATAGGI', 'DATA_ORA', 'RICETTA_OMR', 'RICETTA_MES'] },
-        { titolo: 'Linea 1', classe: 'report-linea', campi: ['ORE_IMP_ACCESO_L1', 'ORE_IMP_LAVORAZIONE_L1'] },
-        { titolo: 'Linea 2', classe: 'report-linea', campi: ['ORE_IMP_ACCESO_L2', 'ORE_IMP_LAVORAZIONE_L2'] },
+        { titolo: 'Linea 1', classe: 'report-linea', campi: ['ORE_IMP_ACCESO_L1','MIN_IMP_ACCESO_L1', 'ORE_IMP_LAVORAZIONE_L1', 'MIN_IMP_LAVORAZIONE_L1'] },
+        { titolo: 'Linea 2', classe: 'report-linea', campi: ['ORE_IMP_ACCESO_L2','MIN_IMP_ACCESO_L2', 'ORE_IMP_LAVORAZIONE_L2', 'MIN_IMP_LAVORAZIONE_L2'] },
         { titolo: 'Produzione', classe: 'report-produzione', campi: ['TONN_TERRA'] },
         { titolo: 'Cassoni', classe: 'report-cassoni', campi: [1, 2, 3, 4, 5].map(n => `HZ_CASSONE_${n}`) }
     ];
@@ -169,7 +171,7 @@ function mostraReport(risultati) {
         const campi = gruppo.campi.filter(campo => Object.hasOwn(riga, campo));
         if (!campi.length) return;
         griglia.append(creaCardReport(gruppo.titolo, gruppo.classe, campi, riga,
-            confrontoRicette(richiesto ? [richiesto] : giornata)));
+            confrontoRicette(richiesto ? [richiesto] : giornata), richiesto ? [richiesto] : giornata));
         campi.forEach(campo => usati.add(campo));
     });
     const altri = Object.keys(riga).filter(campo => !usati.has(campo));
@@ -179,18 +181,36 @@ function mostraReport(risultati) {
     }
 }
 
-function creaCardReport(titolo, classe, campi, riga, esitoRicette) {
+function formattaDurataReport(righe, campoOre) {
+    const campoMinuti = campoOre.replace(/^ORE_/, 'MIN_');
+    const durate = righe.map(riga => {
+        const ore = riga[campoOre], minuti = riga[campoMinuti];
+        if ([ore, minuti].some(v => v === null || v === undefined || v === '')) return null;
+        const totale = Number(ore) * 60 + Number(minuti);
+        return Number.isFinite(totale) ? totale : null;
+    }).filter(v => v !== null);
+    if (!durate.length) return '-';
+    const formato = totale => `${Math.floor(totale / 60)}:${String(totale % 60).padStart(2, '0')}`;
+    const minimo = Math.min(...durate), massimo = Math.max(...durate);
+    return minimo === massimo ? formato(minimo) : `${formato(minimo)} – ${formato(massimo)}`;
+}
+
+function creaCardReport(titolo, classe, campi, riga, esitoRicette, righe = [riga]) {
     const card = elemento('section', `report-card ${classe}`);
     card.append(elemento('h3', '', titolo));
     const lista = elemento('dl', 'report-campi');
     for (const campo of campi) {
+        const durata = classe === 'report-linea' && /^(ORE|MIN)_IMP_/.test(campo);
+        if (durata && campo.startsWith('MIN_')) continue;
         const voce = elemento('div', 'report-campo');
         voce.dataset.campo = campo;
         if (campo === 'RICETTA_OMR' || campo === 'RICETTA_MES') {
             voce.dataset.ricette = esitoRicette;
             voce.title = esitoRicette === 'coerenti' ? 'Ricette OMR e MES coincidenti' : 'Ricette OMR e MES diverse o incomplete';
         }
-        voce.append(elemento('dt', '', nomeCampo(campo)), elemento('dd', '', formattaValore(campo, riga[campo])));
+        const etichetta = durata ? nomeCampo(campo).replace(/L\d - /, '').replace('(h)', '(h:min)') : nomeCampo(campo);
+        const valore = durata ? formattaDurataReport(righe, campo) : formattaValore(campo, riga[campo]);
+        voce.append(elemento('dt', '', etichetta), elemento('dd', '', valore));
         lista.append(voce);
     }
     card.append(lista);

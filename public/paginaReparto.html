@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="./assets/logo-solava-rid.png" type="image/x-icon">
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="./css/interne.css">
+    <link rel="stylesheet" href="./css/salvataggi.css">
     <!-- CDN di FA -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         referrerpolicy="no-referrer">
@@ -16,7 +17,8 @@
 
 <body class="pagina-interna">
     <header class="navigazione navigazione-pagina">
-        <a href="index.html#monitor" class="nav-back" aria-label="Torna ai monitor nel pannello operativo"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Pannello</a>
+        <a href="index.html#monitor" class="nav-back" aria-label="Torna ai monitor nel pannello operativo"><i
+                class="fa-solid fa-arrow-left" aria-hidden="true"></i> Pannello</a>
         <a href="index.html" class="nav-brand" aria-label="Factory Operation Panel - pagina principale">
             <img src="./assets/logo-solava-rossaccio.svg" alt="Solava" class="logo">
             <span>Factory Operation Panel</span>
@@ -28,14 +30,12 @@
         <div class="container">
             <div id="status-banner" role="status" aria-live="polite">
                 <p id="ultimo-aggiornamento" class="ultimo-aggiornamento"></p>
-                <h1 id="stato"><i class="fa-solid fa-spinner fa-spin"></i> Caricamento dati...</h1>
+                <h1 id="stato" class="titolo-pagina"><i class="fa-solid fa-spinner fa-spin"></i> Caricamento dati...
+                </h1>
                 <p id="risposta"></p>
-                <div class="container-puls-coda">
-                    <a href="" id="apri-coda"
-                        onclick="window.open(this.href, '_blank', 'width=1024,height=600'); return false;">
-                        <i class="fa-solid fa-box"></i>
-                        Apri coda
-                    </a>
+                <div class="salvataggi-azioni">
+                    <button type="button" id="apri-coda" class="pulsante-operativo pulsante-secondario">Apri
+                        coda</button>
                 </div>
             </div>
             <div class="table-wrapper">

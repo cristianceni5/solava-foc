@@ -45,9 +45,9 @@ router.get('/api/etichette/articolo/:cod', async (req, res) => {
 router.get('/api/etichette/preview/:cod', async (req, res) => {
     try {
         const articolo = String(req.params.cod || '').trim();
-        const { lotto, mostraCE, mostraICMQ, invertiValoriUM, pezziPacco, pezziBLK, quantitaEtichette } = req.query;
+        const { lotto, mostraCE, mostraICMQ, mostraStabilimento, invertiValoriUM, pezziPacco, pezziBLK, quantitaEtichette } = req.query;
 
-        const zplFinale = await generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, invertiValoriUM, pezziPacco, pezziBLK, quantitaEtichette });
+        const zplFinale = await generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, mostraStabilimento, invertiValoriUM, pezziPacco, pezziBLK, quantitaEtichette });
 
         const buffer = await generaAnteprimaEtichetta(zplFinale);
         res.set('Content-Type', 'image/png');
@@ -66,9 +66,9 @@ router.post('/api/etichette/stampa/:cod/:stamp', async (req, res) => {
         const articolo = String(req.params.cod || '').trim();
         const stampante = String(req.params.stamp || 'stampante1').trim();
 
-        const { lotto, mostraCE, mostraICMQ, invertiValoriUM, pezziPacco, pezziBLK, quantitaEtichette } = req.body;
+        const { lotto, mostraCE, mostraICMQ, mostraStabilimento, invertiValoriUM, pezziPacco, pezziBLK, quantitaEtichette } = req.body;
 
-        const zplFinale = await generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, invertiValoriUM, pezziPacco, pezziBLK, quantitaEtichette });
+        const zplFinale = await generaZplArticolo(articolo, { lotto, mostraCE, mostraICMQ, mostraStabilimento, invertiValoriUM, pezziPacco, pezziBLK, quantitaEtichette });
         await stampaZpl(zplFinale, stampante);
 
         // La stampante Zebra non manda una vera conferma applicativa di stampa: questo timestamp

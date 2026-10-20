@@ -8,7 +8,7 @@ const DOCUMENTAZIONE = `
         <li><b>Monitoraggio Lavorazioni:</b> visualizzazione in tempo reale dello stato avanzamento e delle bolle di produzione attive per ciascun reparto.</li>
         <li><b>Stampa Etichette:</b> generazione e invio stampe verso i dispositivi Zebra dedicati (postazioni ufficio e box confezionamento).</li>
         <li><b>Controllo attributi estesi:</b> verifica degli attributi estesi associati ad ogni articolo.</li>
-        <li><b>Salvataggi di prelavorazione:</b> consultazione delle registrazioni in tabella e report giornaliero, con calendario e confronto delle ricette OMR/MES.</li>
+        <li><b>Salvataggi di prelavorazione:</b> consultazione delle registrazioni in tabella e report giornaliero, con calendario e confronto delle ricette PLC/MES.</li>
         <li><b>Gestione automazione per riapertura finestre:</b> sincronizzazione e persistenza dei consensi operativi tramite API dedicate e file di configurazione locale.</li>
     </ul>
 

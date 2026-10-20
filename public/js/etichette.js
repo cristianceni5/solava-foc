@@ -235,6 +235,7 @@ function leggiDatiStampa(stampaLotto) {
         quantitaEtichette: elementi.quantita.value,
         mostraCE: document.getElementById('inMostraCE').checked,
         mostraICMQ: document.getElementById('inMostraICMQ').checked,
+        mostraStabilimento: document.getElementById('inMostraStabilimento').checked,
         invertiValoriUM: document.getElementById('inInvertiValoriUM').checked,
     };
     let campoNonValido = null;
@@ -310,7 +311,8 @@ function creaSezioneStampa(articolo) {
     contenutoUnita.append(unita, opzioniUnita);
 
     const opzioni = creaElemento('div', { className: 'riga-opzioni-stampa' });
-    [['inMostraCE', 'Mostra marchio CE'], ['inMostraICMQ', 'Mostra marchio ICMQ']].forEach(([id, testo]) => {
+    [['inMostraCE', 'Mostra marchio CE'], ['inMostraICMQ', 'Mostra marchio ICMQ'],
+        ['inMostraStabilimento', 'Mostra testo stabilimento di produzione']].forEach(([id, testo]) => {
         const etichetta = creaElemento('label');
         const checkbox = creaElemento('input', { id });
         checkbox.type = 'checkbox';
@@ -360,7 +362,7 @@ function creaSezioneStampa(articolo) {
             creaInput({ id: 'inQuantita', tipo: 'number', valore: 1, min: 1, max: 999, required: true, label: 'Numero etichette da stampare' })
         ),
         creaBloccoStampa('Unità di misura', contenutoUnita),
-        creaBloccoStampa('Normative nell’etichetta', opzioni),
+        creaBloccoStampa('Opzioni dell’etichetta', opzioni),
         creaBloccoStampa('Stampante', stampaContenuto, 'Seleziona la stampante.')
     );
     sezione.append(griglia);

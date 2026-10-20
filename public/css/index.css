@@ -55,7 +55,7 @@
     font-size: .92rem;
 }
 
-.home-nav .nav-brand > span {
+.home-nav .nav-brand>span {
     padding-left: 16px;
     border-left: 1px solid #d4ccc3;
     font-family: var(--font-family-heading);
@@ -76,7 +76,9 @@
     transition: color .2s ease;
 }
 
-.home-nav-links a:hover { color: var(--solava-princ); }
+.home-nav-links a:hover {
+    color: var(--solava-princ);
+}
 
 .home-settings-trigger {
     display: inline-flex;
@@ -94,8 +96,15 @@
     transition: background-color .2s ease, border-color .2s ease;
 }
 
-.home-settings-trigger span { font-family: var(--font-family-heading); color: inherit; }
-.home-settings-trigger:hover { background: #fcf4f1; border-color: #dfc4bd; }
+.home-settings-trigger span {
+    font-family: var(--font-family-heading);
+    color: inherit;
+}
+
+.home-settings-trigger:hover {
+    background: #fcf4f1;
+    border-color: #dfc4bd;
+}
 
 .home-main {
     box-sizing: border-box;
@@ -159,7 +168,9 @@
     scroll-margin-top: 94px;
 }
 
-.home-section:last-of-type { border-bottom: 1px solid var(--home-line); }
+.home-section:last-of-type {
+    border-bottom: 1px solid var(--home-line);
+}
 
 .home-section-heading {
     display: flex;
@@ -193,14 +204,21 @@
     line-height: 1.65;
 }
 
-.home-section-content { min-width: 0; }
-.home-section-content > .stato-caricamento {
+.home-section-content {
+    min-width: 0;
+}
+
+.home-section-content>.stato-caricamento {
     min-height: 0;
     margin: 0 0 13px;
     font-size: .82rem;
 }
-.home-section-content > .stato-caricamento:empty { display: none; }
-.home-section-content > .stato-caricamento button {
+
+.home-section-content>.stato-caricamento:empty {
+    display: none;
+}
+
+.home-section-content>.stato-caricamento button {
     border-radius: 99px;
     cursor: pointer;
 }
@@ -240,7 +258,7 @@
     filter: none;
 }
 
-.home-link-grid a > i:first-child {
+.home-link-grid a>i:first-child {
     flex: 0 0 auto;
     color: var(--solava-princ);
     font-size: .95rem;
@@ -260,7 +278,9 @@
 }
 
 .home-link-grid a:hover .home-link-arrow,
-.home-link-grid a:focus-visible .home-link-arrow { transform: translateX(3px); }
+.home-link-grid a:focus-visible .home-link-arrow {
+    transform: translateX(3px);
+}
 
 .home-settings-dialog {
     box-sizing: border-box;
@@ -274,14 +294,22 @@
     box-shadow: 0 22px 80px rgba(24, 20, 20, .18);
 }
 
-.home-settings-dialog::backdrop { background: rgba(25, 27, 32, .48); }
+.home-settings-dialog::backdrop {
+    background: rgba(25, 27, 32, .48);
+}
+
 .home-dialog-heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 20px;
 }
-.home-dialog-heading h2 { margin: 0; font-size: 1.8rem; }
+
+.home-dialog-heading h2 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
 .home-dialog-close {
     display: grid;
     place-items: center;
@@ -294,13 +322,18 @@
     color: var(--home-ink);
     cursor: pointer;
 }
-.home-dialog-close:hover { background: #f7e9e6; }
+
+.home-dialog-close:hover {
+    background: #f7e9e6;
+}
+
 .home-dialog-description {
     margin: 13px 0 24px;
     color: var(--home-muted);
     font-size: .85rem;
     line-height: 1.65;
 }
+
 .home-setting-row {
     display: flex;
     justify-content: space-between;
@@ -309,20 +342,28 @@
     min-height: 64px;
     border-top: 1px solid var(--home-line);
 }
-.home-setting-row > span,
+
+.home-setting-row>span,
 .home-setting-row label:not(.switch) {
     color: var(--home-ink);
     font-family: var(--font-family-heading);
     font-size: .92rem;
 }
-.home-setting-row #minuti-riapertura { width: 88px; }
+
+.home-setting-row #minuti-riapertura {
+    width: 88px;
+}
+
 .home-settings-dialog #stato-impostazioni {
     margin: 18px 0 0;
     color: var(--home-muted);
     font-size: .76rem;
     line-height: 1.5;
 }
-.home-settings-dialog #stato-impostazioni.errore { color: var(--solava-princ); }
+
+.home-settings-dialog #stato-impostazioni.errore {
+    color: var(--solava-princ);
+}
 
 .home-footer {
     padding: 22px 24px;
@@ -333,26 +374,69 @@
 }
 
 @media (max-width: 1120px) {
-    .home-nav .nav-brand > span { display: none; }
-    .home-section { grid-template-columns: 1fr; gap: 24px; }
+    .home-nav .nav-brand>span {
+        display: none;
+    }
+
+    .home-section {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
 }
 
 @media (max-width: 780px) {
-    .home-nav-links { display: none; }
-    .home-link-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .home-nav-links {
+        display: none;
+    }
+
+    .home-link-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 @media (max-width: 560px) {
-    .home-nav { min-height: 64px; padding-inline: 14px; }
-    .home-main { padding-top: 64px; padding-bottom: 40px; }
-    .home-intro { min-height: 252px; padding: 50px 14px 90px; background-image: linear-gradient(90deg, rgba(246, 243, 238, .95), rgba(246, 243, 238, .72)), url('../assets/solava-facciata.jpg'); }
-    .home-content { margin-top: -32px; padding-inline: 14px; }
-    .home-section { padding: 26px 2px; }
-    .home-link-grid { grid-template-columns: 1fr; }
-    .home-settings-trigger { width: 42px; padding: 0; justify-content: center; }
-    .home-settings-trigger span { display: none; }
+    .home-nav {
+        min-height: 64px;
+        padding-inline: 14px;
+    }
+
+    .home-main {
+        padding-top: 64px;
+        padding-bottom: 40px;
+    }
+
+    .home-intro {
+        min-height: 252px;
+        padding: 50px 14px 90px;
+        background-image: linear-gradient(90deg, rgba(246, 243, 238, .95), rgba(246, 243, 238, .72)), url('../assets/solava-facciata.jpg');
+    }
+
+    .home-content {
+        margin-top: -32px;
+        padding-inline: 14px;
+    }
+
+    .home-section {
+        padding: 26px 2px;
+    }
+
+    .home-link-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .home-settings-trigger {
+        width: 42px;
+        padding: 0;
+        justify-content: center;
+    }
+
+    .home-settings-trigger span {
+        display: none;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .home-dashboard * { transition-duration: .01ms !important; }
+    .home-dashboard * {
+        transition-duration: .01ms !important;
+    }
 }
