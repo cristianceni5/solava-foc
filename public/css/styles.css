@@ -743,14 +743,12 @@ input[aria-invalid="true"] {
 .riga-opzioni-stampa label {
     display: flex;
     align-items: center;
-    gap: 8px;
-}
-
-.riga-opzioni-stampa input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    accent-color: var(--solava-princ);
-    cursor: pointer;
+    gap: var(--checkbox-label-gap);
+    font-family: var(--checkbox-label-font);
+    font-size: var(--checkbox-label-size);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--colore-text);
 }
 
 /* Buttons */

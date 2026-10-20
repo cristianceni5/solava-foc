@@ -1,7 +1,7 @@
-// Scritto da Cristian Ceni 08/07/26
-// File per la gestione del pool di connessioni al database
+// Autori: Cristian Ceni, Codex
+// Ultima modifica: 10/10/2026
+// Scopo: condividere il pool SQL e consentire nuovi tentativi dopo un collegamento fallito.
 
-// Importo il modulo mssql
 const sql = require('mssql');
 
 // Configurazione della connessione al database, credenziali da dotenv
@@ -14,14 +14,17 @@ const config = {
     encrypt: true, // Nel caso SQL-Server queste 2 vanno messe a true
     trustServerCertificate: true
   }
-}
+};
 
-// Creo un pool di connessioni al database, faccio in modo che crei una sola connesione e la riutlizzi
+// Le richieste concorrenti condividono lo stesso tentativo di connessione.
 let poolPromise = null;
 
 function getPool() {
   if (!poolPromise) {
-    poolPromise = new sql.ConnectionPool(config).connect();
+    poolPromise = new sql.ConnectionPool(config).connect().catch(err => {
+      poolPromise = null;
+      throw err;
+    });
   }
   return poolPromise;
 }

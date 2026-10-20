@@ -1,0 +1,117 @@
+/*
+ * Autori: Cristian Ceni, Codex
+ * Ultima modifica: 10/10/2026
+ * Scopo: allineare le pagine interne alla home senza modificare i colori delle righe del monitor.
+ */
+
+@font-face {
+    font-family: 'Libre Baskerville Local';
+    src: url('../assets/LibreBaskerville-VariableFont_wght.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+}
+
+.pagina-interna {
+    --colore-bg: #f6f3ee;
+    --colore-text: #292b30;
+    --colore-subtext: #61646b;
+    --colore-border: #e7e1d9;
+    --font-family-base: 'Libre Baskerville Local', Georgia, serif;
+    background: var(--colore-bg);
+}
+
+.pagina-interna .navigazione {
+    background: #fff;
+    border-bottom-color: var(--colore-border);
+}
+
+.pagina-interna .navigazione-pagina .nav-back {
+    border-color: var(--colore-border);
+    background: #fff;
+    color: var(--colore-text);
+}
+
+.pagina-interna .navigazione-pagina .nav-back:hover {
+    background: #fcf4f1;
+}
+
+.pagina-interna .mega-container {
+    max-width: min(90%, 1400px);
+}
+
+.pagina-interna .container > h1,
+.pagina-interna .salvataggi-intro h1 {
+    color: var(--colore-text);
+    font-size: clamp(2.1rem, 3.4vw, 3.5rem);
+    letter-spacing: -.025em;
+}
+
+.pagina-interna :is(.table-wrapper, .legenda-container, .sezione-articolo, .docs, .salvataggi-vuoto, .anteprima-lavorazione) {
+    border-color: var(--colore-border);
+    border-radius: 20px;
+    background-color: #fff;
+}
+
+.pagina-interna :is(.ricerca input, .riga-dati-stampa input, .container-stato-stampa select) {
+    border-color: var(--colore-border);
+    background: #fff;
+}
+
+.pagina-interna :is(.ricerca button, .btn-anteprima, .pulsante-operativo:not(.pulsante-secondario), .freccia-teletrasporto) {
+    border-radius: 99px;
+    background: var(--solava-princ);
+    color: #fff;
+    transition: background-color .15s ease;
+}
+
+.pagina-interna :is(.ricerca button, .btn-anteprima, .pulsante-operativo:not(.pulsante-secondario), .freccia-teletrasporto):hover:not(:disabled) {
+    background: #922e2c;
+    filter: none;
+}
+
+.pagina-interna :is(.btn-stampa, .pulsante-secondario, #status-banner a, .stato-caricamento button, .cronologia-item, .lista-prof a) {
+    border: 1px solid var(--colore-border);
+    border-radius: 99px;
+    background: #fff;
+    color: var(--colore-text);
+    transition: background-color .15s ease;
+}
+
+.pagina-interna :is(.btn-stampa, .pulsante-secondario, #status-banner a, .stato-caricamento button, .cronologia-item, .lista-prof a):hover:not(:disabled) {
+    background: #fcf4f1;
+    filter: none;
+    text-decoration: none;
+}
+
+.pagina-interna .lista-prof a {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    min-height: 44px;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    font-family: var(--font-family-heading);
+}
+
+.pagina-interna .campo:hover { filter: none; }
+
+.pagina-interna :is(a, button, input, select):focus-visible {
+    outline: 3px solid var(--solava-princ);
+    outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+    .pagina-interna .mega-container {
+        max-width: calc(100% - 24px);
+        margin-top: 80px;
+    }
+
+    .pagina-interna .table-wrapper {
+        border: 0;
+        background: transparent;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pagina-interna * { transition-duration: .01ms !important; }
+}

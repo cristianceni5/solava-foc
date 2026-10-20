@@ -6,9 +6,9 @@
 var Servizio = require('node-windows').Service;
 
 var srvz = new Servizio({
-    name: "SolavaMMES",
-    description: "Servizio per l'esecuzione di Solava MMES Server",
-    script: 'C:/Users/Confezionamento/Documents/Monitor MES - Solava/server.js'
+    name: "Servizio Solava FOP",
+    description: "Servizio per l'esecuzione di Solava FOP Server",
+    script: 'C:/Users/Confezionamento/Documents/Factory Operation Panel - Solava/server.js'
 });
 
 srvz.on('install', function()

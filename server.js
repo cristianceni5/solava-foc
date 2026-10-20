@@ -1,5 +1,6 @@
-// Scritto da Cristian Ceni 08/07/26
-// File principale del server
+// Autori: Cristian Ceni, Codex
+// Ultima modifica: 10/10/2026
+// Scopo: avviare il server e collegare le pagine statiche e gli endpoint HTTP.
 
 // Questo modulo serve per mettere le credenziali in un file env per tenerele fuori dal codice sorgente
 require('dotenv').config();
@@ -10,6 +11,7 @@ const app = express();
 
 //Butto fori la cartella public per servire i file statici, tipo index.html e gli altri file
 app.use(express.static('public'));
+app.use('/vendor/gsap', express.static(require('path').join(__dirname, 'node_modules/gsap/dist')));
 
 // Importo il router per la route di stato
 const statoRouter = require('./routes/stato');
@@ -28,7 +30,10 @@ app.use(automRouter);
 const attrRouter = require('./routes/attributi');
 app.use(attrRouter);
 
-// Imposto la porta su cui il server ascolterà le richieste, per adesso è la 3000 ma si pole fare come si vole
+// Consultazione delle registrazioni di produzione nel database PLC.
+app.use(require('./routes/salvataggi'));
+
+// Porta del server sulla rete locale.
 const PORT = 65535;
 
 app.listen(PORT, () => {

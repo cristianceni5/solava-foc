@@ -1,5 +1,6 @@
-// Scritto da Cristian Ceni 22/07/26
-// Porting dello script inline di paginaEtichetta
+// Autori: Cristian Ceni, Codex
+// Ultima modifica: 10/10/2026
+// Scopo: cercare articoli, gestire i dati di stampa e mostrare anteprime ed errori.
 
 const input = document.getElementById('inputArticolo');
 const btn = document.getElementById('btnCerca');
@@ -78,7 +79,7 @@ frecciaTeletrasporto.addEventListener('click', () => {
     document.getElementById('teletrasporto')?.scrollIntoView({ block: 'start', behavior: 'smooth' });
 });
 
-// Se sono già in fondo alla pagina la freccia non serve, sennò va mostrata
+// Se sono gia in fondo alla pagina la freccia non serve, senno va mostrata
 function vicinoAlFondo() {
     return window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 10;
 }
@@ -153,9 +154,15 @@ function creaCampo(label, valore) {
 
 function creaUnitaMisura(codice, valore) {
     const unita = creaElemento('div', { className: 'unita-misura' });
-    unita.append(
+    const intestazione = creaElemento('div', { className: 'unita-misura-intestazione' });
+    intestazione.append(
         creaElemento('span', { className: 'unita-misura-codice', text: codice }),
-        creaElemento('strong', { className: 'unita-misura-valore', text: valore || 'Non presente' })
+        creaElemento('span', { className: 'unita-misura-unita', text: valore || 'Non presente' })
+    );
+    unita.append(
+        intestazione,
+        creaElemento('strong', { className: 'unita-misura-valore', text: '—' }),
+        creaElemento('span', { className: 'unita-misura-dettaglio', text: 'per pallet' })
     );
     return unita;
 }
@@ -228,6 +235,7 @@ function leggiDatiStampa(stampaLotto) {
         quantitaEtichette: elementi.quantita.value,
         mostraCE: document.getElementById('inMostraCE').checked,
         mostraICMQ: document.getElementById('inMostraICMQ').checked,
+        invertiValoriUM: document.getElementById('inInvertiValoriUM').checked,
     };
     let campoNonValido = null;
 
@@ -257,6 +265,7 @@ function leggiDatiStampa(stampaLotto) {
 
 function creaSezioneAnagrafica(articolo) {
     const sezione = creaSezioneArticolo('Articolo', 'Anagrafica', 'titolo-anagrafica');
+    const griglia = creaElemento('div', { className: 'dati-griglia dati-griglia-articolo' });
     const campi = [
         ['Articolo', articolo.codice], ['Descrizione', articolo.descrizione], ['Categoria', articolo.categoria],
         ['DOP', articolo.dop], ['Ente certificatore', articolo.enteCertificatore],
@@ -264,7 +273,8 @@ function creaSezioneAnagrafica(articolo) {
         ['Descrizione aggiuntiva', articolo.descrizioneAggiuntiva], ['Stampa lotto', articolo.stampaLotto ? 'Sì' : 'No'],
         ['Stampa unità misura secondaria', articolo.stampaUnitaMisuraSecondaria ? 'Sì' : 'No']
     ];
-    campi.forEach(([label, valore]) => sezione.append(creaCampo(label, valore)));
+    campi.forEach(([label, valore]) => griglia.append(creaCampo(label, valore)));
+    sezione.append(griglia);
     return sezione;
 }
 
@@ -275,17 +285,29 @@ function creaSezioneAttributi(caratteristiche) {
         sezione.append(creaElemento('p', { className: 'attr-vuoto', text: 'Nessun attributo esteso per questo articolo' }));
         return sezione;
     }
-    attributi.forEach(({ etichetta, valore }) => sezione.append(creaCampo(etichetta || '—', valore)));
+    const griglia = creaElemento('div', { className: 'dati-griglia dati-griglia-attributi' });
+    attributi.forEach(({ etichetta, valore }) => griglia.append(creaCampo(etichetta || '—', valore)));
+    sezione.append(griglia);
     return sezione;
 }
 
 function creaSezioneStampa(articolo) {
     const sezione = creaSezioneArticolo('Stampa etichetta', 'Dati del pacco', 'teletrasporto');
+    const griglia = creaElemento('div', { className: 'stampa-griglia' });
     const unita = creaElemento('div', { className: 'riga-dati-um' });
     unita.append(
         creaUnitaMisura('UM1', articolo.um1),
         creaUnitaMisura('UM2', articolo.um2)
     );
+    const opzioniUnita = creaElemento('div', { className: 'riga-opzioni-stampa opzioni-unita' });
+    const etichettaInversione = creaElemento('label');
+    const invertiUnita = creaElemento('input', { id: 'inInvertiValoriUM' });
+    invertiUnita.type = 'checkbox';
+    invertiUnita.disabled = !articolo.stampaUnitaMisuraSecondaria;
+    etichettaInversione.append(invertiUnita, document.createTextNode('Inverti i valori nelle UM'));
+    opzioniUnita.append(etichettaInversione);
+    const contenutoUnita = document.createDocumentFragment();
+    contenutoUnita.append(unita, opzioniUnita);
 
     const opzioni = creaElemento('div', { className: 'riga-opzioni-stampa' });
     [['inMostraCE', 'Mostra marchio CE'], ['inMostraICMQ', 'Mostra marchio ICMQ']].forEach(([id, testo]) => {
@@ -318,7 +340,7 @@ function creaSezioneStampa(articolo) {
 
     const stampaContenuto = document.createDocumentFragment();
     stampaContenuto.append(stato, azioni);
-    sezione.append(
+    griglia.append(
         creaBloccoStampa(
             'Pezzi per pacco',
             creaInput({ id: 'inPezziPacco', tipo: 'number', valore: articolo.pezziPerPacco, min: 0, label: 'Pezzi per pacco' }),
@@ -329,7 +351,6 @@ function creaSezioneStampa(articolo) {
             creaInput({ id: 'inPezziBLK', tipo: 'number', valore: articolo.pezziPerSec ?? 1, min: 1, label: 'Pezzi per unità di misura secondaria' }),
             'Per prodotti senza questa unità di misura, lascia 1.'
         ),
-        creaBloccoStampa('Unità di misura', unita),
         creaBloccoStampa(
             'Lotto',
             creaInput({ id: 'inLotto', tipo: 'text', placeholder: 'Lotto', required: articolo.stampaLotto, label: 'Lotto' })
@@ -338,9 +359,11 @@ function creaSezioneStampa(articolo) {
             'Numero etichette da stampare',
             creaInput({ id: 'inQuantita', tipo: 'number', valore: 1, min: 1, max: 999, required: true, label: 'Numero etichette da stampare' })
         ),
+        creaBloccoStampa('Unità di misura', contenutoUnita),
         creaBloccoStampa('Normative nell’etichetta', opzioni),
         creaBloccoStampa('Stampante', stampaContenuto, 'Seleziona la stampante.')
     );
+    sezione.append(griglia);
     return sezione;
 }
 
@@ -354,6 +377,37 @@ function mostraRisultato(dati) {
     );
     risultato.style.display = 'grid';
     aggiornaFreccia();
+
+    function aggiornaQuantitaUM() {
+        const pezzi = document.getElementById('inPezziPacco');
+        const blocchi = document.getElementById('inPezziBLK');
+        let quantita = null;
+        if (pezzi.value !== '' && blocchi.value !== '' &&
+            Number.isInteger(Number(pezzi.value)) && Number(pezzi.value) >= 0 &&
+            Number.isInteger(Number(blocchi.value)) && Number(blocchi.value) > 0) {
+            quantita = calcolaQuantitaEtichetta(a, {
+                pezziPacco: Number(pezzi.value), pezziBLK: Number(blocchi.value),
+                invertiValoriUM: document.getElementById('inInvertiValoriUM').checked
+            });
+        }
+        risultato.querySelectorAll('.unita-misura').forEach((card, indice) => {
+            const unita = indice === 0 ? a.um1 : a.um2;
+            // Nei BLK il primo campo stampato appartiene all'UM2.
+            const primo = a.stampaUnitaMisuraSecondaria && a.um2?.trim().toUpperCase() === 'BLK'
+                ? indice === 1 : indice === 0;
+            const valore = quantita ? (indice === 1 && !a.stampaUnitaMisuraSecondaria
+                ? quantita.secondariaCalcolata : primo ? quantita.valore1 : quantita.valore2) : '';
+            card.querySelector('.unita-misura-valore').textContent = valore === '' ? '—' : String(valore).replace('.', ',');
+            card.querySelector('.unita-misura-dettaglio').textContent =
+                !unita ? 'Unità non presente' : indice === 1 && !a.stampaUnitaMisuraSecondaria
+                    ? 'per pallet · Non stampata' : 'per pallet';
+        });
+    }
+    ['inPezziPacco', 'inPezziBLK'].forEach(id => {
+        document.getElementById(id).addEventListener('input', aggiornaQuantitaUM);
+    });
+    document.getElementById('inInvertiValoriUM').addEventListener('change', aggiornaQuantitaUM);
+    aggiornaQuantitaUM();
 
     const inputStampanti = document.getElementById('select-stampanti');
     let stampanteScelta = inputStampanti.value;
@@ -371,7 +425,7 @@ function mostraRisultato(dati) {
         return `/api/etichette/preview/${encodeURIComponent(a.codice)}?${params}`;
     }
 
-    document.getElementById('btnAnteprima').addEventListener('click', () => {
+    document.getElementById('btnAnteprima').addEventListener('click', async () => {
         const url = urlAnteprima();
         if (!url) return;
         anteprima.innerHTML = `
@@ -383,13 +437,27 @@ function mostraRisultato(dati) {
         `;
         anteprima.style.display = 'block';
 
-        const immagine = document.createElement('img');
-        immagine.src = url;
-        immagine.alt = 'Anteprima etichetta';
-        immagine.addEventListener('error', () => {
-            document.getElementById('anteprimaImg').textContent = 'Impossibile generare l’anteprima.';
-        });
-        document.getElementById('anteprimaImg').replaceChildren(immagine);
+        const contenitore = document.getElementById('anteprimaImg');
+        contenitore.textContent = 'Generazione anteprima in corso...';
+        try {
+            const risposta = await fetch(url);
+            if (!risposta.ok) {
+                const errore = await risposta.json();
+                throw new Error(errore.error || 'Impossibile generare l\'anteprima.');
+            }
+            const immagine = document.createElement('img');
+            const urlImmagine = URL.createObjectURL(await risposta.blob());
+            immagine.alt = 'Anteprima etichetta';
+            immagine.addEventListener('load', () => URL.revokeObjectURL(urlImmagine), { once: true });
+            immagine.addEventListener('error', () => {
+                URL.revokeObjectURL(urlImmagine);
+                contenitore.textContent = 'Impossibile visualizzare l\'anteprima.';
+            }, { once: true });
+            immagine.src = urlImmagine;
+            contenitore.replaceChildren(immagine);
+        } catch (err) {
+            contenitore.textContent = err.message || 'Anteprima non disponibile.';
+        }
     });
 
     document.getElementById('btnStampa').addEventListener('click', async () => {

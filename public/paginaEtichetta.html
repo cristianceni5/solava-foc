@@ -5,26 +5,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Etichette - Factory Operation Panel</title>
+    <title>Compilazione etichette - Factory Operation Panel</title>
     <link rel="shortcut icon" href="./assets/logo-solava-rid.png" type="image/x-icon">
     <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/interne.css">
+    <link rel="stylesheet" href="./css/articoli.css">
     <!-- CDN di FA -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         referrerpolicy="no-referrer">
 </head>
 
-<body>
-    <header class="navigazione">
-        <a href="index.html" class="nav-back"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Indietro</a>
+<body class="pagina-interna pagina-articolo">
+    <header class="navigazione navigazione-pagina">
+        <a href="index.html#strumenti" class="nav-back" aria-label="Torna agli strumenti nel pannello operativo"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Pannello</a>
         <a href="index.html" class="nav-brand" aria-label="Factory Operation Panel - pagina principale">
             <img src="./assets/logo-solava-rossaccio.svg" alt="Solava" class="logo">
-            <span>Etichette</span>
+            <span>Factory Operation Panel</span>
         </a>
+        <span class="nav-page-current">Compilazione etichette</span>
     </header>
     <!-- Container per UI fissa, risultato e anteprima popolati da etichette.js -->
     <div class="mega-container">
         <div class="container">
-            <h1>Compilazione Etichette</h1>
+            <h1>Compilazione etichette</h1>
             <p>Scrivi il numero di articolo, compila il lotto, i pezzi e stampa</p>
             <br>
             <div class="ricerca">
@@ -48,6 +51,7 @@
         <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
     </button>
 
+    <script src="./js/quantitaEtichetta.js"></script>
     <script src="./js/etichette.js"></script>
 </body>
 

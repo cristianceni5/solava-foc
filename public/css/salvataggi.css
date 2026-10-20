@@ -1,0 +1,655 @@
+/* Salvataggi: tabella condivisa con le lavorazioni e report giornaliero. */
+.salvataggi-pagina {
+    --report-radius: 16px;
+    --report-gap: 16px;
+    --report-surface: var(--colore-card);
+    --report-muted: #f2eee8;
+}
+
+.pagina-interna main.salvataggi-pagina {
+    margin-top: 104px;
+    max-width: min(94%, 1640px);
+}
+
+.salvataggi-pagina>.container {
+    padding: 24px 0;
+    min-width: 0;
+}
+
+.salvataggi-pagina [hidden] {
+    display: none !important;
+}
+
+.salvataggi-intro {
+    padding: 16px 0 26px;
+}
+
+.salvataggi-intro .ultimo-aggiornamento {
+    margin: 0 0 10px;
+    font-size: .73rem;
+    letter-spacing: .025em;
+}
+
+.pagina-interna .salvataggi-intro h1 {
+    margin: 0 0 12px;
+    font-size: clamp(1.8rem, 3vw, 2.7rem);
+    line-height: 1.12;
+}
+
+#stato-salvataggi {
+    margin: 0;
+    max-width: 800px;
+    font-size: .88rem;
+    line-height: 1.6;
+}
+
+#stato-salvataggi.errore {
+    color: var(--colore-errore);
+}
+
+#stato-salvataggi:empty,
+.report-posizione:empty,
+[data-vista="report"] .salvataggi-footer {
+    display: none;
+}
+
+.salvataggi-azioni {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.pulsante-operativo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-height: 40px;
+    padding: 10px 18px;
+    border: 1px solid var(--solava-princ);
+    border-radius: 99px;
+    color: #fff;
+    background: var(--solava-princ);
+    font: 1rem var(--font-family-heading);
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 1.2;
+}
+
+.pulsante-operativo:hover:not(:disabled) {
+    filter: brightness(.95);
+}
+
+.pulsante-operativo:disabled {
+    opacity: .45;
+    cursor: default;
+}
+
+.pulsante-secondario {
+    border-color: var(--colore-border);
+    background: var(--colore-card);
+    color: var(--colore-text);
+}
+
+.salvataggi-viste {
+    display: flex;
+    gap: 32px;
+    border-bottom: 1px solid var(--colore-border);
+    margin-bottom: 28px;
+}
+
+.salvataggi-viste a {
+    position: relative;
+    padding: 14px 4px 17px;
+    font: 1rem var(--font-family-heading);
+    text-decoration: none;
+    color: var(--colore-subtext);
+    transition: color .2s;
+}
+
+.salvataggi-viste a:hover {
+    color: var(--colore-text);
+}
+
+.salvataggi-viste a[aria-current="page"] {
+    color: var(--solava-princ);
+}
+
+.salvataggi-viste a[aria-current="page"]::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    height: 3px;
+    left: 0;
+    right: 0;
+    border-radius: 3px 3px 0 0;
+    background: var(--solava-princ);
+}
+
+/* La tabella usa gli stessi stili condivisi delle lavorazioni. */
+.salvataggi-tabella tbody tr:nth-child(odd) {
+    background: var(--colore-card);
+}
+
+.salvataggi-tabella tbody tr:nth-child(even) {
+    background: #efece6;
+}
+
+.salvataggi-tabella tbody tr.riga-cliccabile:hover {
+    filter: none;
+}
+
+.salvataggi-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.salvataggi-paginazione {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.salvataggi-paginazione span,
+.salvataggi-meta p {
+    font: .78rem/1.5 var(--font-family-base);
+    color: var(--colore-subtext);
+    margin: 0;
+}
+
+.salvataggi-vuoto {
+    padding: 40px 24px;
+    border: 1px solid var(--colore-border);
+    border-radius: var(--report-radius);
+    text-align: center;
+}
+
+/* Griglia piena: 4+4+4 colonne, poi 4+8. */
+.report-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 18px;
+}
+
+.report-toolbar h2 {
+    margin: 0;
+    font-size: 1.35rem;
+}
+
+.report-toolbar p {
+    margin: 0;
+    font-size: .82rem;
+    line-height: 1.6;
+}
+
+.report-selezione {
+    position: relative;
+    flex: 0 0 auto;
+}
+
+.report-selezione label {
+    display: block;
+    margin-bottom: 7px;
+    font: .75rem var(--font-family-heading);
+    color: var(--colore-subtext);
+}
+
+.report-controlli {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.report-controlli button {
+    min-height: 44px;
+    width: 44px;
+    border: 1px solid var(--colore-border);
+    background: var(--report-surface);
+    border-radius: 99px;
+    color: var(--colore-text);
+    font: .9rem var(--font-family-heading);
+    cursor: pointer;
+    transition: background .15s;
+}
+
+.report-controlli #apri-calendario {
+    width: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 18px;
+}
+
+.report-controlli #apri-calendario span {
+    font: .85rem var(--font-family-heading);
+    color: inherit;
+}
+
+.report-controlli #apri-calendario[aria-expanded="true"] {
+    border-color: var(--solava-princ);
+    color: var(--solava-princ);
+}
+
+.report-controlli button:hover:not(:disabled) {
+    background: var(--report-muted);
+}
+
+.report-controlli button:disabled {
+    opacity: .35;
+    cursor: default;
+}
+
+.report-eventi {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 28px;
+    margin: 0 0 20px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--colore-border);
+}
+
+.report-evento {
+    flex: 0 0 auto;
+    padding: 14px 4px 17px;
+    min-height: 44px;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+    background: transparent;
+    color: var(--colore-subtext);
+    font: .9rem/1.4 var(--font-family-heading);
+    cursor: pointer;
+    transition: color .2s;
+}
+
+.report-evento:hover {
+    color: var(--colore-text);
+}
+
+.report-evento[aria-pressed="true"] {
+    color: var(--solava-princ);
+    border-bottom-color: var(--solava-princ);
+}
+
+.report-evento:focus-visible {
+    outline-offset: -3px;
+}
+
+.calendario-report {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    z-index: 8;
+    width: 330px;
+    max-width: calc(100vw - 48px);
+    padding: 18px;
+    box-sizing: border-box;
+    background: var(--report-surface);
+    border: 1px solid var(--colore-border);
+    border-radius: 22px;
+    box-shadow: 0 12px 40px #292b301c;
+}
+
+.calendario-testata {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.calendario-testata button,
+#calendario-senza-data {
+    min-height: 36px;
+    min-width: 36px;
+    border: 1px solid var(--colore-border);
+    background: var(--report-surface);
+    color: var(--colore-text);
+    border-radius: 99px;
+    cursor: pointer;
+}
+
+.calendario-testata input {
+    min-width: 0;
+    width: 100%;
+    padding: 8px 10px;
+    box-sizing: border-box;
+    border: 1px solid var(--colore-border);
+    border-radius: 99px;
+    font: .85rem var(--font-family-heading);
+    background: var(--report-surface);
+    color: var(--colore-text);
+}
+
+.calendario-settimana,
+.calendario-giorni {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 4px;
+}
+
+.calendario-settimana span {
+    text-align: center;
+    font: .7rem var(--font-family-heading);
+    padding-bottom: 8px;
+}
+
+.calendario-giorno {
+    min-height: 44px;
+    padding: 5px 0;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    background: var(--report-muted);
+    color: var(--colore-text);
+    font: .85rem var(--font-family-heading);
+    cursor: pointer;
+}
+
+.calendario-giorno span {
+    color: inherit;
+    font: inherit;
+}
+
+.calendario-giorno small {
+    display: block;
+    font-size: .6rem;
+    color: var(--solava-princ);
+}
+
+.calendario-giorno:disabled {
+    opacity: .35;
+    background: transparent;
+    cursor: default;
+}
+
+.calendario-giorno[aria-pressed="true"] {
+    background: var(--solava-princ);
+    color: #fff;
+}
+
+.calendario-giorno[aria-pressed="true"] small {
+    color: #fff;
+}
+
+.calendario-report>p {
+    margin: 14px 0 0;
+    font: .7rem/1.5 var(--font-family-base);
+    text-align: center;
+}
+
+#calendario-senza-data {
+    width: 100%;
+    margin-top: 10px;
+    font: .8rem var(--font-family-heading);
+}
+
+.report-posizione {
+    font: .75rem/1.5 var(--font-family-base);
+    color: var(--colore-subtext);
+    margin: 0 0 14px;
+}
+
+.report-griglia {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-auto-flow: dense;
+    gap: var(--report-gap);
+}
+
+.report-card {
+    grid-column: span 4;
+    padding: 24px;
+    min-width: 0;
+    background: var(--report-surface);
+    border: 1px solid var(--colore-border);
+    border-radius: var(--report-radius);
+}
+
+.report-card h3 {
+    margin: 0 0 22px;
+    font-size: 1rem;
+}
+
+.report-campi {
+    margin: 0;
+}
+
+.report-campo {
+    min-width: 0;
+}
+
+.report-campo dt {
+    font: .76rem/1.5 var(--font-family-heading);
+    color: var(--colore-subtext);
+    margin: 0 0 7px;
+}
+
+.report-campo dd {
+    margin: 0;
+    font: 1.8rem/1.2 var(--font-family-heading);
+    color: var(--colore-text);
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+}
+
+.report-campo[data-ricette="coerenti"] dd,
+.salvataggi-tabella td[data-ricette="coerenti"] {
+    color: var(--colore-tranquillo);
+}
+
+.report-campo[data-ricette="diverse"] dd,
+.salvataggi-tabella td[data-ricette="diverse"] {
+    color: var(--colore-attenzione);
+}
+
+.report-campo[data-campo="DATA_ORA"] dd {
+    font-family: var(--font-family-base);
+    line-height: 1.5;
+}
+
+.report-identita .report-campi {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.report-identita .report-campo:nth-child(2) {
+    grid-column: 1 / -1;
+    grid-row: 1;
+}
+
+.report-identita .report-campo:nth-child(2) dd {
+    font-size: 1rem;
+}
+
+.report-identita .report-campo:first-child {
+    grid-column: 1 / -1;
+}
+
+.report-identita .report-campo:first-child dd {
+    font-size: 1rem;
+}
+
+.report-linea .report-campo+.report-campo {
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid var(--colore-border);
+}
+
+.report-produzione {
+    background: var(--solava-princ);
+    border-color: var(--solava-princ);
+}
+
+.report-produzione h3,
+.report-produzione dt,
+.report-produzione dd {
+    color: #fff;
+}
+
+.report-produzione dt {
+    opacity: .8;
+}
+
+.report-produzione dd {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+}
+
+.report-cassoni {
+    grid-column: span 8;
+}
+
+.report-cassoni .report-campi {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.report-cassoni .report-campo {
+    padding: 12px 16px;
+    border-left: 1px solid var(--colore-border);
+}
+
+.report-cassoni .report-campo:first-child {
+    padding-left: 0;
+    border-left: 0;
+}
+
+.report-altri {
+    grid-column: 1 / -1;
+}
+
+.report-altri .report-campi {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 24px;
+}
+
+.report-altri dd {
+    font-size: 1rem;
+}
+
+.salvataggi-pagina .anteprima-lavorazione-header {
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.salvataggi-pagina .anteprima-lavorazione-header>div {
+    margin-right: auto;
+}
+
+.salvataggi-pagina :is(a, button, select):focus-visible {
+    outline: 2px solid var(--solava-princ);
+    outline-offset: 3px;
+}
+
+.salvataggi-pagina .pulsante-operativo:focus-visible {
+    outline-offset: -2px;
+}
+
+@media (max-width: 1000px) {
+    .report-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .report-identita {
+        grid-column: 1 / -1;
+    }
+
+    .report-identita .report-campi {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .report-identita .report-campo:nth-child(n) {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .report-linea {
+        grid-column: span 6;
+    }
+
+    .report-produzione,
+    .report-cassoni {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 640px) {
+    .pagina-interna main.salvataggi-pagina {
+        margin-top: 88px;
+        max-width: calc(100% - 24px);
+    }
+
+    .salvataggi-pagina>.container {
+        padding: 12px 0;
+    }
+
+    .salvataggi-intro {
+        padding-top: 8px;
+    }
+
+    .salvataggi-paginazione {
+        gap: 8px;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .salvataggi-paginazione .pulsante-operativo {
+        padding: 10px 12px;
+        font-size: .85rem;
+    }
+
+    .report-card {
+        padding: 20px;
+    }
+
+    .report-identita .report-campi {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .report-identita .report-campo:nth-child(2) {
+        grid-column: 1 / -1;
+    }
+
+    .report-cassoni .report-campi {
+        grid-template-columns: 1fr;
+    }
+
+    .report-cassoni .report-campo:nth-child(n) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 0;
+        border-left: 0;
+        border-bottom: 1px solid var(--colore-border);
+    }
+
+    .report-cassoni .report-campo:last-child {
+        border-bottom: 0;
+    }
+
+    .report-cassoni dt {
+        margin: 0;
+    }
+
+    .report-controlli button {
+        flex: 0 0 40px;
+    }
+
+    .report-controlli #apri-calendario {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .report-selezione {
+        width: 100%;
+    }
+}

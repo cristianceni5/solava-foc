@@ -1,0 +1,358 @@
+/*
+ * Autori: Cristian Ceni, Codex
+ * Ultima modifica: 10/10/2026
+ * Scopo: presentare le aree del gestionale con pari rilievo e impostazioni in dialog.
+ */
+
+@font-face {
+    font-family: 'Libre Baskerville Local';
+    src: url('../assets/LibreBaskerville-VariableFont_wght.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+}
+
+.home-dashboard {
+    --home-ink: #292b30;
+    --home-muted: #61646b;
+    --home-paper: #f6f3ee;
+    --home-line: #e7e1d9;
+    background: var(--home-paper);
+    color: var(--home-ink);
+}
+
+.home-dashboard p,
+.home-dashboard a,
+.home-dashboard span,
+.home-dashboard label {
+    font-family: 'Libre Baskerville Local', Georgia, serif;
+}
+
+.home-dashboard h1,
+.home-dashboard h2 {
+    font-family: var(--font-family-heading);
+}
+
+.home-dashboard a:focus-visible,
+.home-dashboard button:focus-visible,
+.home-dashboard input:focus-visible {
+    outline: 3px solid var(--solava-princ);
+    outline-offset: 3px;
+}
+
+.home-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 72px;
+    padding: 12px clamp(20px, 4vw, 64px);
+    border-color: var(--home-line);
+    background: #fff;
+}
+
+.home-nav .nav-brand {
+    justify-self: auto;
+    gap: 16px;
+    font-size: .92rem;
+}
+
+.home-nav .nav-brand > span {
+    padding-left: 16px;
+    border-left: 1px solid #d4ccc3;
+    font-family: var(--font-family-heading);
+}
+
+.home-nav-links {
+    display: flex;
+    align-items: center;
+    gap: clamp(16px, 2vw, 32px);
+    margin-left: auto;
+}
+
+.home-nav-links a {
+    color: var(--home-ink);
+    font-family: var(--font-family-heading);
+    font-size: .92rem;
+    white-space: nowrap;
+    transition: color .2s ease;
+}
+
+.home-nav-links a:hover { color: var(--solava-princ); }
+
+.home-settings-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 42px;
+    padding: 0 16px;
+    border: 1px solid var(--home-line);
+    border-radius: 99px;
+    background: #fff;
+    color: var(--home-ink);
+    font-family: var(--font-family-heading);
+    font-size: .9rem;
+    cursor: pointer;
+    transition: background-color .2s ease, border-color .2s ease;
+}
+
+.home-settings-trigger span { font-family: var(--font-family-heading); color: inherit; }
+.home-settings-trigger:hover { background: #fcf4f1; border-color: #dfc4bd; }
+
+.home-main {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 72px 0 72px;
+}
+
+.home-intro {
+    box-sizing: border-box;
+    min-height: 288px;
+    padding: 64px 24px 108px;
+    /* Foto pubblicata su solava.it/wp-content/uploads/2025/11/OliveHillSouthFacade.jpg */
+    background-image: linear-gradient(90deg, rgba(246, 243, 238, .98) 0%, rgba(246, 243, 238, .90) 38%, rgba(246, 243, 238, .35) 73%, rgba(246, 243, 238, .08) 100%), url('../assets/solava-facciata.jpg');
+    background-position: center, center 52%;
+    background-size: cover;
+}
+
+.home-intro-copy {
+    width: min(100%, 1400px);
+    margin: 0 auto;
+    padding: 0 4px;
+    box-sizing: border-box;
+}
+
+.home-content {
+    position: relative;
+    width: 100%;
+    margin: -54px auto 0;
+    padding: 0 24px 20px;
+    box-sizing: border-box;
+    background: var(--home-paper);
+}
+
+.home-intro h1 {
+    max-width: 1100px;
+    margin: 0;
+    color: var(--home-ink);
+    font-size: clamp(2.2rem, 3.6vw, 3.8rem);
+    line-height: 1.04;
+    letter-spacing: -.025em;
+}
+
+.home-intro p {
+    margin: 12px 0 0;
+    color: var(--home-muted);
+    font-size: .88rem;
+    line-height: 1.65;
+}
+
+.home-section {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: minmax(240px, .27fr) minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 56px);
+    align-items: start;
+    width: min(100%, 1400px);
+    margin-inline: auto;
+    padding: clamp(30px, 3.4vw, 48px) 4px;
+    border-top: 1px solid var(--home-line);
+    scroll-margin-top: 94px;
+}
+
+.home-section:last-of-type { border-bottom: 1px solid var(--home-line); }
+
+.home-section-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.home-section-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    color: var(--solava-princ);
+    background: #f7e9e6;
+    font-size: 1rem;
+}
+
+.home-section-heading h2 {
+    margin: 0 0 7px;
+    color: var(--home-ink);
+    font-size: clamp(1.4rem, 2vw, 2rem);
+    line-height: 1.2;
+}
+
+.home-section-heading p {
+    margin: 0;
+    color: var(--home-muted);
+    font-size: .78rem;
+    line-height: 1.65;
+}
+
+.home-section-content { min-width: 0; }
+.home-section-content > .stato-caricamento {
+    min-height: 0;
+    margin: 0 0 13px;
+    font-size: .82rem;
+}
+.home-section-content > .stato-caricamento:empty { display: none; }
+.home-section-content > .stato-caricamento button {
+    border-radius: 99px;
+    cursor: pointer;
+}
+
+.home-link-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-flow: dense;
+    gap: 10px;
+    margin: 0;
+}
+
+.home-link-grid a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    min-height: 64px;
+    padding: 12px 16px;
+    box-sizing: border-box;
+    border: 1px solid #e9e3dc;
+    border-radius: 99px;
+    background: #fff;
+    color: var(--home-ink);
+    font-family: var(--font-family-heading);
+    font-size: .9rem;
+    font-weight: 400;
+    line-height: 1.35;
+    text-decoration: none;
+    transition: background-color .22s ease, border-color .22s ease;
+}
+
+.home-link-grid a:hover,
+.home-link-grid a:focus-visible {
+    background: #fcf4f1;
+    border-color: #dfc4bd;
+    filter: none;
+}
+
+.home-link-grid a > i:first-child {
+    flex: 0 0 auto;
+    color: var(--solava-princ);
+    font-size: .95rem;
+}
+
+.home-link-grid a span {
+    min-width: 0;
+    color: inherit;
+    font-family: var(--font-family-heading);
+}
+
+.home-link-grid a .home-link-arrow {
+    margin-left: auto;
+    color: var(--solava-princ);
+    font-size: .78rem;
+    transition: transform .22s ease;
+}
+
+.home-link-grid a:hover .home-link-arrow,
+.home-link-grid a:focus-visible .home-link-arrow { transform: translateX(3px); }
+
+.home-settings-dialog {
+    box-sizing: border-box;
+    width: min(460px, calc(100% - 28px));
+    max-height: min(620px, calc(100vh - 32px));
+    padding: 28px;
+    border: 1px solid var(--home-line);
+    border-radius: 20px;
+    background: #fff;
+    color: var(--home-ink);
+    box-shadow: 0 22px 80px rgba(24, 20, 20, .18);
+}
+
+.home-settings-dialog::backdrop { background: rgba(25, 27, 32, .48); }
+.home-dialog-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+.home-dialog-heading h2 { margin: 0; font-size: 1.8rem; }
+.home-dialog-close {
+    display: grid;
+    place-items: center;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 50%;
+    background: #f4eee9;
+    color: var(--home-ink);
+    cursor: pointer;
+}
+.home-dialog-close:hover { background: #f7e9e6; }
+.home-dialog-description {
+    margin: 13px 0 24px;
+    color: var(--home-muted);
+    font-size: .85rem;
+    line-height: 1.65;
+}
+.home-setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    min-height: 64px;
+    border-top: 1px solid var(--home-line);
+}
+.home-setting-row > span,
+.home-setting-row label:not(.switch) {
+    color: var(--home-ink);
+    font-family: var(--font-family-heading);
+    font-size: .92rem;
+}
+.home-setting-row #minuti-riapertura { width: 88px; }
+.home-settings-dialog #stato-impostazioni {
+    margin: 18px 0 0;
+    color: var(--home-muted);
+    font-size: .76rem;
+    line-height: 1.5;
+}
+.home-settings-dialog #stato-impostazioni.errore { color: var(--solava-princ); }
+
+.home-footer {
+    padding: 22px 24px;
+    border-top: 1px solid var(--home-line);
+    color: var(--home-muted);
+    text-align: center;
+    font-size: .75rem;
+}
+
+@media (max-width: 1120px) {
+    .home-nav .nav-brand > span { display: none; }
+    .home-section { grid-template-columns: 1fr; gap: 24px; }
+}
+
+@media (max-width: 780px) {
+    .home-nav-links { display: none; }
+    .home-link-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+    .home-nav { min-height: 64px; padding-inline: 14px; }
+    .home-main { padding-top: 64px; padding-bottom: 40px; }
+    .home-intro { min-height: 252px; padding: 50px 14px 90px; background-image: linear-gradient(90deg, rgba(246, 243, 238, .95), rgba(246, 243, 238, .72)), url('../assets/solava-facciata.jpg'); }
+    .home-content { margin-top: -32px; padding-inline: 14px; }
+    .home-section { padding: 26px 2px; }
+    .home-link-grid { grid-template-columns: 1fr; }
+    .home-settings-trigger { width: 42px; padding: 0; justify-content: center; }
+    .home-settings-trigger span { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-dashboard * { transition-duration: .01ms !important; }
+}

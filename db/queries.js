@@ -1,15 +1,25 @@
-// Scritto da Cristian Ceni 08/07/26
-// Query da mandare al DB
+// Autori: Cristian Ceni, Codex
+// Ultima modifica: 10/10/2026
+// Scopo: interrogare i dati TeamSystem e i salvataggi di produzione nel database PLC.
 
 const { getPool, sql } = require('./pool');
 const { getReparto } = require('../config/reparti');
 const { normalizzaArticolo } = require('../utils/normalizzaArticolo');
 
-// Nome vista del DB
+// Le tabelle NVS usano il database del pool, configurato tramite DB_NOME.
 const TABELLA_BOLLE = "NVS_V_IT_BOLLE";
 const TABELLA_ATTRIBUTI_ARTICOLI = 'NVS_T_ATTRIBUTI_ARTICOLI';
 
-// Def: uso come raggruppamento il nuovo RAGGR_CODICE_REPARTO
+// Le tabelle SLV usano il database indicato da DB_NOME_PLC, sullo stesso server.
+const DB_PLC = (process.env.DB_NOME_PLC || '').trim();
+if (!DB_PLC) {
+  throw new Error('Variabile di ambiente DB_NOME_PLC mancante o vuota');
+}
+
+// Le parentesi quadre delimitano il nome del database come identificatore SQL.
+const TABELLA_SALVATAGGI_PRELAV = `[${DB_PLC.replaceAll(']', ']]')}].[dbo].[SLV_T_SALVATAGGI_PRELAV]`;
+
+// Uso come raggruppamento il nuovo RAGGR_CODICE_REPARTO
 const QUERY_STATO_REPARTO = `
   SELECT 
     DESCR_MACCHINA AS IMPIANTO,
@@ -61,8 +71,15 @@ const QUERY_ARTICOLO_ATTRIBUTI = `
   WHERE LTRIM(RTRIM(ARTICOLO)) = @articolo
 `;
 
+const QUERY_SALVATAGGI_PRELAV = `
+  SELECT TOP (500) *
+  FROM ${TABELLA_SALVATAGGI_PRELAV}
+  ORDER BY DATA_ORA DESC`;
+
+// QUERIES FUNZIONI STANDARD FOP
+
 // Funzione che lancia la query filtrata per reparto e ne ritorna i risultati
-async function eseguiQueryReparto(idReparto) {
+async function getBolleReparto(idReparto) {
   const reparto = getReparto(idReparto);
 
   if (!reparto) {
@@ -78,7 +95,7 @@ async function eseguiQueryReparto(idReparto) {
 }
 
 // Restituisce il modello articolo normalizzato, condiviso da API, anteprima e stampa.
-async function cercaArticoloEtichetta(codice) {
+async function getCercaArticoloEtichetta(codice) {
   const pool = await getPool();
   const risultato = await pool.request()
     .input('articolo', sql.VarChar, codice)
@@ -88,7 +105,7 @@ async function cercaArticoloEtichetta(codice) {
 }
 
 // Restituisce tutti gli attributi di un articolo, filtrando per codice articolo. Restituisce un oggetto con i campi di TeamSystem pari pari.
-async function cercaArticoloAttributi(codice) {
+async function getCercaArticoloAttributi(codice) {
   const pool = await getPool();
   const risultato = await pool.request()
     .input('articolo', sql.VarChar, codice)
@@ -97,5 +114,17 @@ async function cercaArticoloAttributi(codice) {
   return risultato.recordset[0]; // Restituisce l'oggetto con tutti gli attributi dell'articolo
 }
 
-module.exports = { eseguiQueryReparto, cercaArticoloEtichetta, cercaArticoloAttributi };
+// QUERIES PER SALVATAGGI PRODUZIONE
+
+// PRELAVORAZIONE
+// Restituisce gli ultimi 500 salvataggi, dal piu' recente al meno recente.
+async function getSalvataggiPrelav() {
+  const pool = await getPool();
+  const risultato = await pool.request()
+    .query(QUERY_SALVATAGGI_PRELAV);
+
+  return risultato.recordset; // Restituisce l'array di salvataggi prelav
+}
+
+module.exports = { eseguiQueryReparto: getBolleReparto, cercaArticoloEtichetta: getCercaArticoloEtichetta, cercaArticoloAttributi: getCercaArticoloAttributi, getSalvataggiPrelav: getSalvataggiPrelav };
 

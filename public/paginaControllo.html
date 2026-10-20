@@ -5,27 +5,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Etichette - Factory Operation Panel</title>
+    <title>Controllo attributi estesi - Factory Operation Panel</title>
     <link rel="shortcut icon" href="./assets/logo-solava-rid.png" type="image/x-icon">
     <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/interne.css">
+    <link rel="stylesheet" href="./css/articoli.css">
     <!-- CDN di FA -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         referrerpolicy="no-referrer">
 </head>
 
-<body>
-    <header class="navigazione">
-        <a href="index.html" class="nav-back"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Indietro</a>
+<body class="pagina-interna pagina-articolo">
+    <header class="navigazione navigazione-pagina">
+        <a href="index.html#strumenti" class="nav-back" aria-label="Torna agli strumenti nel pannello operativo"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Pannello</a>
         <a href="index.html" class="nav-brand" aria-label="Factory Operation Panel - pagina principale">
             <img src="./assets/logo-solava-rossaccio.svg" alt="Solava" class="logo">
-            <span>Attributi estesi</span>
+            <span>Factory Operation Panel</span>
         </a>
+        <span class="nav-page-current">Controllo attributi estesi</span>
     </header>
-    <!-- Container per UI fissa, risultato e anteprima popolati da etichette.js -->
+    <!-- Interfaccia di ricerca e risultato popolato da attributi.js -->
     <div class="mega-container">
         <div class="container">
             <h1>Controllo attributi estesi</h1>
-            <p>Scrivi il numero di articolo, compila il lotto, i pezzi e stampa</p>
+            <p>Cerca un articolo per consultarne gli attributi estesi.</p>
             <br>
             <div class="ricerca">
                 <label for="inputArticolo" class="sr-only">Codice articolo</label>
@@ -38,13 +41,11 @@
             <p id="errore" class="errore" role="alert" aria-live="assertive"></p>
             <!-- Risultato della ricerca -->
             <div id="risultato"></div>
-            <!-- Anteprima di stampa -->
-            <div id="anteprima"></div>
         </div>
     </div>
 
-    <button type="button" id="frecciaTeletrasporto" class="freccia-teletrasporto" title="Vai alla sezione di stampa"
-        aria-label="Vai alla sezione di stampa">
+    <button type="button" id="frecciaTeletrasporto" class="freccia-teletrasporto" title="Vai ai dettagli dell'articolo"
+        aria-label="Vai ai dettagli dell'articolo">
         <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
     </button>
 

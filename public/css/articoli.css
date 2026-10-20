@@ -1,0 +1,297 @@
+/*
+ * Autori: Cristian Ceni, Codex
+ * Ultima modifica: 10/10/2026
+ * Scopo: rendere consultabili a colpo d'occhio anagrafica, attributi e dati di stampa.
+ */
+
+.pagina-articolo #risultato {
+    gap: 18px;
+    margin-top: 24px;
+}
+
+.pagina-articolo .sezione-articolo {
+    padding: clamp(24px, 3vw, 38px);
+}
+
+.pagina-articolo .sezione-articolo > .home-eyebrow {
+    display: none;
+}
+
+.pagina-articolo .sezione-articolo > .sezione-titolo,
+.pagina-articolo .sezione-articolo > .home-eyebrow + .sezione-titolo {
+    margin: 0 0 22px;
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+}
+
+.pagina-articolo .dati-griglia {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: clamp(20px, 3vw, 42px);
+}
+
+.pagina-articolo .dati-griglia .campo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 8px;
+    min-width: 0;
+    padding: 16px 0 18px;
+    border: 0;
+    border-top: 1px solid var(--colore-border);
+    border-radius: 0;
+    background: transparent;
+}
+
+.pagina-articolo .dati-griglia .campo span:first-child {
+    font-size: .85rem;
+    line-height: 1.35;
+}
+
+.pagina-articolo .dati-griglia .campo span:last-child {
+    width: 100%;
+    text-align: left;
+    line-height: 1.5;
+}
+
+.pagina-articolo .dati-griglia-articolo .campo:nth-child(2) {
+    grid-column: span 2;
+}
+
+.pagina-articolo .dati-griglia-articolo .campo:first-child span:last-child {
+    color: var(--solava-princ);
+    font-family: var(--font-family-heading);
+    font-size: 1.15rem;
+    font-weight: bold;
+}
+
+.pagina-articolo .stampa-griglia {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(28px, 4vw, 64px);
+}
+
+.pagina-articolo .stampa-griglia .blocco-stampa {
+    min-width: 0;
+    margin: 0;
+    padding: 18px 0 20px;
+    border: 0;
+    border-top: 1px solid var(--colore-border);
+}
+
+.pagina-articolo .stampa-griglia .blocco-stampa-titolo {
+    margin-bottom: 12px;
+}
+
+.pagina-articolo .stampa-griglia .blocco-stampa:last-child {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(28px, 4vw, 64px);
+}
+
+.pagina-articolo .stampa-griglia .blocco-stampa:last-child > :is(h3, p) {
+    grid-column: 1 / -1;
+}
+
+.pagina-articolo .stampa-griglia .blocco-stampa:last-child .azioni-anteprima {
+    align-self: start;
+    margin: 0;
+}
+
+.pagina-articolo .stampa-griglia .sezione-sottotitolo {
+    margin-bottom: 16px;
+    line-height: 1.4;
+}
+
+.pagina-articolo .stampa-griglia .riga-opzioni-stampa {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 28px;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+.pagina-articolo .stampa-griglia .riga-opzioni-stampa label {
+    min-height: 44px;
+    cursor: pointer;
+}
+
+.pagina-articolo .stampa-griglia .riga-dati-stampa input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.pagina-articolo .stampa-griglia .unita-misura {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    min-height: 130px;
+    box-sizing: border-box;
+    padding: 16px 18px;
+    border-radius: 12px;
+    font-family: var(--font-family-base);
+}
+
+.pagina-articolo .unita-misura-intestazione {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+}
+
+.pagina-articolo .unita-misura-unita {
+    font-size: 1rem;
+}
+
+.pagina-articolo .unita-misura .unita-misura-codice {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-size: .7rem;
+    color: #625e59;
+}
+
+.pagina-articolo .unita-misura .unita-misura-valore {
+    max-width: 100%;
+    font-family: var(--font-family-heading);
+    font-size: clamp(1.6rem, 2.5vw, 2rem);
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+}
+
+.pagina-articolo .unita-misura-dettaglio {
+    font-size: .75rem;
+    color: #625e59;
+}
+
+.pagina-articolo .stampa-griglia .opzioni-unita {
+    margin-top: 12px;
+    min-height: 36px;
+}
+
+.pagina-articolo .stampa-griglia .opzioni-unita label {
+    min-height: 36px;
+}
+
+.pagina-articolo .stampa-griglia .opzioni-unita label:has(input:disabled) {
+    cursor: default;
+    color: var(--colore-subtext);
+}
+
+.pagina-articolo .articolo-codice {
+    margin: 0 0 8px;
+    color: var(--solava-princ);
+    font-family: var(--font-family-heading);
+    font-size: .95rem;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+.pagina-articolo .sezione-controllo > .sezione-titolo {
+    overflow-wrap: anywhere;
+}
+
+.pagina-articolo .attributi-principali {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0 clamp(18px, 2vw, 32px);
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+}
+
+.pagina-articolo .titolo-attributi-principali,
+.pagina-articolo .titolo-attributi-dettagli {
+    margin: 0 0 12px;
+    font-family: var(--font-family-heading);
+    font-size: 1rem;
+    color: var(--colore-text);
+}
+
+.pagina-articolo .campo-prioritario {
+    min-width: 0;
+    padding: 16px 0 18px;
+    border: 0;
+    border-top: 1px solid var(--colore-border);
+}
+
+.pagina-articolo .campo-prioritario span:last-child {
+    overflow-wrap: anywhere;
+}
+
+.pagina-articolo .attributi-dettagli {
+    margin-top: 0;
+}
+
+.pagina-articolo .attributi-principali + .attributi-dettagli {
+    margin-top: 30px;
+}
+
+.pagina-articolo .attributi-vuoti {
+    margin-top: 28px;
+    border-top: 1px solid var(--colore-border);
+}
+
+.pagina-articolo .attributi-vuoti summary {
+    width: fit-content;
+    margin-top: 18px;
+    padding: 10px 18px;
+    border: 1px solid var(--colore-border);
+    border-radius: 99px;
+    color: var(--colore-text);
+    background: #fff;
+    font-family: var(--font-family-heading);
+    font-size: .9rem;
+    cursor: pointer;
+}
+
+.pagina-articolo .attributi-vuoti summary:hover {
+    background: #fcf4f1;
+}
+
+.pagina-articolo .attributi-vuoti .dati-griglia {
+    margin-top: 24px;
+}
+
+@media (max-width: 960px) {
+    .pagina-articolo .dati-griglia {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pagina-articolo .dati-griglia-articolo .campo:nth-child(2) {
+        grid-column: auto;
+    }
+
+    .pagina-articolo .attributi-principali {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .pagina-articolo .stampa-griglia {
+        grid-template-columns: 1fr;
+    }
+
+    .pagina-articolo .stampa-griglia .blocco-stampa:last-child {
+        grid-template-columns: 1fr;
+        row-gap: 12px;
+    }
+}
+
+@media (max-width: 560px) {
+    .pagina-articolo .dati-griglia,
+    .pagina-articolo .attributi-principali {
+        grid-template-columns: 1fr;
+    }
+
+}

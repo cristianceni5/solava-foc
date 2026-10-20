@@ -1,35 +1,44 @@
-// Scritto da Cristian Ceni 22/07/26
-// Porting dello script inline di index
+// Autori: Cristian Ceni, Codex
+// Ultima modifica: 10/10/2026
+// Scopo: caricare i reparti e gestire il dialog delle impostazioni.
 
-let consensoAuto, abilitazioneIndietro;
+const dialogImpostazioni = document.getElementById('dialog-impostazioni');
+document.getElementById('apri-impostazioni').addEventListener('click', () => dialogImpostazioni.showModal());
+document.getElementById('chiudi-impostazioni').addEventListener('click', () => dialogImpostazioni.close());
+dialogImpostazioni.addEventListener('click', evento => {
+    const area = dialogImpostazioni.getBoundingClientRect();
+    if (evento.clientX < area.left || evento.clientX > area.right ||
+        evento.clientY < area.top || evento.clientY > area.bottom) {
+        dialogImpostazioni.close();
+    }
+});
 
-// Funzione per caricare la lista dei reparti chiamando l'endpoint /api/reparti
 async function caricaIndice() {
     const contenitore = document.getElementById('lista-reparti');
     const stato = document.getElementById('stato-reparti');
     stato.className = 'stato-caricamento';
     stato.textContent = 'Caricamento reparti...';
-    contenitore.innerHTML = '';
-
+    contenitore.replaceChildren();
     try {
         const res = await fetch('/api/reparti');
         if (!res.ok) throw new Error('Risposta non valida');
         const reparti = await res.json();
-
         for (const [id, info] of Object.entries(reparti)) {
             const link = document.createElement('a');
             link.href = `paginaReparto.html?reparto=${encodeURIComponent(id)}`;
-
             const icona = document.createElement('i');
             icona.className = 'fa-solid fa-industry';
             icona.setAttribute('aria-hidden', 'true');
-            link.appendChild(icona);
-            link.appendChild(document.createTextNode(' ' + info.nome));
-
+            const nome = document.createElement('span');
+            nome.textContent = info.nome;
+            const freccia = document.createElement('i');
+            freccia.className = 'fa-solid fa-arrow-right home-link-arrow';
+            freccia.setAttribute('aria-hidden', 'true');
+            link.append(icona, nome, freccia);
             contenitore.appendChild(link);
         }
         stato.textContent = '';
-    } catch (errore) {
+    } catch {
         stato.className = 'stato-caricamento errore';
         stato.innerHTML = 'Impossibile caricare i reparti. <button type="button" id="riprova-reparti">Riprova</button>';
         document.getElementById('riprova-reparti').addEventListener('click', caricaIndice);
@@ -37,40 +46,51 @@ async function caricaIndice() {
 }
 
 async function caricaImpostazioni() {
-  const checkAutomatico = document.getElementById('check-auto');
-  const minutiRiapertura = document.getElementById('minuti-riapertura');
-
-  try {
-    const res = await fetch('/api/automazione');
-    if (res.ok) {
-      const risposta = await res.json();
-      const configurazione = Array.isArray(risposta) ? risposta[0] : risposta;
-      consensoAuto = Boolean(configurazione.consenso ?? configurazione.consensoAuto);
-      if (checkAutomatico) checkAutomatico.checked = consensoAuto;
-      if (minutiRiapertura) minutiRiapertura.value = configurazione.minuti ?? 0;
-    }
-  } catch (err) {
-    console.error('Errore recupero consenso iniziale:', err);
-  }
-
-  const salvaImpostazioni = async () => {
-    consensoAuto = checkAutomatico?.checked ?? consensoAuto;
-    const minuti = minutiRiapertura?.value ?? 0;
-
+    const check = document.getElementById('check-auto');
+    const minuti = document.getElementById('minuti-riapertura');
+    const stato = document.getElementById('stato-impostazioni');
     try {
-      const res = await fetch('/api/set-automazione', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ consensoAuto, minuti })
-      });
-      if (!res.ok) throw new Error('Risposta non valida');
-    } catch (error) {
-      console.error("Errore durante l'invio:", error);
+        const res = await fetch('/api/automazione');
+        if (!res.ok) throw new Error('Impostazioni non disponibili');
+        const risposta = await res.json();
+        const config = Array.isArray(risposta) ? risposta[0] : risposta;
+        check.checked = config.consenso === true;
+        minuti.value = config.minuti ?? 0;
+        check.disabled = minuti.disabled = false;
+        stato.textContent = 'Le modifiche vengono salvate automaticamente.';
+    } catch {
+        stato.className = 'stato-impostazioni errore';
+        stato.textContent = 'Impostazioni non disponibili. Ricarica la pagina per riprovare.';
+        return;
     }
-  };
 
-  checkAutomatico?.addEventListener('change', salvaImpostazioni);
-  minutiRiapertura?.addEventListener('change', salvaImpostazioni);
+    let coda = Promise.resolve();
+    let versione = 0;
+    const salva = () => {
+        if (!minuti.reportValidity()) return;
+        const dati = { consensoAuto: check.checked, minuti: Number(minuti.value) };
+        const corrente = ++versione;
+        stato.className = 'stato-impostazioni';
+        stato.textContent = 'Salvataggio in corso...';
+        // Mantiene l'ordine delle modifiche anche quando l'operatore cambia piu' campi.
+        coda = coda.then(async () => {
+            const res = await fetch('/api/set-automazione', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dati)
+            });
+            if (!res.ok) {
+                const risposta = await res.json();
+                throw new Error(risposta.errore || 'Salvataggio non riuscito');
+            }
+            if (corrente === versione) stato.textContent = 'Impostazioni salvate.';
+        }).catch(err => {
+            if (corrente === versione) {
+                stato.className = 'stato-impostazioni errore';
+                stato.textContent = `${err.message}. Modifica nuovamente un campo per riprovare.`;
+            }
+        });
+    };
+    check.addEventListener('change', salva);
+    minuti.addEventListener('change', salva);
 }
 
 caricaImpostazioni();

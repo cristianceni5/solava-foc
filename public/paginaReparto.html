@@ -8,18 +8,20 @@
     <title>Reparto - Factory Operation Panel</title>
     <link rel="shortcut icon" href="./assets/logo-solava-rid.png" type="image/x-icon">
     <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/interne.css">
     <!-- CDN di FA -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         referrerpolicy="no-referrer">
 </head>
 
-<body>
-    <header class="navigazione">
-        <a href="index.html" class="nav-back"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Indietro</a>
+<body class="pagina-interna">
+    <header class="navigazione navigazione-pagina">
+        <a href="index.html#monitor" class="nav-back" aria-label="Torna ai monitor nel pannello operativo"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Pannello</a>
         <a href="index.html" class="nav-brand" aria-label="Factory Operation Panel - pagina principale">
             <img src="./assets/logo-solava-rossaccio.svg" alt="Solava" class="logo">
-            <span id="nome-reparto-head">Reparto...</span>
+            <span>Factory Operation Panel</span>
         </a>
+        <span class="nav-page-current" id="nome-reparto-head">Monitor reparto</span>
     </header>
     <!-- Container con la tabelle delle lavorazioni -->
     <div class="mega-container">

@@ -1,5 +1,6 @@
-// Scritto da Cristian Ceni 22/07/26
-// Porting dello script inline di paginaReparto
+// Autori: Cristian Ceni, Codex
+// Ultima modifica: 10/10/2026
+// Scopo: mostrare il monitor reparto mantenendo il titolo richiesto dal servizio di riapertura.
 
 // Tempo in secondi tra un aggiornamento completato e il successivo.
 const OGNI_QUANTO_RICARICA = 5;
@@ -143,7 +144,7 @@ async function caricaStato() {
     if (!reparto) {
         banner.className = 'stato-errore';
         setStato('Reparto non specificato');
-        risposta.innerHTML = 'Torna alla <a href="index.html">selezione del reparto</a>.';
+        risposta.innerHTML = 'Torna alla <a href="index.html#monitor">selezione del reparto</a>.';
         return;
     }
 
@@ -152,7 +153,9 @@ async function caricaStato() {
         const json = await res.json();
         if (!res.ok || !json.ok) throw new Error(json.errore || 'Errore durante il caricamento');
 
-        document.getElementById('nome-reparto-head').textContent = json.reparto || 'Reparto';
+        const nomeReparto = json.reparto || 'Reparto';
+        document.getElementById('nome-reparto-head').textContent = nomeReparto;
+        // Il titolo del browser resta fisso: il servizio di riapertura lo usa per riconoscere la finestra.
         const righe = Array.isArray(json.dati) ? json.dati : [json.dati];
         const intestazione = document.getElementById('tabella-intestazione');
         const tabella = document.getElementById('tabella-dati');

@@ -29,6 +29,20 @@
 
     --font-family-base: 'Libre Baskerville', serif;
     --font-family-heading: 'Chalet', sans-serif;
+
+    --checkbox-size: 18px;
+    --checkbox-accent: var(--solava-princ);
+    --checkbox-focus-color: var(--solava-princ);
+    --checkbox-focus-width: 2px;
+    --checkbox-focus-offset: 3px;
+    --checkbox-disabled-opacity: .5;
+    --checkbox-label-font: var(--font-family-base);
+    --checkbox-label-size: 1rem;
+    --checkbox-label-gap: 8px;
+    --checkbox-radius: 3px;
+    --checkbox-border: var(--colore-subtext);
+    --checkbox-background: var(--colore-card);
+    --checkbox-mark: #fff;
 }
 
 /* Base e accessibilità */
@@ -146,6 +160,56 @@ span {
     text-overflow: ellipsis;
 }
 
+.navigazione-pagina .nav-brand {
+    justify-self: center;
+}
+
+.nav-page-current {
+    justify-self: end;
+    max-width: min(34vw, 390px);
+    overflow: hidden;
+    color: var(--colore-text);
+    font-family: var(--font-family-heading);
+    font-size: 1rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.navigazione-pagina .nav-back {
+    justify-self: start;
+    min-height: 42px;
+    padding: 0 17px;
+    border: 1px solid var(--colore-border);
+    border-radius: 99px;
+    background: var(--colore-card);
+    font-size: .9rem;
+    transition: background-color .15s ease;
+}
+
+.navigazione-pagina .nav-back:hover {
+    background: #fcf4f1;
+    filter: none;
+}
+
+.navigazione-pagina .nav-back:focus-visible {
+    outline: 3px solid var(--solava-princ);
+    outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+    .navigazione-pagina {
+        grid-template-columns: 1fr auto;
+    }
+
+    .navigazione-pagina .nav-page-current {
+        display: none;
+    }
+
+    .navigazione-pagina .nav-brand {
+        justify-self: end;
+    }
+}
+
 /* Layout condiviso */
 .mega-container {
     margin: 90px auto 120px;
@@ -163,6 +227,62 @@ span {
 }
 
 /* Input */
+/* Checkbox condivisi; gli interruttori mantengono il proprio componente. */
+input[type="checkbox"]:not(.switch input) {
+    appearance: none;
+    display: inline-grid;
+    place-content: center;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    width: var(--checkbox-size);
+    height: var(--checkbox-size);
+    margin: 0;
+    vertical-align: middle;
+    accent-color: var(--checkbox-accent);
+    border: 1px solid var(--checkbox-border);
+    border-radius: var(--checkbox-radius);
+    background: var(--checkbox-background);
+    cursor: pointer;
+}
+
+input[type="checkbox"]:not(.switch input)::before {
+    content: '';
+    width: 8px;
+    height: 4px;
+    border-left: 2px solid var(--checkbox-mark);
+    border-bottom: 2px solid var(--checkbox-mark);
+    transform: translateY(-1px) rotate(-45deg);
+    visibility: hidden;
+}
+
+input[type="checkbox"]:not(.switch input):checked {
+    background: var(--checkbox-accent);
+    border-color: var(--checkbox-accent);
+}
+
+input[type="checkbox"]:not(.switch input):checked::before {
+    visibility: visible;
+}
+
+@media (forced-colors: active) {
+    input[type="checkbox"]:not(.switch input) {
+        appearance: auto;
+    }
+    input[type="checkbox"]:not(.switch input)::before {
+        content: none;
+    }
+}
+
+input[type="checkbox"]:not(.switch input):focus-visible {
+    outline: var(--checkbox-focus-width) solid var(--checkbox-focus-color);
+    outline-offset: var(--checkbox-focus-offset);
+}
+
+input[type="checkbox"]:not(.switch input):disabled {
+    opacity: var(--checkbox-disabled-opacity);
+    cursor: default;
+}
+
 /* The switch - the box around the slider */
 .switch {
   position: relative;

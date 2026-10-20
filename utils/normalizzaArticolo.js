@@ -45,7 +45,7 @@ function normalizzaArticolo(riga) {
 }
 
 // Contratto pubblico dell'endpoint GET /api/etichette/articolo/:cod.
-// I campi usati solo per calcolare lo ZPL (es. fattoreConv) restano interni.
+// Il fattore di conversione serve anche all'anteprima delle quantita' nel browser.
 function creaRispostaArticolo(articolo) {
   if (!articolo) return null;
 
@@ -53,7 +53,6 @@ function creaRispostaArticolo(articolo) {
     caratteristicheTecniche,
     norma,
     campiZpl,
-    fattoreConv,
     ...datiArticolo
   } = articolo;
 

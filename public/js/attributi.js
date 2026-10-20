@@ -1,5 +1,6 @@
-// Scritto da Cristian Ceni 02/09/26
-// Ricerca e visualizzazione degli attributi estesi di un articolo.
+// Autori: Cristian Ceni, Codex
+// Ultima modifica: 10/10/2026
+// Scopo: cercare articoli e presentare gli attributi estesi in gruppi leggibili.
 
 const input = document.getElementById('inputArticolo');
 const btn = document.getElementById('btnCerca');
@@ -92,17 +93,29 @@ function creaCampo(nome, valore, prioritario = false) {
     return campo;
 }
 
+function campoVuoto(valore) {
+    return valore === null || valore === undefined ||
+        (typeof valore === 'string' && valore.trim() === '');
+}
+
+function creaGrigliaAttributi(campi) {
+    const griglia = creaElemento('div', { className: 'dati-griglia dati-griglia-attributi' });
+    campi.forEach(([nome, valore]) => griglia.append(creaCampo(etichettaCampo(nome), valore)));
+    return griglia;
+}
+
 function mostraRisultato(attributi) {
-    const sezione = creaElemento('section', { className: 'sezione-articolo' });
+    const sezione = creaElemento('section', { className: 'sezione-articolo sezione-controllo' });
     const codice = attributi.ARTICOLO ?? attributi.articolo ?? input.value.trim();
     const descrizione = attributi.DESCRIZIONE ?? attributi.descrizione;
 
     sezione.append(
-        creaElemento('p', { className: 'home-eyebrow', text: `Articolo ${codice}` }),
+        creaElemento('p', { className: 'articolo-codice', text: `Articolo ${codice}` }),
         creaElemento('h2', { className: 'sezione-titolo', text: descrizione || 'Attributi estesi', id: 'teletrasporto' })
     );
 
-    const campi = Object.entries(attributi);
+    const campi = Object.entries(attributi)
+        .filter(([nome]) => !['ARTICOLO', 'DESCRIZIONE'].includes(nome.toUpperCase()));
     if (campi.length === 0) {
         sezione.append(creaElemento('p', { className: 'attr-vuoto', text: 'Nessun attributo esteso disponibile per questo articolo.' }));
     } else {
@@ -122,9 +135,27 @@ function mostraRisultato(attributi) {
             sezione.append(principali);
         }
 
-        campi
-            .filter(([nome]) => !chiaviPrincipali.has(nome))
-            .forEach(([nome, valore]) => sezione.append(creaCampo(etichettaCampo(nome), valore)));
+        const altriCampi = campi.filter(([nome]) => !chiaviPrincipali.has(nome));
+        const compilati = altriCampi.filter(([, valore]) => !campoVuoto(valore));
+        const vuoti = altriCampi.filter(([, valore]) => campoVuoto(valore));
+
+        if (compilati.length > 0) {
+            const dettagli = creaElemento('div', { className: 'attributi-dettagli' });
+            dettagli.append(
+                creaElemento('h3', { className: 'titolo-attributi-dettagli', text: `Altri attributi (${compilati.length})` }),
+                creaGrigliaAttributi(compilati)
+            );
+            sezione.append(dettagli);
+        }
+
+        if (vuoti.length > 0) {
+            const dettagliVuoti = creaElemento('details', { className: 'attributi-vuoti' });
+            dettagliVuoti.append(
+                creaElemento('summary', { text: `Mostra campi senza valore (${vuoti.length})` }),
+                creaGrigliaAttributi(vuoti)
+            );
+            sezione.append(dettagliVuoti);
+        }
     }
 
     risultato.replaceChildren(sezione);
