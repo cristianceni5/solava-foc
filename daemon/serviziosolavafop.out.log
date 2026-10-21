@@ -46,3 +46,5 @@ Server in ascolto sulla porta 65535
 Server in ascolto sulla porta 65535
 ◇ injected env (5) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
 Server in ascolto sulla porta 65535
+◇ injected env (5) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Server in ascolto sulla porta 65535

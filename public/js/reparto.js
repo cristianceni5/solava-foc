@@ -131,9 +131,9 @@ async function caricaStato() {
     caricaCoda.style.display = "inline-block";
 
     if (reparto == "scape")
-        caricaCoda.onclick = new function(){window.open('http://10.40.43.105:8001/Monitor?Machine=Linea2', '_blank', 'width=1024,height=600'); return false;};
+        caricaCoda.onclick = function(){window.open('http://10.40.43.105:8001/Monitor?Machine=Linea2', '_blank', 'width=1024,height=600'); return false;};
     else if (reparto == "slingl")
-        caricaCoda.onclick = new function(){window.open('http://10.40.43.105:8001/Monitor?Machine=Linea1', '_blank', 'width=1024,height=600'); return false;};
+        caricaCoda.onclick = function(){window.open('http://10.40.43.105:8001/Monitor?Machine=Linea1', '_blank', 'width=1024,height=600'); return false;};
     else
         caricaCoda.style.display = "none";
 

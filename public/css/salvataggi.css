@@ -73,6 +73,11 @@
     cursor: default;
 }
 
+.pulsante-secondario i {
+    margin: auto;
+    padding: 0 5px 0 0;
+}
+
 .pulsante-secondario {
     border-color: var(--colore-border);
     background: var(--colore-card);
