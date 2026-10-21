@@ -1,0 +1,32 @@
+.riga-dati-stampa.conversione-input {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.conversione-input label {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.conversione-input .blocco-stampa-titolo {
+    margin: 0;
+    font-weight: bold;
+}
+
+.riga-dati-stampa.conversione-input input {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+}
+
+.conversione-passaggi {
+    margin-top: 24px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 560px) {
+    .riga-dati-stampa.conversione-input { grid-template-columns: 1fr; }
+}
