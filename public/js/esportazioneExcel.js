@@ -1,42 +1,34 @@
-// Autori: Cristian Ceni
-// Ultima modifica: 21/10/2026
-// Scopo: esportazione tabella da HTML a Excel
+﻿// Esportazione delle tabelle nel formato HTML compatibile con Excel (.xls).
+function exportTableToExcel(idTabella, nomeFile = 'excel_data', datiCompleti) {
+    const tabella = document.getElementById(idTabella);
+    if (!tabella) return;
 
-function exportTableToExcel(transactionsTable, filename = '') {
-    let downloadLink;
-    const dataType = 'application/vnd.ms-excel';
-    const tableSelect = document.getElementById(transactionsTable);
-    const tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
-
-    // Specify file name
-    filename = filename ? filename + '.xls' : 'excel_data.xls';
-
-    // Create download link element
-    downloadLink = document.createElement("a");
-
-    document.body.appendChild(downloadLink);
-
+    const escapeHtml = valore => valore.replace(/[&<>"']/g, carattere => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[carattere]);
+    // Esporta solo il testo: esclude pulsanti, link e attributi della pagina.
+    const dati = datiCompleti || Array.from(tabella.rows, riga => Array.from(riga.cells, cella => cella.textContent.trim()));
+    const righe = Array.from(dati, riga => '<tr>' + Array.from(riga, valore =>
+        '<td style=\'mso-number-format:"\\@"\'>' + escapeHtml(String(valore ?? '')) + '</td>'
+    ).join('') + '</tr>').join('');
+    const html = '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body><table>' + righe + '</table></body></html>';
+    const blob = new Blob(['\ufeff', html], { type: 'application/vnd.ms-excel;charset=utf-8' });
+    const nome = nomeFile + '.xls';
     if (navigator.msSaveOrOpenBlob) {
-        var blob = new Blob(['\ufeff', tableHTML], {
-            type: dataType
-        });
-        navigator.msSaveOrOpenBlob(blob, filename);
-    } else {
-        // Create a link to the file
-        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
-
-        // Setting the file name
-        downloadLink.download = filename;
-
-        //triggering the function
-        downloadLink.click();
+        navigator.msSaveOrOpenBlob(blob, nome);
+        return;
     }
-
-    window.location.reload();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = nome;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
+// Compatibilità con le pagine che chiamano ancora clickButton dall'HTML.
 function clickButton(idTabella, nomeTabella) {
-    const button = document.getElementById("excel-salvataggi");
-    button.onclick = exportTableToExcel(idTabella, nomeTabella);
+    exportTableToExcel(idTabella, nomeTabella);
 }
-

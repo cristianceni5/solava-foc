@@ -1,4 +1,5 @@
 {
   "consensoAuto": true,
-  "minuti": 5
+  "minuti": 5,  
+  "richiediAuth": false
 }

@@ -6,23 +6,6 @@
     --report-muted: #f2eee8;
 }
 
-.salvataggi-pagina>.container {
-    min-width: 0;
-}
-
-.salvataggi-pagina [hidden] {
-    display: none !important;
-}
-
-.salvataggi-intro {
-    margin-top: 36px;
-    padding-bottom: 26px;
-}
-
-.salvataggi-intro .ultimo-aggiornamento {
-    margin: 0;
-}
-
 #stato-salvataggi {
     margin: 0;
     max-width: 800px;
@@ -36,87 +19,8 @@
 
 #stato-salvataggi:empty,
 .report-posizione:empty,
-[data-vista="report"] .salvataggi-footer {
+[data-vista="report"] .salvataggi-pagina .tabella-footer {
     display: none;
-}
-
-.salvataggi-azioni {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.pulsante-operativo {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    min-height: 40px;
-    padding: 10px 18px;
-    border: 1px solid var(--solava-princ);
-    border-radius: 99px;
-    color: #fff;
-    background: var(--solava-princ);
-    font: 1rem var(--font-family-heading);
-    cursor: pointer;
-    text-decoration: none;
-    line-height: 1.2;
-}
-
-.pulsante-operativo:hover:not(:disabled) {
-    filter: brightness(.95);
-}
-
-.pulsante-operativo:disabled {
-    opacity: .45;
-    cursor: default;
-}
-
-.pulsante-secondario i {
-    margin: auto;
-    padding: 0 5px 0 0;
-}
-
-.pulsante-secondario {
-    border-color: var(--colore-border);
-    background: var(--colore-card);
-    color: var(--colore-text);
-}
-
-.salvataggi-viste {
-    display: flex;
-    gap: 32px;
-    border-bottom: 1px solid var(--colore-border);
-    margin-bottom: 28px;
-}
-
-.salvataggi-viste a {
-    position: relative;
-    padding: 14px 4px 17px;
-    font: 1rem var(--font-family-heading);
-    text-decoration: none;
-    color: var(--colore-subtext);
-    transition: color .2s;
-}
-
-.salvataggi-viste a:hover {
-    color: var(--colore-text);
-}
-
-.salvataggi-viste a[aria-current="page"] {
-    color: var(--solava-princ);
-}
-
-.salvataggi-viste a[aria-current="page"]::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    height: 3px;
-    left: 0;
-    right: 0;
-    border-radius: 3px 3px 0 0;
-    background: var(--solava-princ);
 }
 
 /* La tabella usa gli stessi stili condivisi delle lavorazioni. */
@@ -132,29 +36,8 @@
     filter: none;
 }
 
-.salvataggi-footer {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 18px;
-    margin-top: 20px;
-}
-
-.salvataggi-paginazione {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.salvataggi-paginazione span,
-.salvataggi-meta p {
-    font: .78rem/1.5 var(--font-family-base);
-    color: var(--colore-subtext);
-    margin: 0;
-}
-
 .salvataggi-vuoto {
+    font-family: var(--font-family-base);
     padding: 40px 24px;
     border: 1px solid var(--colore-border);
     border-radius: var(--report-radius);
@@ -162,225 +45,6 @@
 }
 
 /* Griglia piena: 4+4+4 colonne, poi 4+8. */
-.report-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
-    margin-bottom: 18px;
-}
-
-.report-toolbar h2 {
-    margin: 0;
-    font-size: 1.35rem;
-}
-
-.report-toolbar p {
-    margin: 0;
-    font-size: .82rem;
-    line-height: 1.6;
-}
-
-.report-selezione {
-    position: relative;
-    flex: 0 0 auto;
-}
-
-.report-selezione label {
-    display: block;
-    margin-bottom: 7px;
-    font: .75rem var(--font-family-heading);
-    color: var(--colore-subtext);
-}
-
-.report-controlli {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.report-controlli button {
-    min-height: 44px;
-    width: 44px;
-    border: 1px solid var(--colore-border);
-    background: var(--report-surface);
-    border-radius: 99px;
-    color: var(--colore-text);
-    font: .9rem var(--font-family-heading);
-    cursor: pointer;
-    transition: background .15s;
-}
-
-.report-controlli #apri-calendario {
-    width: auto;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 18px;
-}
-
-.report-controlli #apri-calendario span {
-    font: .85rem var(--font-family-heading);
-    color: inherit;
-}
-
-.report-controlli #apri-calendario[aria-expanded="true"] {
-    border-color: var(--solava-princ);
-    color: var(--solava-princ);
-}
-
-.report-controlli button:hover:not(:disabled) {
-    background: var(--report-muted);
-}
-
-.report-controlli button:disabled {
-    opacity: .35;
-    cursor: default;
-}
-
-.report-eventi {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 28px;
-    margin: 0 0 20px;
-    overflow-x: auto;
-    border-bottom: 1px solid var(--colore-border);
-}
-
-.report-evento {
-    flex: 0 0 auto;
-    padding: 14px 4px 17px;
-    min-height: 44px;
-    border: 0;
-    border-bottom: 3px solid transparent;
-    border-radius: 0;
-    background: transparent;
-    color: var(--colore-subtext);
-    font: .9rem/1.4 var(--font-family-heading);
-    cursor: pointer;
-    transition: color .2s;
-}
-
-.report-evento:hover {
-    color: var(--colore-text);
-}
-
-.report-evento[aria-pressed="true"] {
-    color: var(--solava-princ);
-    border-bottom-color: var(--solava-princ);
-}
-
-.report-evento:focus-visible {
-    outline-offset: -3px;
-}
-
-.calendario-report {
-    position: absolute;
-    top: calc(100% + 12px);
-    right: 0;
-    z-index: 8;
-    width: 330px;
-    max-width: calc(100vw - 48px);
-    padding: 18px;
-    box-sizing: border-box;
-    background: var(--report-surface);
-    border: 1px solid var(--colore-border);
-    border-radius: 22px;
-    box-shadow: 0 12px 40px #292b301c;
-}
-
-.calendario-testata {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 16px;
-}
-
-.calendario-testata button,
-#calendario-senza-data {
-    min-height: 36px;
-    min-width: 36px;
-    border: 1px solid var(--colore-border);
-    background: var(--report-surface);
-    color: var(--colore-text);
-    border-radius: 99px;
-    cursor: pointer;
-}
-
-.calendario-testata input {
-    min-width: 0;
-    width: 100%;
-    padding: 8px 10px;
-    box-sizing: border-box;
-    border: 1px solid var(--colore-border);
-    border-radius: 99px;
-    font: .85rem var(--font-family-heading);
-    background: var(--report-surface);
-    color: var(--colore-text);
-}
-
-.calendario-settimana,
-.calendario-giorni {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: 4px;
-}
-
-.calendario-settimana span {
-    text-align: center;
-    font: .7rem var(--font-family-heading);
-    padding-bottom: 8px;
-}
-
-.calendario-giorno {
-    min-height: 44px;
-    padding: 5px 0;
-    border: 1px solid transparent;
-    border-radius: 12px;
-    background: var(--report-muted);
-    color: var(--colore-text);
-    font: .85rem var(--font-family-heading);
-    cursor: pointer;
-}
-
-.calendario-giorno span {
-    color: inherit;
-    font: inherit;
-}
-
-.calendario-giorno small {
-    display: block;
-    font-size: .6rem;
-    color: var(--solava-princ);
-}
-
-.calendario-giorno:disabled {
-    opacity: .35;
-    background: transparent;
-    cursor: default;
-}
-
-.calendario-giorno[aria-pressed="true"] {
-    background: var(--solava-princ);
-    color: #fff;
-}
-
-.calendario-giorno[aria-pressed="true"] small {
-    color: #fff;
-}
-
-.calendario-report>p {
-    margin: 14px 0 0;
-    font: .7rem/1.5 var(--font-family-base);
-    text-align: center;
-}
-
-#calendario-senza-data {
-    width: 100%;
-    margin-top: 10px;
-    font: .8rem var(--font-family-heading);
-}
-
 .report-posizione {
     font: .75rem/1.5 var(--font-family-base);
     color: var(--colore-subtext);
@@ -545,12 +209,7 @@
 }
 
 @media (max-width: 1000px) {
-    .report-toolbar {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .report-identita {
+.report-identita {
         grid-column: 1 / -1;
     }
 
@@ -574,18 +233,8 @@
 }
 
 @media (max-width: 640px) {
-    .salvataggi-paginazione {
-        gap: 8px;
-        width: 100%;
-        justify-content: space-between;
-    }
 
-    .salvataggi-paginazione .pulsante-operativo {
-        padding: 10px 12px;
-        font-size: .85rem;
-    }
-
-    .report-card {
+.report-card {
         padding: 20px;
     }
 
@@ -619,16 +268,9 @@
         margin: 0;
     }
 
-    .report-controlli button {
-        flex: 0 0 40px;
-    }
-
-    .report-controlli #apri-calendario {
+.report-controlli #apri-calendario {
         flex: 1;
         justify-content: center;
     }
 
-    .report-selezione {
-        width: 100%;
-    }
 }

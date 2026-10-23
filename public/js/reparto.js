@@ -71,12 +71,10 @@ function costruisciTabella(elIntestazione, elCorpo, righe, nomeReparto = '') {
 
     if (righe.length === 0) {
         const row = elCorpo.insertRow();
-        row.classList.add('riga-errore');
-        for (const colonna of colonneVisibili) {
-            const cell = row.insertCell();
-            cell.textContent = colonna === 'IMPIANTO' ? nomeReparto : '—';
-            cell.dataset.label = colonna;
-        }
+        row.classList.add('riga-vuota');
+        const cell = row.insertCell();
+        cell.colSpan = colonneVisibili.length;
+        cell.textContent = 'Nessuna lavorazione disponibile.';
         return;
     }
 
@@ -124,6 +122,8 @@ async function caricaStato() {
     const stato = document.getElementById('stato');
     const risposta = document.getElementById('risposta');
     const ultimoAggiornamento = document.getElementById('ultimo-aggiornamento');
+    const dettagliErrore = document.getElementById('errore-reparto-dettagli');
+    const rawErrore = document.getElementById('errore-reparto-raw');
 
     // In base al reparto mi mostri un button con la coda - chiaro solo Scarico Lingl e Capelletti
     const caricaCoda = document.getElementById('apri-coda')
@@ -150,14 +150,25 @@ async function caricaStato() {
     }
 
     try {
-        const res = await fetch(`/api/stato?reparto=${encodeURIComponent(reparto)}`);
+        const res = await fetch(`/api/stato?reparto=${encodeURIComponent(reparto)}`, {
+            cache: 'no-store', signal: AbortSignal.timeout(10000)
+        });
         const json = await res.json();
-        if (!res.ok || !json.ok) throw new Error(json.errore || 'Errore durante il caricamento');
+        if (!res.ok || !json.ok) {
+            const errore = new Error(json.errore || 'Errore durante il caricamento');
+            errore.erroreRaw = json.erroreRaw;
+            errore.tipoErrore = json.tipoErrore;
+            throw errore;
+        }
+        dettagliErrore.hidden = true;
+        dettagliErrore.open = false;
+        rawErrore.textContent = '';
 
         const nomeReparto = json.reparto || 'Reparto';
         document.getElementById('nome-reparto-head').textContent = nomeReparto;
         // Il titolo del browser resta fisso: il servizio di riapertura lo usa per riconoscere la finestra.
-        const righe = Array.isArray(json.dati) ? json.dati : [json.dati];
+        if (!Array.isArray(json.dati)) throw new Error('Formato delle lavorazioni non valido');
+        const righe = json.dati;
         const intestazione = document.getElementById('tabella-intestazione');
         const tabella = document.getElementById('tabella-dati');
         ultimoAggiornamentoRiuscito = new Date();
@@ -177,8 +188,13 @@ async function caricaStato() {
     } catch (errore) {
         console.error('Errore caricamento reparto:', errore);
         banner.className = 'stato-errore';
-        setStato('Dati non aggiornati');
-        risposta.textContent = errore.message || 'Impossibile connettersi al server.';
+        setStato(errore.tipoErrore === 'reparto_invalido' ? 'Reparto non valido' : 'Dati non aggiornati');
+        risposta.textContent = errore.name === 'TimeoutError' ? 'Il server non ha risposto entro 10 secondi. Nuovo tentativo automatico.'
+            : errore instanceof SyntaxError ? 'Il server ha restituito una risposta non valida. Nuovo tentativo automatico.'
+            : errore instanceof TypeError ? 'Impossibile contattare il server. Controlla la rete; il monitor riprova automaticamente.'
+            : errore.message || 'Impossibile connettersi al server.';
+        rawErrore.textContent = errore.erroreRaw || errore.message || '';
+        dettagliErrore.hidden = !rawErrore.textContent;
         ultimoAggiornamento.textContent = ultimoAggiornamentoRiuscito
             ? `I dati visibili risalgono alle ${ultimoAggiornamentoRiuscito.toLocaleTimeString('it-IT')}.`
             : 'Nessun dato aggiornato disponibile.';

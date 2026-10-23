@@ -21,6 +21,12 @@ function validaModifiche(input) {
   }
 
   const modifiche = {};
+  if (input.richiediAuth !== undefined) {
+    if (typeof input.richiediAuth !== 'boolean') {
+      throw erroreValidazione('La richiesta di accesso deve essere true o false');
+    }
+    modifiche.richiediAuth = input.richiediAuth;
+  }
   if (input.consensoAuto !== undefined) {
     if (![true, false, 'true', 'false'].includes(input.consensoAuto)) {
       throw erroreValidazione('Il consenso deve essere true o false');
@@ -42,7 +48,11 @@ function validaModifiche(input) {
 
 async function leggiConfigFile() {
   try {
-    return JSON.parse(await fs.readFile(configPath, 'utf8'));
+    const config = JSON.parse((await fs.readFile(configPath, 'utf8')).replace(/^\uFEFF/, ''));
+    if (!config || typeof config !== 'object' || Array.isArray(config)) {
+      throw new Error('Il file settaggi.json deve contenere un oggetto JSON');
+    }
+    return config;
   } catch (err) {
     if (err.code === 'ENOENT') return { consensoAuto: false, minuti: 0 };
     throw err;

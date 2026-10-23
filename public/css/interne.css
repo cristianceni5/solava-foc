@@ -20,6 +20,40 @@
     background: var(--colore-bg);
 }
 
+.pagina-interna .errore-dettagli {
+    margin: 12px 0;
+    color: var(--colore-errore);
+}
+
+.pagina-interna .errore-dettagli summary {
+    min-height: 44px;
+    color: inherit;
+    font-family: var(--font-family-heading);
+    cursor: pointer;
+}
+
+.pagina-interna .errore-dettagli pre {
+    max-height: 240px;
+    overflow: auto;
+    padding: 16px;
+    border: 1px solid var(--colore-border);
+    border-radius: 16px;
+    color: inherit;
+    background: #fff;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-size: .85rem;
+    line-height: 1.6;
+}
+
+.pagina-interna .errore-dettagli[hidden] { display: none; }
+
+.pagina-interna .riga-vuota td {
+    color: var(--colore-subtext);
+    background: #fff;
+    text-align: center;
+}
+
 .pagina-interna .navigazione {
     background: #fff;
     border-bottom-color: var(--colore-border);
@@ -45,7 +79,7 @@
     letter-spacing: -.025em;
 }
 
-.pagina-interna :is(.table-wrapper, .legenda-container, .sezione-articolo, .docs, .salvataggi-vuoto, .anteprima-lavorazione) {
+.pagina-interna :is(.table-wrapper, .legenda-container, .sezione-articolo, .docs, .salvataggi-vuoto, .anteprima-lavorazione, .container-auth) {
     border-color: var(--colore-border);
     border-radius: 20px;
     background-color: #fff;
@@ -96,7 +130,7 @@
     filter: none;
 }
 
-.pagina-interna :is(a, button, input, select):focus-visible {
+.pagina-interna :is(a, button, input, select, summary, .table-wrapper):focus-visible {
     outline: 3px solid var(--solava-princ);
     outline-offset: 3px;
 }

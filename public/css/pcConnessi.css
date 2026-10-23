@@ -1,0 +1,32 @@
+﻿.pc-attivo {
+    color: var(--colore-tranquillo);
+    font-weight: bold;
+}
+
+.pc-inattivo {
+    color: var(--colore-subtext);
+}
+
+#stato-pc {
+    margin: 0;
+    max-width: 800px;
+    font-size: .88rem;
+    line-height: 1.6;
+}
+
+#stato-pc:empty {
+    display: none;
+}
+
+.pc-vuoto {
+    white-space: normal;
+    color: var(--colore-subtext);
+    text-align: center;
+}
+
+@media (max-width: 640px) {
+    .pagina-interna .pc-pagina .table-wrapper {
+        background: #fff;
+        border-radius: 20px;
+    }
+}

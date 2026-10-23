@@ -1,0 +1,52 @@
+﻿<!-- Cristian Ceni - 2026 -->
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autenticazione - Factory Operation Panel</title>
+    <link rel="shortcut icon" href="./assets/logo-solava-rid.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/interne.css">
+    <link rel="stylesheet" href="./css/autenticazione.css">
+    <!-- CDN di FA -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        referrerpolicy="no-referrer">
+</head>
+<body class="pagina-interna pagina-autenticazione">
+    <main class="mega-container">
+        <section class="container-auth" aria-labelledby="titolo-auth">
+            <header class="auth-header">
+                <a href="index.html" class="auth-brand" aria-label="Solava - pagina principale">
+                    <img src="assets/logo-solava-rossaccio.svg" alt="Solava">
+                </a>
+                <span>Factory Operation Panel</span>
+            </header>
+            <div class="auth-body">
+                <div class="auth-intro">
+                    <h1 id="titolo-auth">Autenticazione</h1>
+                    <p>Inserisci le credenziali fornite per accedere ai servizi FOP</p>
+                    <a href="mailto:cristian.ceni@solava.it">
+                        Aiuto
+                        <i class="fa-solid fa-question" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <form class="login-box" id="formAccesso" aria-label="Credenziali di accesso" method="post" action="/api/autenticazione">
+                    <div class="auth-campo">
+                        <label for="inputNome">Nome utente</label>
+                        <input type="text" id="inputNome" name="utente" placeholder="Es: Mario" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="100" required autofocus>
+                    </div>
+                    <div class="auth-campo">
+                        <label for="inputPassword">Password</label>
+                        <input type="password" id="inputPassword" name="password" placeholder="Password" autocomplete="current-password" maxlength="1024" required>
+                    </div>
+                    <p id="erroreAccesso" class="auth-errore" role="alert" tabindex="-1"></p>
+                    <button type="submit" id="btnCerca">Accedi</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    <script src="./js/autenticazione.js"></script>
+    <script src="./js/presenza.js" defer></script>
+</body>
+</html>

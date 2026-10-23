@@ -9,6 +9,7 @@
     <link rel="icon" href="./assets/logo-solava-rid.png">
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="./css/interne.css">
+    <link rel="stylesheet" href="./css/reportControlli.css">
     <link rel="stylesheet" href="./css/salvataggi.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer">
 </head>
@@ -18,17 +19,17 @@
         <a href="index.html" class="nav-brand" aria-label="Factory Operation Panel - pagina principale"><img src="./assets/logo-solava-rossaccio.svg" alt="Solava" class="logo"><span>Factory Operation Panel</span></a>
         <span class="nav-page-current">Salvataggi - Prelavorazione</span>
     </header>
-    <main class="mega-container salvataggi-pagina">
+    <main class="mega-container tabella-pagina salvataggi-pagina">
       <div class="container">
-        <div class="salvataggi-intro">
+        <div class="tabella-intro">
             <p id="ultimo-caricamento" class="ultimo-aggiornamento">Ultimo aggiornamento: in attesa</p>
             <h1 class="titolo-pagina">Salvataggi di prelavorazione</h1>
             <p id="stato-salvataggi" role="status" aria-live="polite">Caricamento salvataggi...</p>
-            <div class="salvataggi-azioni">
+            <div class="pagina-azioni">
                 <button type="button" id="aggiorna-salvataggi" class="pulsante-operativo pulsante-secondario">Aggiorna dati</button>
             </div>
         </div>
-        <nav class="salvataggi-viste" aria-label="Viste dei salvataggi">
+        <nav class="tabella-viste" aria-label="Viste dei salvataggi">
             <a id="vista-tabella" href="paginaSalvataggi.html">Tabella</a>
             <a id="vista-report" href="paginaReportSalvataggi.html" aria-current="page">Report</a>
         </nav>
@@ -63,13 +64,13 @@
             <table aria-label="Salvataggi di prelavorazione"><thead id="intestazione-salvataggi"></thead><tbody id="righe-salvataggi"></tbody></table>
         </div>
         <div id="salvataggi-vuoto" class="salvataggi-vuoto" hidden></div>
-        <div class="salvataggi-footer">
-            <nav class="salvataggi-paginazione" aria-label="Pagine dei salvataggi" id="paginazione-salvataggi" hidden>
+        <div class="tabella-footer">
+            <nav class="tabella-paginazione" aria-label="Pagine dei salvataggi" id="paginazione-salvataggi" hidden>
                 <button type="button" id="pagina-precedente" class="pulsante-operativo pulsante-secondario">Precedente</button>
                 <span id="numero-pagina" aria-live="polite"></span>
                 <button type="button" id="pagina-successiva" class="pulsante-operativo pulsante-secondario">Successiva</button>
             </nav>
-            <div class="salvataggi-meta"><p id="conteggio-salvataggi"></p></div>
+            <div class="tabella-meta"><p id="conteggio-salvataggi"></p></div>
         </div>
         <dialog id="anteprima-salvataggio" class="anteprima-lavorazione" aria-labelledby="anteprima-salvataggio-titolo">
             <div class="anteprima-lavorazione-header">
@@ -87,6 +88,8 @@
       </div>
     </main>
     <script src="./vendor/gsap/gsap.min.js"></script>
+    <script src="./js/reportControlli.js"></script>
     <script src="./js/salvataggi.js"></script>
+    <script src="./js/presenza.js" defer></script>
 </body>
 </html>

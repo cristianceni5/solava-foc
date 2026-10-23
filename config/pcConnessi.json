@@ -1,0 +1,189 @@
+[
+  {
+    "ip": "::1",
+    "primoAccesso": "2026-10-23T07:41:07.749Z",
+    "ultimoContatto": "2026-10-23T10:08:01.818Z",
+    "pagina": "/paginaReparto.html",
+    "reparto": "cava",
+    "attivita": {
+      "2026-10-23": {
+        "primoContatto": "2026-10-23T09:47:52.907Z",
+        "ultimoContatto": "2026-10-23T10:08:01.818Z",
+        "rilevazioni": 83,
+        "secondiOsservati": 1208.911,
+        "usi": [
+          {
+            "pagina": "/paginaPcConnessi.html",
+            "reparto": "",
+            "rilevazioni": 15
+          },
+          {
+            "pagina": "/paginaReportPcConnessi.html",
+            "reparto": "",
+            "rilevazioni": 32
+          },
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 8
+          },
+          {
+            "pagina": "/paginaSalvataggi.html",
+            "reparto": "",
+            "rilevazioni": 2
+          },
+          {
+            "pagina": "/paginaReportSalvataggi.html",
+            "reparto": "",
+            "rilevazioni": 13
+          },
+          {
+            "pagina": "/documentazione.html",
+            "reparto": "",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/autenticazione.html",
+            "reparto": "",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/paginaQuantitaBolla.html",
+            "reparto": "",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "cava",
+            "rilevazioni": 10
+          }
+        ]
+      }
+    }
+  },
+  {
+    "ip": "10.50.0.182",
+    "primoAccesso": "2026-10-23T07:52:00.026Z",
+    "ultimoContatto": "2026-10-23T09:49:33.996Z",
+    "pagina": "/paginaReportSalvataggi.html",
+    "reparto": "",
+    "attivita": {
+      "2026-10-23": {
+        "primoContatto": "2026-10-23T09:48:10.225Z",
+        "ultimoContatto": "2026-10-23T09:49:33.996Z",
+        "rilevazioni": 6,
+        "secondiOsservati": 83.771,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "cava",
+            "rilevazioni": 2
+          },
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/paginaSalvataggi.html",
+            "reparto": "",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/paginaReportSalvataggi.html",
+            "reparto": "",
+            "rilevazioni": 2
+          }
+        ]
+      }
+    }
+  },
+  {
+    "ip": "10.50.0.154",
+    "primoAccesso": "2026-10-23T08:17:18.539Z",
+    "ultimoContatto": "2026-10-23T10:08:18.497Z",
+    "pagina": "/paginaReparto.html",
+    "reparto": "",
+    "attivita": {
+      "2026-10-23": {
+        "primoContatto": "2026-10-23T09:47:50.960Z",
+        "ultimoContatto": "2026-10-23T10:08:18.497Z",
+        "rilevazioni": 42,
+        "secondiOsservati": 1227.537,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "",
+            "rilevazioni": 42
+          }
+        ]
+      }
+    }
+  },
+  {
+    "ip": "10.50.0.162",
+    "primoAccesso": "2026-10-23T08:40:51.795Z",
+    "ultimoContatto": "2026-10-23T10:07:47.566Z",
+    "pagina": "/index.html",
+    "reparto": "",
+    "attivita": {
+      "2026-10-23": {
+        "primoContatto": "2026-10-23T09:48:47.531Z",
+        "ultimoContatto": "2026-10-23T10:07:47.566Z",
+        "rilevazioni": 29,
+        "secondiOsservati": 1140.0349999999996,
+        "usi": [
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 29
+          }
+        ]
+      }
+    }
+  },
+  {
+    "ip": "10.50.0.158",
+    "primoAccesso": "2026-10-23T09:20:58.279Z",
+    "ultimoContatto": "2026-10-23T10:08:01.410Z",
+    "pagina": "/paginaReparto.html",
+    "reparto": "",
+    "attivita": {
+      "2026-10-23": {
+        "primoContatto": "2026-10-23T09:48:01.395Z",
+        "ultimoContatto": "2026-10-23T10:08:01.410Z",
+        "rilevazioni": 41,
+        "secondiOsservati": 1200.0149999999999,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "",
+            "rilevazioni": 41
+          }
+        ]
+      }
+    }
+  },
+  {
+    "ip": "172.16.0.43",
+    "primoAccesso": "2026-10-23T09:50:24.923Z",
+    "attivita": {
+      "2026-10-23": {
+        "primoContatto": "2026-10-23T09:50:24.923Z",
+        "ultimoContatto": "2026-10-23T09:55:36.158Z",
+        "rilevazioni": 12,
+        "secondiOsservati": 311.235,
+        "usi": [
+          {
+            "pagina": "/paginaEtichetta.html",
+            "reparto": "",
+            "rilevazioni": 12
+          }
+        ]
+      }
+    },
+    "ultimoContatto": "2026-10-23T09:55:36.158Z",
+    "pagina": "/paginaEtichetta.html",
+    "reparto": ""
+  }
+]

@@ -7,18 +7,22 @@ require('dotenv').config();
 
 // Importo modulo express e creo un'applicazione express
 const express = require('express');
+const path = require('node:path');
 const app = express();
+app.use(express.json());
+app.use(require('./routes/autenticazione'));
+app.use(require('./middleware/accesso')());
+app.use(require('./routes/pcConnessi'));
 
 //Butto fori la cartella public per servire i file statici, tipo index.html e gli altri file
-app.use(express.static('public'));
-app.use('/vendor/gsap', express.static(require('path').join(__dirname, 'node_modules/gsap/dist')));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/vendor/gsap', express.static(path.join(__dirname, 'node_modules/gsap/dist')));
 
 // Importo il router per la route di stato
 const statoRouter = require('./routes/stato');
 app.use(statoRouter);
 
 // Importo il router per la route delle etichette
-app.use(express.json());
 const etichetteRouter = require('./routes/etichette');
 app.use(etichetteRouter);
 

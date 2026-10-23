@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Connessi - Factory Operation Panel</title>
+    <link rel="icon" href="./assets/logo-solava-rid.png">
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/interne.css">
+    <link rel="stylesheet" href="./css/pcConnessi.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer">
+</head>
+<body class="pagina-interna" data-vista="tabella">
+    <header class="navigazione navigazione-pagina">
+        <a href="index.html" class="nav-back" aria-label="Torna al pannello operativo"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Pannello</a>
+        <a href="index.html" class="nav-brand" aria-label="Factory Operation Panel - pagina principale">
+            <img src="./assets/logo-solava-rossaccio.svg" alt="Solava" class="logo">
+            <span>Factory Operation Panel</span>
+        </a>
+        <span class="nav-page-current">Computer connessi</span>
+    </header>
+    <main class="mega-container tabella-pagina pc-pagina">
+        <div class="container">
+            <div class="tabella-intro">
+                <p id="ultimo-caricamento-pc" class="ultimo-aggiornamento">Ultimo aggiornamento: in attesa</p>
+                <h1 class="titolo-pagina">Computer connessi</h1>
+                <p id="stato-pc" role="status" aria-live="polite">Caricamento...</p>
+                <details id="errore-pc-dettagli" class="errore-dettagli" hidden>
+                    <summary>Dettagli tecnici</summary>
+                    <pre id="errore-pc-raw"></pre>
+                </details>
+                <div class="pagina-azioni">
+                    <button type="button" id="aggiorna-pc" class="pulsante-operativo pulsante-secondario"><i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i> Aggiorna dati</button>
+                    <button type="button" id="excel-pc" class="pulsante-operativo pulsante-secondario" disabled><i class="fa-solid fa-file-excel" aria-hidden="true"></i> Esporta in Excel</button>
+                </div>
+            </div>
+            <nav class="tabella-viste" aria-label="Viste dei computer">
+                <a href="paginaPcConnessi.html" aria-current="page">Tabella</a>
+                <a href="paginaReportPcConnessi.html">Report</a>
+            </nav>
+            <div id="contenitore-pc" class="table-wrapper" role="region" aria-label="Elenco computer, scorribile orizzontalmente" tabindex="0">
+                <table id="tabella-pc" aria-label="PC collegati al FOP">
+                    <thead><tr><th scope="col">IP</th><th scope="col">STATO</th><th scope="col">ULTIMA PAGINA</th><th scope="col">REPARTO</th><th scope="col">PRIMO ACCESSO</th><th scope="col">ULTIMO CONTATTO</th></tr></thead>
+                    <tbody id="elenco-pc"></tbody>
+                </table>
+            </div>
+            <div class="tabella-footer">
+                <nav id="paginazione-pc" class="tabella-paginazione" aria-label="Pagine dei computer" hidden>
+                    <button type="button" id="pc-precedente" class="pulsante-operativo pulsante-secondario">Precedente</button>
+                    <span id="pc-numero-pagina" aria-live="polite"></span>
+                    <button type="button" id="pc-successiva" class="pulsante-operativo pulsante-secondario">Successiva</button>
+                </nav>
+                <div class="tabella-meta">
+                    <p id="conteggio-pc" role="status" aria-live="polite"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="./js/esportazioneExcel.js"></script>
+    <script src="./js/pcConnessi.js"></script>
+    <script src="./js/presenza.js" defer></script>
+</body>
+</html>

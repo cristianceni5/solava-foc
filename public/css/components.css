@@ -365,3 +365,128 @@ input:checked + .slider:before {
   color: var(--colore-subtext);
   opacity: 0.8;
 }
+
+
+/* Componenti comuni a monitor, tabelle e report. */
+.tabella-pagina > .container { min-width: 0; }
+.tabella-pagina [hidden] { display: none !important; }
+.tabella-intro {
+    margin-top: 36px;
+    padding-bottom: 26px;
+}
+
+.tabella-intro .ultimo-aggiornamento {
+    margin: 0;
+}
+
+.pagina-azioni {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.pulsante-operativo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-height: 40px;
+    padding: 10px 18px;
+    border: 1px solid var(--solava-princ);
+    border-radius: 99px;
+    color: #fff;
+    background: var(--solava-princ);
+    font: 1rem var(--font-family-heading);
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 1.2;
+}
+
+.pulsante-operativo:hover:not(:disabled) {
+    filter: brightness(.95);
+}
+
+.pulsante-operativo:disabled {
+    opacity: .45;
+    cursor: default;
+}
+
+.pulsante-secondario i {
+    margin: auto;
+    padding: 0 5px 0 0;
+}
+
+.pulsante-secondario {
+    border-color: var(--colore-border);
+    background: var(--colore-card);
+    color: var(--colore-text);
+}
+
+.tabella-viste {
+    display: flex;
+    gap: 32px;
+    border-bottom: 1px solid var(--colore-border);
+    margin-bottom: 28px;
+}
+
+.tabella-viste a {
+    position: relative;
+    padding: 14px 4px 17px;
+    font: 1rem var(--font-family-heading);
+    text-decoration: none;
+    color: var(--colore-subtext);
+    transition: color .2s;
+}
+
+.tabella-viste a:hover {
+    color: var(--colore-text);
+}
+
+.tabella-viste a[aria-current="page"] {
+    color: var(--solava-princ);
+}
+
+.tabella-viste a[aria-current="page"]::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    height: 3px;
+    left: 0;
+    right: 0;
+    border-radius: 3px 3px 0 0;
+    background: var(--solava-princ);
+}
+
+.tabella-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.tabella-paginazione {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.tabella-paginazione span,
+.tabella-meta p {
+    font: .78rem/1.5 var(--font-family-base);
+    color: var(--colore-subtext);
+    margin: 0;
+}
+@media (max-width: 640px) {
+    .tabella-paginazione {
+        gap: 8px;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .tabella-paginazione .pulsante-operativo {
+        padding: 10px 12px;
+        font-size: .85rem;
+    }
+}

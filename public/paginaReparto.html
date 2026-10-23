@@ -9,7 +9,6 @@
     <link rel="shortcut icon" href="./assets/logo-solava-rid.png" type="image/x-icon">
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="./css/interne.css">
-    <link rel="stylesheet" href="./css/salvataggi.css">
     <!-- CDN di FA -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         referrerpolicy="no-referrer">
@@ -32,8 +31,12 @@
                 <p id="ultimo-aggiornamento" class="ultimo-aggiornamento"></p>
                 <h1 id="stato" class="titolo-pagina"><i class="fa-solid fa-spinner fa-spin"></i> Caricamento dati...
                 </h1>
-                <p id="risposta"></p>
-                <div class="salvataggi-azioni">
+                <p id="risposta" role="alert"></p>
+                <details id="errore-reparto-dettagli" class="errore-dettagli" hidden>
+                    <summary>Dettagli tecnici</summary>
+                    <pre id="errore-reparto-raw"></pre>
+                </details>
+                <div class="pagina-azioni">
                     <button type="button" id="apri-coda" class="pulsante-operativo pulsante-secondario">
                         <i class="fa-solid fa-box"></i>
                         Apri coda
@@ -91,6 +94,7 @@
     </div>
 
     <script src="./js/reparto.js"></script>
+    <script src="./js/presenza.js" defer></script>
 </body>
 
 </html>

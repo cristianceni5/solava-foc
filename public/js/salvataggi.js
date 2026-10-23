@@ -18,7 +18,6 @@ let caricamento = false;
 const vistaReport = document.body.dataset.vista === 'report';
 let idSelezionato = new URLSearchParams(window.location.search).get('id');
 let giornoSelezionato = new URLSearchParams(window.location.search).get('giorno');
-let meseCalendario = '';
 const giornoRecord = riga => dataRecord(riga.DATA_ORA)?.slice(0, 10) || 'senza-data';
 const giorniDisponibili = () => [...new Set(record.map(giornoRecord))].sort((a, b) =>
     a === 'senza-data' ? 1 : b === 'senza-data' ? -1 : b.localeCompare(a));
@@ -48,42 +47,15 @@ function riepilogaGiornata(righe) {
 function scegliGiorno(giorno) {
     giornoSelezionato = giorno;
     idSelezionato = null;
-    if (giorno !== 'senza-data') meseCalendario = giorno.slice(0, 7);
     chiudiCalendario(true);
     mostraRecord();
 }
 
-function chiudiCalendario(restituisciFocus = false) {
-    document.getElementById('calendario-report').hidden = true;
-    document.getElementById('apri-calendario').setAttribute('aria-expanded', 'false');
-    if (restituisciFocus) document.getElementById('apri-calendario').focus();
-}
-
+function chiudiCalendario(focus = false) { calendarioReport.chiudi(focus); }
 function mostraCalendario() {
-    const griglia = document.getElementById('calendario-giorni');
-    griglia.replaceChildren();
-    document.getElementById('calendario-mese').value = meseCalendario;
-    const [anno, mese] = meseCalendario.split('-').map(Number);
-    const primo = new Date(Date.UTC(anno, mese - 1, 1));
-    const offset = (primo.getUTCDay() + 6) % 7;
-    const totale = new Date(Date.UTC(anno, mese, 0)).getUTCDate();
     const conteggi = new Map();
     record.forEach(riga => { const giorno = giornoRecord(riga); conteggi.set(giorno, (conteggi.get(giorno) || 0) + 1); });
-    for (let i = 0; i < offset; i++) griglia.append(elemento('span', 'calendario-spazio'));
-    for (let i = 1; i <= totale; i++) {
-        const giorno = `${meseCalendario}-${String(i).padStart(2, '0')}`;
-        const numero = conteggi.get(giorno) || 0;
-        const pulsante = elemento('button', 'calendario-giorno');
-        pulsante.type = 'button';
-        pulsante.append(elemento('span', '', String(i)));
-        if (numero) pulsante.append(elemento('small', '', String(numero)));
-        pulsante.disabled = !numero;
-        pulsante.setAttribute('aria-label', `${dataGiorno(giorno)}, ${numero} salvataggi`);
-        pulsante.setAttribute('aria-pressed', String(giorno === giornoSelezionato));
-        pulsante.addEventListener('click', () => scegliGiorno(giorno));
-        griglia.append(pulsante);
-    }
-    document.getElementById('calendario-senza-data').hidden = !conteggi.has('senza-data');
+    calendarioReport.aggiorna(giornoSelezionato, conteggi);
 }
 const NOMI_CAMPI = {
     SALVATAGGI: 'Salvataggi',
@@ -128,30 +100,14 @@ function mostraReport(risultati) {
     const giornata = risultati.filter(riga => giornoRecord(riga) === giornoSelezionato);
     const riga = richiesto || riepilogaGiornata(giornata);
     const indice = giorni.indexOf(giornoSelezionato);
-    if (!meseCalendario && giornoSelezionato !== 'senza-data') meseCalendario = giornoSelezionato.slice(0, 7);
-    if (!meseCalendario) meseCalendario = giorni.find(g => g !== 'senza-data')?.slice(0, 7)
-        || new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit' }).format(new Date());
     document.getElementById('report-precedente').disabled = indice >= giorni.length - 1;
     document.getElementById('report-successivo').disabled = indice <= 0;
     document.getElementById('report-data').textContent = dataGiorno(giornoSelezionato);
     document.getElementById('report-titolo').textContent = richiesto ? `Salvataggio - ${richiesto.ID}` : 'Riepilogo giornaliero';
-    const eventi = document.getElementById('report-eventi');
-    const scorrimentoEventi = eventi.scrollLeft;
-    eventi.replaceChildren();
-    const sintesi = elemento('button', 'report-evento', `Riepilogo - ${giornata.length}`);
-    sintesi.type = 'button';
-    sintesi.setAttribute('aria-pressed', String(!richiesto));
-    sintesi.addEventListener('click', () => { idSelezionato = null; mostraRecord(); });
-    eventi.append(sintesi);
-    giornata.forEach(voce => {
-        const ora = dataRecord(voce.DATA_ORA)?.slice(11, 19) || 'Senza ora';
-        const pulsante = elemento('button', 'report-evento', `${ora} -  ${voce.ID ?? '—'}`);
-        pulsante.type = 'button';
-        pulsante.setAttribute('aria-pressed', String(voce === richiesto));
-        pulsante.addEventListener('click', () => { idSelezionato = String(voce.ID); mostraRecord(); });
-        eventi.append(pulsante);
-    });
-    eventi.scrollLeft = scorrimentoEventi;
+    selettoreReport.aggiorna([
+        { chiave: '', etichetta: 'Riepilogo - ' + giornata.length },
+        ...giornata.map(voce => ({ chiave: String(voce.ID), etichetta: (dataRecord(voce.DATA_ORA)?.slice(11,19) || 'Senza ora') + ' -  ' + (voce.ID ?? '-') }))
+    ], richiesto ? String(richiesto.ID) : '');
     const url = richiesto ? linkReport(richiesto) : `paginaReportSalvataggi.html?giorno=${encodeURIComponent(giornoSelezionato)}`;
     document.getElementById('vista-tabella').href = richiesto ? `paginaSalvataggi.html?id=${encodeURIComponent(richiesto.ID)}` : 'paginaSalvataggi.html';
     document.getElementById('vista-report').href = url;
@@ -347,7 +303,12 @@ async function caricaSalvataggi() {
     stato.className = '';
     stato.textContent = 'Caricamento salvataggi...';
     try {
-        const res = await fetch('/api/salvataggi/prelavorazione', { cache: 'no-store' });
+        const res = await fetch('/api/salvataggi/prelavorazione', { cache: 'no-store', signal: AbortSignal.timeout(30000) });
+        if (res.status === 401) {
+            window.location.assign('/autenticazione.html?ritorno=' + encodeURIComponent(
+                vistaReport ? '/paginaReportSalvataggi.html' : '/paginaSalvataggi.html'));
+            return;
+        }
         const risposta = await res.json();
         if (!res.ok || !risposta.ok) throw new Error(risposta.errore || 'Salvataggi non disponibili');
         if (!Array.isArray(risposta.dati)) throw new Error('Formato dei salvataggi non valido');
@@ -381,38 +342,8 @@ document.getElementById('chiudi-anteprima-salvataggio').addEventListener('click'
 dialog.addEventListener('click', evento => {
     if (evento.target === dialog) dialog.close();
 });
-for (const [id, delta] of [['report-precedente', 1], ['report-successivo', -1]]) {
-    document.getElementById(id).addEventListener('click', () => {
-        const giorni = giorniDisponibili();
-        const giorno = giorni[giorni.indexOf(giornoSelezionato) + delta];
-        if (giorno) scegliGiorno(giorno);
-    });
-}
-document.getElementById('apri-calendario').addEventListener('click', () => {
-    const calendario = document.getElementById('calendario-report');
-    calendario.hidden = !calendario.hidden;
-    document.getElementById('apri-calendario').setAttribute('aria-expanded', String(!calendario.hidden));
-    if (!calendario.hidden) {
-        mostraCalendario();
-        document.getElementById('calendario-mese').focus();
-    }
-});
-document.getElementById('calendario-mese').addEventListener('change', evento => {
-    if (/^\d{4}-\d{2}$/.test(evento.target.value)) { meseCalendario = evento.target.value; mostraCalendario(); }
-});
-for (const [id, delta] of [['mese-precedente', -1], ['mese-successivo', 1]]) {
-    document.getElementById(id).addEventListener('click', () => {
-        const [anno, mese] = meseCalendario.split('-').map(Number);
-        const data = new Date(Date.UTC(anno, mese - 1 + delta, 1));
-        meseCalendario = data.toISOString().slice(0, 7);
-        mostraCalendario();
-    });
-}
-document.getElementById('calendario-senza-data').addEventListener('click', () => scegliGiorno('senza-data'));
-document.addEventListener('keydown', evento => {
-    if (evento.key === 'Escape' && !document.getElementById('calendario-report').hidden) chiudiCalendario(true);
-});
-document.addEventListener('click', evento => {
-    if (!evento.target.closest('.report-selezione')) chiudiCalendario();
+const calendarioReport = creaCalendarioReport({ scegli: scegliGiorno, unita: 'salvataggi' });
+const selettoreReport = creaSelettoreReport(document.getElementById('report-eventi'), chiave => {
+    idSelezionato = chiave || null; mostraRecord();
 });
 caricaSalvataggi();

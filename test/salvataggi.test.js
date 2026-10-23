@@ -19,7 +19,10 @@ test('la consultazione interroga PLC e limita i risultati ai 500 piu recenti', a
     const context = { module: { exports: {} }, process: { env: { DB_NOME_PLC: 'PLC_TEST' } }, require: nome => mocks[nome] };
     vm.runInNewContext(sorgente('db/queries.js'), context);
     assert.equal(await context.module.exports.getSalvataggiPrelav(), righe);
-    assert.match(query, /SELECT TOP \(500\) \*/);
+    assert.match(query, /SELECT TOP \(500\)\s+ID\s*,/);
+    for (const campo of ['RICETTA_OMR', 'RICETTA_MES', 'TONN_TERRA', 'DATA_ORA']) {
+        assert.ok(query.includes(campo), `Campo previsto nella query: ${campo}`);
+    }
     assert.match(query, /FROM \[PLC_TEST\]\.\[dbo\]\.\[SLV_T_SALVATAGGI_PRELAV\]/);
     assert.match(query, /ORDER BY DATA_ORA DESC/);
 });
@@ -71,10 +74,11 @@ async function paginaConDati(dati, vista = 'tabella', recherche = '') {
         return elementi.get(id);
     }, createElement: () => new Elemento() };
     let errore = false;
-    const context = { document, Date, URLSearchParams, window: { location: { search: recherche }, history: { replaceState() {} } }, fetch: async () => {
+    const context = { document, Date, URLSearchParams, AbortSignal, window: { location: { search: recherche }, history: { replaceState() {} } }, fetch: async () => {
         if (errore) throw new Error('Server offline');
         return { ok: true, json: async () => ({ ok: true, dati, limite: 500 }) };
     } };
+    vm.runInNewContext(sorgente('public/js/reportControlli.js'), context);
     vm.runInNewContext(sorgente('public/js/salvataggi.js'), context);
     await new Promise(resolve => setImmediate(resolve));
     return { get: id => document.getElementById(id), offline() { errore = true; } };

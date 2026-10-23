@@ -1,6 +1,6 @@
 const DOCUMENTAZIONE = `
     <h1>Documentazione - Solava Factory Operation Panel (FOP)</h1>
-    <p>Ultimo aggiornamento: <b>20/10/2026</b> - Autore: <b>Cristian Ceni</b></p>
+    <p>Ultimo aggiornamento: <b>23/10/2026</b> - Autore: <b>Cristian Ceni</b></p>
 
     <h2>1. Funzionalità Principali</h2>
     <p>Factory Operation Panel (FOP) è un'interfaccia operativa con le seguenti funzioni attive:</p>
@@ -61,7 +61,7 @@ const DOCUMENTAZIONE = `
     <h3>Configurazione e Sicurezza</h3>
     <ul>
         <li><b>File <code>.env</code>:</b> contiene i parametri sensibili per l'autenticazione a SQL Server (host, istanza, database, credenziali utente). Non deve essere esposto né tracciato in chiaro. In caso di riconfigurazione, fare riferimento al template <code>.env.example</code>.</li>
-        <li><b>File <code>/config/settaggi.json</code>:</b> mantiene lo stato persistente delle configurazioni dell'applicazione (es. consenso automazione), gestito programmaticamente tramite gli endpoint <code>GET /api/automazione</code> e <code>POST /api/set-automazione</code>.</li>
+        <li><b>File <code>/config/settaggi.json</code>:</b> mantiene lo stato persistente delle configurazioni dell'applicazione (es. consenso automazione), gestito programmaticamente tramite gli endpoint <code>GET /api/impostazioni</code> e <code>POST /api/set-automazione</code>. Il precedente <code>GET /api/automazione</code> conserva il contratto pubblico usato dal servizio di riapertura.</li>
     </ul>
 
     <h3>Struttura del Progetto</h3>
@@ -81,6 +81,26 @@ const DOCUMENTAZIONE = `
     <p><code>public/css/components.css</code> contiene i token del FOP, inclusi i colori di attenzione e conferma e gli stili dei checkbox. La tabella dei salvataggi usa gli stili condivisi delle lavorazioni. Nel report, titoli e valori usano il font heading; data e ora e i testi di accompagnamento usano il font base.</p>
 
     <br>
+
+    <h3>Accesso e impostazioni</h3>
+    <p>Il file <code>config/utenti.json</code> contiene un array di utenti con i campi <code>utente</code> e <code>password</code>. Le password sono attualmente in chiaro e il file resta sul server. Il login crea una sessione di otto ore tramite cookie HttpOnly e SameSite Strict; al riavvio del servizio tutte le sessioni vengono invalidate.</p>
+    <p>In <code>config/settaggi.json</code>, <code>richiediAuth: true</code> richiede il login per il pannello, gli strumenti, i salvataggi, la documentazione e i PC connessi, comprese le relative API. I monitor reparto e le API necessarie al monitor e alla riapertura automatica rimangono accessibili. Il consenso si modifica dal dialog Impostazioni ed è applicato alle richieste successive. Le pagine protette rimandano al login; le API rispondono con 401.</p>
+    <h3>Computer connessi: tabella, report ed Excel</h3>
+    <p>Aprire <a href="paginaPcConnessi.html">PC Connessi</a> dal pannello. La tabella mostra 25 record per pagina, con IP, stato, ultima pagina, reparto, primo accesso e ultimo contatto. Il reparto deriva esclusivamente dal parametro <code>reparto</code> della pagina monitor, ad esempio <code>paginaReparto.html?reparto=cava</code>, e il nome proviene da <code>config/reparti.js</code>. I parametri delle altre pagine non vengono registrati. Un reparto non riconosciuto è indicato come tale.</p>
+    <p>Il browser invia un segnale ogni 30 secondi; un PC è attivo entro 90 secondi dall'ultimo contatto. L'elenco si aggiorna ogni 15 secondi e mantiene la pagina selezionata; è disponibile anche Aggiorna dati. Il registro <code>config/pcConnessi.json</code> conserva una voce per IP, con l'ultima pagina e l'ultimo reparto segnalati: più schede o PC dietro lo stesso IP non costituiscono sessioni distinte. Il rallentamento dei timer del browser può far apparire un PC non attivo.</p>
+    <p>Il <a href="paginaReportPcConnessi.html">Report</a> mostra il riepilogo della data selezionata e il dettaglio giornaliero di ogni IP. Il componente condiviso <code>public/js/reportTabella.js</code> riceve record, colonne, chiave del record e regole di riepilogo, senza dipendere da una particolare API. L'esportazione usa tutte le righe caricate, anche quelle nelle altre pagine, nel formato HTML compatibile con Excel con estensione .xls. Non viene eseguita alcuna ricerca DNS inversa.</p>
+
+<p>Lo storico d'uso dei PC inizia con l'attivazione della raccolta giornaliera e conserva fino a 90 giorni rilevati per IP nel registro. Il report ha un selettore data con navigazione tra le giornate disponibili. Le rilevazioni sono segnali di presenza, non visite o clic. Il tempo osservato somma solo intervalli consecutivi fino a 90 secondi nello stesso giorno: è una stima di presenza del FOP, non del lavoro umano. I giorni precedenti all'attivazione non vengono ricostruiti. L'Excel del report esporta tutti i PC della giornata selezionata.</p>
+    <h3>Come leggere il report dei computer</h3>
+    <p>Computer rilevati conta gli indirizzi IP distinti della giornata. Tempo osservato somma le finestre di presenza stimate dei PC, anche simultanee: non misura ore di lavoro degli operatori. Rilevazioni ricevute conta i segnali periodici, non i clic. Le barre di distribuzione mostrano il peso di ogni pagina e reparto sul totale delle rilevazioni; il selettore Dettaglio permette di consultare un singolo computer.</p>
+    <h3>Come leggere il report della prelavorazione</h3>
+    <ul>
+        <li><b>Giornata e singolo evento:</b> scegli una data per il riepilogo oppure un salvataggio per consultarne le letture. L'intervallo tra prima e ultima registrazione indica la copertura dei dati disponibili, non le ore di lavoro dell'impianto.</li>
+        <li><b>Ricette:</b> verde indica ricette OMR e MES coincidenti; giallo indica valori diversi o incompleti, da verificare nel singolo evento.</li>
+        <li><b>Linee:</b> i tempi sono letture dei contatori, espressi in ore e minuti. Nel riepilogo compare l'intervallo minimo-massimo; non equivale automaticamente al lavoro svolto nella giornata.</li>
+        <li><b>Terra e cassoni:</b> tonnellate e frequenze in Hz mostrano le letture disponibili. Non sommare le letture per ricavare la produzione e non dedurre fermi dai soli intervalli tra salvataggi.</li>
+        <li><b>Completezza:</b> vengono caricati al massimo 500 record; una giornata può essere parziale. Gli zeri sono valori validi, mentre il trattino indica un dato mancante.</li>
+    </ul>
 
     <h2>5. Gestione Servizio e Diagnostica</h2>
 
@@ -110,6 +130,14 @@ const DOCUMENTAZIONE = `
     <br>
 
     <h2>6. Codici di Stato ed Errori Ricorrenti</h2>
+    <p>I messaggi di errore dei monitor reparto, dei PC connessi e dei salvataggi sono rossi. Nessun dato disponibile e nessuna lavorazione sono stati vuoti, non guasti. In caso di aggiornamento fallito, i dati precedenti restano visibili e viene segnalata la loro mancata attualità. Dopo un caricamento riuscito lo stato di errore viene rimosso.</p>
+    <p>Nei monitor reparto e nei PC connessi, aprire <b>Dettagli tecnici</b> per leggere l'errore originale (raw error), quando disponibile. Il dettaglio viene mostrato come testo, senza interpretare HTML; non è la descrizione operativa per l'utente. Per l'assistenza riportare pagina, reparto, orario, messaggio principale e dettaglio tecnico. Per altri endpoint consultare anche i log del servizio.</p>
+    <ul>
+        <li><b>401 - Accesso richiesto:</b> credenziali errate o sessione assente/scaduta. Ripetere il login. Dopo un riavvio del servizio è necessario accedere nuovamente.</li>
+        <li><b>400 - Presenza non valida:</b> pagina o identificativo reparto inviati dal browser non hanno un formato valido. Ricaricare la pagina e verificare il parametro reparto.</li>
+        <li><b>500 - Registro PC non disponibile:</b> verificare che <code>config/pcConnessi.json</code> sia un array JSON valido e che il servizio possa leggere e scrivere nella cartella config. Conservare una copia del registro prima di correggerlo.</li>
+        <li><b>Timeout del monitor o dei PC:</b> dopo 10 secondi la richiesta viene interrotta. Il monitor riprova 5 secondi dopo il completamento della richiesta; i PC vengono aggiornati ogni 15 secondi. Verificare rete e servizio; i dati precedenti restano visibili.</li>
+    </ul>
     <ul>
         <li><b>400 - Reparto sconosciuto o mancante:</b> l'identificativo reparto passato nei parametri URL o nel body della richiesta non corrisponde a un record valido in anagrafica.</li>
         <li><b>400 - Numero di etichette non valido:</b> il valore inviato non è un intero compreso nel range ammesso (1 - 999).</li>

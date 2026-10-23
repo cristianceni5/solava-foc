@@ -8,6 +8,15 @@ const { leggiConfig, aggiornaConfig } = require('../services/automazione');
 
 const FINESTRA_RIAPERTA = 'Reparto - Factory Operation Panel';
 
+router.get('/api/impostazioni', async (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  try {
+    res.json(await leggiConfig());
+  } catch {
+    res.status(500).json({ errore: 'Impossibile leggere le impostazioni' });
+  }
+});
+
 // GET: risponde con le info per il programma sui PC
 router.get('/api/automazione', async (req, res) => {
   try {

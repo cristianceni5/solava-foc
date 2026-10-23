@@ -58,6 +58,7 @@
                     <a class="home-page-link" href="paginaControllo.html"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><span>Controllo attributi</span><i class="fa-solid fa-arrow-right home-link-arrow" aria-hidden="true"></i></a>
                     <a class="home-page-link" href="documentazione.html"><i class="fa-solid fa-book-open" aria-hidden="true"></i><span>Documentazione</span><i class="fa-solid fa-arrow-right home-link-arrow" aria-hidden="true"></i></a>
                     <a class="home-page-link" href="paginaQuantitaBolla.html"><i class="fa-solid fa-trowel-bricks"></i><span>Quantità bolla</span><i class="fa-solid fa-arrow-right home-link-arrow" aria-hidden="true"></i></a>
+                    <a class="home-page-link" href="paginaPcConnessi.html"><i class="fa-solid fa-computer"></i><span>Computer connessi</span><i class="fa-solid fa-arrow-right home-link-arrow" aria-hidden="true"></i></a>
                 </div>
             </section>
 
@@ -78,10 +79,14 @@
             <h2 id="titolo-impostazioni">Impostazioni</h2>
             <button type="button" id="chiudi-impostazioni" class="home-dialog-close" aria-label="Chiudi impostazioni"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
         </div>
-        <p class="home-dialog-description">Riapertura automatica del monitor dei reparti.</p>
+        <p class="home-dialog-description">Gestisci sicurezza e riapertura delle pagine reparto.</p>
         <div class="home-setting-row">
             <span id="etichetta-auto">Riapri automaticamente</span>
             <label class="switch"><input type="checkbox" id="check-auto" aria-labelledby="etichetta-auto" disabled><span class="slider round"></span></label>
+        </div>
+        <div class="home-setting-row">
+            <span id="etichetta-auth">Richiedi l'accesso per le pagine non di reparto</span>
+            <label class="switch"><input type="checkbox" id="check-auth" aria-labelledby="etichetta-auth" disabled><span class="slider round"></span></label>
         </div>
         <div class="home-setting-row">
             <label for="minuti-riapertura">Intervallo in minuti</label>
@@ -95,5 +100,6 @@
     <script src="./vendor/gsap/ScrollTrigger.min.js" defer></script>
     <script src="./js/indice.js" defer></script>
     <script src="./js/indexMotion.js" defer></script>
+    <script src="./js/presenza.js" defer></script>
 </body>
 </html>

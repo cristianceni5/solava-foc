@@ -12,7 +12,7 @@ const REPARTI = {
 }
 
 function getReparto(id) {
-    return REPARTI[id] || null;
+    return typeof id === 'string' && Object.hasOwn(REPARTI, id) ? REPARTI[id] : null;
 }
 
 module.exports = { REPARTI, getReparto };

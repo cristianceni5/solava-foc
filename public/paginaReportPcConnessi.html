@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report PC Connessi - Factory Operation Panel</title>
+    <link rel="icon" href="./assets/logo-solava-rid.png">
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/interne.css">
+    <link rel="stylesheet" href="./css/reportControlli.css">
+    <link rel="stylesheet" href="./css/pcConnessi.css">
+    <link rel="stylesheet" href="./css/reportTabella.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer">
+</head>
+<body class="pagina-interna" data-vista="report">
+    <header class="navigazione navigazione-pagina">
+        <a href="index.html" class="nav-back" aria-label="Torna al pannello operativo"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Pannello</a>
+        <a href="index.html" class="nav-brand" aria-label="Factory Operation Panel - pagina principale">
+            <img src="./assets/logo-solava-rossaccio.svg" alt="Solava" class="logo">
+            <span>Factory Operation Panel</span>
+        </a>
+        <span class="nav-page-current">Computer connessi</span>
+    </header>
+    <main class="mega-container tabella-pagina pc-pagina">
+        <div class="container">
+            <div class="tabella-intro">
+                <p id="ultimo-caricamento-pc" class="ultimo-aggiornamento">Ultimo aggiornamento: in attesa</p>
+                <h1 class="titolo-pagina">Computer connessi</h1>
+                <p id="stato-pc" role="status" aria-live="polite">Caricamento...</p>
+                <details id="errore-pc-dettagli" class="errore-dettagli" hidden>
+                    <summary>Dettagli tecnici</summary>
+                    <pre id="errore-pc-raw"></pre>
+                </details>
+                <div class="pagina-azioni">
+                    <button type="button" id="aggiorna-pc" class="pulsante-operativo pulsante-secondario"><i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i> Aggiorna dati</button>
+                    <button type="button" id="excel-pc" class="pulsante-operativo pulsante-secondario" disabled><i class="fa-solid fa-file-excel" aria-hidden="true"></i> Esporta in Excel</button>
+                </div>
+            </div>
+            <nav class="tabella-viste" aria-label="Viste dei computer">
+                <a href="paginaPcConnessi.html">Tabella</a>
+                <a href="paginaReportPcConnessi.html" aria-current="page">Report</a>
+            </nav>
+            <div id="report-pc-data-toolbar" class="report-selezione">
+                    <div class="report-controlli">
+                        <button id="report-precedente" type="button" aria-label="Giorno precedente con rilevazioni"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+                        <button id="apri-calendario" type="button" aria-expanded="false" aria-controls="calendario-report"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span id="report-data">Scegli una data</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>
+                        <button id="report-successivo" type="button" aria-label="Giorno successivo con rilevazioni"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+                    </div>
+                    <section id="calendario-report" class="calendario-report" aria-label="Calendario dei computer" hidden>
+                        <div class="calendario-testata">
+                            <button id="mese-precedente" type="button" aria-label="Mese precedente"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+                            <label class="sr-only" for="calendario-mese">Mese e anno</label>
+                            <input id="calendario-mese" type="month">
+                            <button id="mese-successivo" type="button" aria-label="Mese successivo"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="calendario-settimana" aria-hidden="true"><span>L</span><span>M</span><span>M</span><span>G</span><span>V</span><span>S</span><span>D</span></div>
+                        <div id="calendario-giorni" class="calendario-giorni"></div>
+                        <p>PC rilevati per giorno</p>
+                        <button id="calendario-senza-data" type="button" hidden>Senza data</button>
+                    </section>
+                </div>
+            <input type="hidden" id="pc-giorno">
+            <section id="report-pc" aria-label="Report computer connessi"></section>
+            <div hidden id="contenitore-pc" class="table-wrapper" role="region" aria-label="Elenco computer, scorribile orizzontalmente" tabindex="0">
+                <table id="tabella-pc" aria-label="PC collegati al FOP">
+                    <thead><tr><th scope="col">IP</th><th scope="col">STATO</th><th scope="col">ULTIMA PAGINA</th><th scope="col">REPARTO</th><th scope="col">PRIMO ACCESSO</th><th scope="col">ULTIMO CONTATTO</th></tr></thead>
+                    <tbody id="elenco-pc"></tbody>
+                </table>
+            </div>
+            <div class="tabella-footer">
+                <nav id="paginazione-pc" class="tabella-paginazione" aria-label="Pagine dei computer" hidden>
+                    <button type="button" id="pc-precedente" class="pulsante-operativo pulsante-secondario">Precedente</button>
+                    <span id="pc-numero-pagina" aria-live="polite"></span>
+                    <button type="button" id="pc-successiva" class="pulsante-operativo pulsante-secondario">Successiva</button>
+                </nav>
+                <div class="tabella-meta">
+                    <p id="conteggio-pc" role="status" aria-live="polite"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="./js/esportazioneExcel.js"></script>
+    <script src="./js/reportTabella.js"></script>
+    <script src="./js/analisiReport.js"></script>
+    <script src="./js/reportControlli.js"></script>
+    <script src="./js/pcConnessi.js"></script>
+    <script src="./js/presenza.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+.tabella-pagina { --report-surface: var(--colore-card); --report-muted: #f2eee8; }
+.report-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 18px;
+}
+
+.report-toolbar h2 {
+    margin: 0;
+    font-size: 1.35rem;
+}
+
+.report-toolbar p {
+    margin: 0;
+    font-size: .82rem;
+    line-height: 1.6;
+}
+
+.report-selezione {
+    position: relative;
+    flex: 0 0 auto;
+}
+
+.report-selezione label {
+    display: block;
+    margin-bottom: 7px;
+    font: .75rem var(--font-family-heading);
+    color: var(--colore-subtext);
+}
+
+.report-controlli {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.report-controlli button {
+    min-height: 44px;
+    width: 44px;
+    border: 1px solid var(--colore-border);
+    background: var(--report-surface);
+    border-radius: 99px;
+    color: var(--colore-text);
+    font: .9rem var(--font-family-heading);
+    cursor: pointer;
+    transition: background .15s;
+}
+
+.report-controlli #apri-calendario {
+    width: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 18px;
+}
+
+.report-controlli #apri-calendario span {
+    font: .85rem var(--font-family-heading);
+    color: inherit;
+}
+
+.report-controlli #apri-calendario[aria-expanded="true"] {
+    border-color: var(--solava-princ);
+    color: var(--solava-princ);
+}
+
+.report-controlli button:hover:not(:disabled) {
+    background: var(--report-muted);
+}
+
+.report-controlli button:disabled {
+    opacity: .35;
+    cursor: default;
+}
+
+.report-eventi {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 28px;
+    margin: 0 0 20px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--colore-border);
+}
+
+.report-evento {
+    flex: 0 0 auto;
+    padding: 14px 4px 17px;
+    min-height: 44px;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+    background: transparent;
+    color: var(--colore-subtext);
+    font: .9rem/1.4 var(--font-family-heading);
+    cursor: pointer;
+    transition: color .2s;
+}
+
+.report-evento:hover {
+    color: var(--colore-text);
+}
+
+.report-evento[aria-pressed="true"] {
+    color: var(--solava-princ);
+    border-bottom-color: var(--solava-princ);
+}
+
+.report-evento:focus-visible {
+    outline-offset: -3px;
+}
+
+.calendario-report {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    z-index: 8;
+    width: 330px;
+    max-width: calc(100vw - 48px);
+    padding: 18px;
+    box-sizing: border-box;
+    background: var(--report-surface);
+    border: 1px solid var(--colore-border);
+    border-radius: 22px;
+    box-shadow: 0 12px 40px #292b301c;
+}
+
+.calendario-testata {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.calendario-testata button,
+#calendario-senza-data {
+    min-height: 36px;
+    min-width: 36px;
+    border: 1px solid var(--colore-border);
+    background: var(--report-surface);
+    color: var(--colore-text);
+    border-radius: 99px;
+    cursor: pointer;
+}
+
+.calendario-testata input {
+    min-width: 0;
+    width: 100%;
+    padding: 8px 10px;
+    box-sizing: border-box;
+    border: 1px solid var(--colore-border);
+    border-radius: 99px;
+    font: .85rem var(--font-family-heading);
+    background: var(--report-surface);
+    color: var(--colore-text);
+}
+
+.calendario-settimana,
+.calendario-giorni {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 4px;
+}
+
+.calendario-settimana span {
+    text-align: center;
+    font: .7rem var(--font-family-heading);
+    padding-bottom: 8px;
+}
+
+.calendario-giorno {
+    min-height: 44px;
+    padding: 5px 0;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    background: var(--report-muted);
+    color: var(--colore-text);
+    font: .85rem var(--font-family-heading);
+    cursor: pointer;
+}
+
+.calendario-giorno span {
+    color: inherit;
+    font: inherit;
+}
+
+.calendario-giorno small {
+    display: block;
+    font-size: .6rem;
+    color: var(--solava-princ);
+}
+
+.calendario-giorno:disabled {
+    opacity: .35;
+    background: transparent;
+    cursor: default;
+}
+
+.calendario-giorno[aria-pressed="true"] {
+    background: var(--solava-princ);
+    color: #fff;
+}
+
+.calendario-giorno[aria-pressed="true"] small {
+    color: #fff;
+}
+
+.calendario-report>p {
+    margin: 14px 0 0;
+    font: .7rem/1.5 var(--font-family-base);
+    text-align: center;
+}
+
+#calendario-senza-data {
+    width: 100%;
+    margin-top: 10px;
+    font: .8rem var(--font-family-heading);
+}
+
+
+@media (max-width: 1000px) {
+    .report-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    }
+@media (max-width: 640px) {
+    .report-controlli button {
+        flex: 0 0 40px;
+    }
+
+        .report-selezione {
+        width: 100%;
+    }
+}

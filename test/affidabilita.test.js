@@ -111,6 +111,26 @@ test('configurazione assente usa i valori iniziali', async t => {
   assert.equal((await servizio.leggiConfig()).minuti, 2);
 });
 
+test('richiediAuth viene validato e salvato senza perdere le impostazioni esistenti', async t => {
+  const { servizio, file } = await configurazioneTemporanea(t);
+  const precedente = await fs.readFile(file, 'utf8');
+  for (const richiediAuth of ['true', 'false', 0, 1, null, [], {}]) {
+    await assert.rejects(servizio.aggiornaConfig({ richiediAuth }), err => err.status === 400);
+  }
+  assert.equal(await fs.readFile(file, 'utf8'), precedente);
+  await Promise.all([
+    servizio.aggiornaConfig({ richiediAuth: true }),
+    servizio.aggiornaConfig({ minuti: 12 })
+  ]);
+  let config = await servizio.leggiConfig();
+  assert.equal(config.richiediAuth, true);
+  assert.equal(config.minuti, 12);
+  assert.equal(config.altro, 'conservato');
+  await servizio.aggiornaConfig({ richiediAuth: false });
+  config = await servizio.leggiConfig();
+  assert.equal(config.richiediAuth, false);
+});
+
 test('la route restituisce 400 per impostazioni errate e conserva il contratto GET', async () => {
   const handlers = {};
   const router = { get(url, fn) { handlers[url] = fn; }, post(url, fn) { handlers[url] = fn; } };
@@ -169,4 +189,21 @@ test('il timeout copre anche un download PNG bloccato', async () => {
     throw controller.signal.reason;
   } }), controller);
   await assert.rejects(servizio.generaAnteprimaEtichetta('zpl'), err => err.status === 504);
+});
+
+test('settaggi Windows: accetta BOM, conserva file non validi e recupera dopo la correzione', async t => {
+  const { servizio, file } = await configurazioneTemporanea(t);
+  await fs.writeFile(file, '\uFEFF' + JSON.stringify({ minuti: 5, consensoAuto: true }));
+  assert.equal((await servizio.leggiConfig()).minuti, 5);
+  await servizio.aggiornaConfig({ minuti: 6 });
+  assert.equal((await servizio.leggiConfig()).minuti, 6);
+  for (const contenuto of ['null', '[]', '"test"', '{non valido']) {
+    await fs.writeFile(file, contenuto);
+    await assert.rejects(servizio.leggiConfig());
+    await assert.rejects(servizio.aggiornaConfig({ minuti: 7 }));
+    assert.equal(await fs.readFile(file, 'utf8'), contenuto);
+  }
+  await fs.writeFile(file, '{"minuti":8}');
+  await servizio.aggiornaConfig({ minuti: 9 });
+  assert.equal((await servizio.leggiConfig()).minuti, 9);
 });

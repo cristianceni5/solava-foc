@@ -48,3 +48,15 @@ Server in ascolto sulla porta 65535
 Server in ascolto sulla porta 65535
 ◇ injected env (5) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
 Server in ascolto sulla porta 65535
+◇ injected env (5) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Server in ascolto sulla porta 65535
+◇ injected env (5) from .env // tip: ⌘ suppress logs { quiet: true }
+Server in ascolto sulla porta 65535
+◇ injected env (5) from .env // tip: ⌘ suppress logs { quiet: true }
+Server in ascolto sulla porta 65535
+◇ injected env (5) from .env // tip: ⌘ enable debugging { debug: true }
+Server in ascolto sulla porta 65535
+◇ injected env (5) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+Server in ascolto sulla porta 65535
+◇ injected env (5) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Server in ascolto sulla porta 65535
