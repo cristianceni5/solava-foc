@@ -1,6 +1,7 @@
 ﻿<!-- Cristian Ceni - 2026 -->
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         referrerpolicy="no-referrer">
 </head>
+
 <body class="pagina-interna pagina-autenticazione">
     <main class="mega-container">
         <section class="container-auth" aria-labelledby="titolo-auth">
@@ -31,14 +33,17 @@
                         <i class="fa-solid fa-question" aria-hidden="true"></i>
                     </a>
                 </div>
-                <form class="login-box" id="formAccesso" aria-label="Credenziali di accesso" method="post" action="/api/autenticazione">
+                <form class="login-box" id="formAccesso" aria-label="Credenziali di accesso" method="post"
+                    action="/api/autenticazione">
                     <div class="auth-campo">
                         <label for="inputNome">Nome utente</label>
-                        <input type="text" id="inputNome" name="utente" placeholder="Es: Mario" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="100" required autofocus>
+                        <input type="text" id="inputNome" name="utente" placeholder="Es: Mario" autocomplete="username"
+                            autocapitalize="none" spellcheck="false" maxlength="100" required autofocus>
                     </div>
                     <div class="auth-campo">
                         <label for="inputPassword">Password</label>
-                        <input type="password" id="inputPassword" name="password" placeholder="Password" autocomplete="current-password" maxlength="1024" required>
+                        <input type="password" id="inputPassword" name="password" placeholder="Password"
+                            autocomplete="current-password" maxlength="1024" required>
                     </div>
                     <p id="erroreAccesso" class="auth-errore" role="alert" tabindex="-1"></p>
                     <button type="submit" id="btnCerca">Accedi</button>
@@ -49,4 +54,5 @@
     <script src="./js/autenticazione.js"></script>
     <script src="./js/presenza.js" defer></script>
 </body>
+
 </html>

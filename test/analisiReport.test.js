@@ -7,6 +7,7 @@ test('analisi giornaliera PC raggruppa pagine e reparti senza trasformare segnal
     const campi = analisi.riepilogoPc(dati);
     assert.equal(campi[0].valore, 1);
     assert.equal(campi[1].valore, '0 h 2 min');
+    assert.equal(campi[2].valore, 5);
     assert.match(campi[3].valore, /Monitor reparto · Cava/);
     assert.equal(analisi.riepilogoPc([])[0].valore, 0);
 });

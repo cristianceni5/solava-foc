@@ -1,4 +1,8 @@
-﻿// Esportazione delle tabelle nel formato HTML compatibile con Excel (.xls).
+﻿// Autori: Cristian Ceni
+// Ultima modifica: 23/10/2026
+// Scopo: esportazione Excel delle tabelle - file universale
+
+// Esportazione delle tabelle nel formato HTML compatibile con Excel (.xls).
 function exportTableToExcel(idTabella, nomeFile = 'excel_data', datiCompleti) {
     const tabella = document.getElementById(idTabella);
     if (!tabella) return;

@@ -5,11 +5,23 @@
 const express = require('express');
 const router = express.Router();
 const { getReparto } = require('../config/reparti');
-const { eseguiQueryReparto } = require('../db/queries');
+const statoReparto = require('../services/statoReparto');
 const { REPARTI } = require('../config/reparti');
+
+function datiNonModificati(validatori, etag) {
+  if (!validatori) return false;
+  for (const valore of validatori.split(',')) {
+    let validatore = valore.trim();
+    if (validatore === '*') return true;
+    if (validatore.startsWith('W/')) validatore = validatore.slice(2);
+    if (validatore === etag) return true;
+  }
+  return false;
+}
 
 // Definisco la route per l'API di stato
 router.get('/api/stato', async (req, res) => {
+  res.set('Cache-Control', 'no-store');
   const idReparto = req.query.reparto;
   const reparto = getReparto(idReparto);
 
@@ -21,15 +33,14 @@ router.get('/api/stato', async (req, res) => {
   }
 
   try {
-    const righe = await eseguiQueryReparto(idReparto);
-
-    const risposta = {
-      ok: true,
-      reparto: reparto.nome,
-      dati: righe,
-    };
-
-    res.json(risposta);
+    const risultato = await statoReparto.leggi(idReparto);
+    res.set('ETag', risultato.etag);
+    res.set('X-Dati-Aggiornati-Il', risultato.aggiornatoIl);
+    // Il browser conserva i dati in memoria e invia esplicitamente il validatore.
+    if (datiNonModificati(req.get('If-None-Match'), risultato.etag)) {
+      return res.status(304).end();
+    }
+    res.type('json').send(risultato.corpo);
   } catch (errore) {
     res.status(503).json({
       ok: false,

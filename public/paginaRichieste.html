@@ -1,0 +1,253 @@
+<!-- Cristian Ceni - 2026 -->
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Richieste e log - Factory Operation Panel</title>
+    <link rel="icon" href="./assets/logo-solava-rid.png">
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/interne.css">
+    <link rel="stylesheet" href="./css/richieste.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        referrerpolicy="no-referrer">
+</head>
+
+<body class="pagina-interna">
+    <header class="navigazione navigazione-pagina">
+        <a href="index.html#strumenti" class="nav-back" aria-label="Torna al pannello operativo"><i
+                class="fa-solid fa-arrow-left" aria-hidden="true"></i> Pannello</a>
+        <a href="index.html" class="nav-brand" aria-label="Factory Operation Panel - pagina principale">
+            <img src="./assets/logo-solava-rossaccio.svg" alt="Solava" class="logo">
+            <span>Factory Operation Panel</span>
+        </a>
+        <span class="nav-page-current">Richieste e log</span>
+    </header>
+    <main class="mega-container tabella-pagina richieste-pagina">
+        <div class="container">
+            <div class="tabella-intro">
+                <p id="richieste-aggiornamento" class="ultimo-aggiornamento">In attesa del primo aggiornamento</p>
+                <h1 class="titolo-pagina">Richieste e log</h1>
+                <p>Il traffico del pannello, a colpo d'occhio.</p>
+                <div class="pagina-azioni">
+                    <button type="button" id="richieste-aggiorna" class="pulsante-operativo pulsante-secondario"><i
+                            class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i> Aggiorna</button>
+                    <label class="richieste-auto"><input id="richieste-auto" type="checkbox" checked> Aggiorna
+                        automaticamente</label>
+                </div>
+                <p id="richieste-stato" role="status" aria-live="polite">Caricamento...</p>
+            </div>
+
+            <nav id="richieste-viste" class="tabella-viste" aria-label="Viste delle richieste">
+                <a id="richieste-tab-riepilogo" href="#riepilogo" aria-current="page"
+                    aria-controls="richieste-vista-riepilogo"><i class="fa-solid fa-chart-simple"
+                        aria-hidden="true"></i> Riepilogo</a>
+                <a id="richieste-tab-log" href="#log" aria-controls="richieste-vista-log"><i class="fa-solid fa-list"
+                        aria-hidden="true"></i> Log</a>
+            </nav>
+
+            <section id="richieste-vista-riepilogo" aria-labelledby="richieste-tab-riepilogo">
+                <p id="richieste-sintesi-periodo" class="richieste-nota">Ultimi 30 minuti disponibili</p>
+                <dl class="richieste-metriche richieste-metriche-sintesi">
+                    <div>
+                        <dt>Richieste</dt>
+                        <dd id="richieste-sintesi-totale">—</dd>
+                    </div>
+                    <div>
+                        <dt>Dati inviati</dt>
+                        <dd id="richieste-sintesi-byte">—</dd>
+                    </div>
+                    <div>
+                        <dt>Errori</dt>
+                        <dd id="richieste-sintesi-errori">—</dd>
+                    </div>
+                </dl>
+
+                <section class="richieste-sezione" aria-labelledby="richieste-trend-titolo">
+                    <div class="richieste-trend-testata">
+                        <div>
+                            <h2 id="richieste-trend-titolo">Andamento del traffico</h2>
+                            <p class="richieste-nota">Ultimi 30 minuti. Seleziona una barra per leggere il valore.</p>
+                        </div>
+                        <div class="richieste-filtri richieste-trend-selettore">
+                            <label for="richieste-metrica">Mostra<span class="richieste-select"><select
+                                        id="richieste-metrica">
+                                        <option value="richieste">Richieste</option>
+                                        <option value="traffico">Dati inviati</option>
+                                        <option value="tempo">Tempo di risposta</option>
+                                        <option value="errori">Errori</option>
+                                    </select><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></span></label>
+                        </div>
+                    </div>
+                    <div class="richieste-trend-scheda">
+                        <p id="richieste-trend-picco" class="richieste-nota">In attesa dei dati del trend</p>
+                        <div class="richieste-trend-scroll" role="region"
+                            aria-label="Grafico degli ultimi 30 minuti, scorribile orizzontalmente" tabindex="0">
+                            <div id="richieste-trend-grafico" class="richieste-trend-grafico" role="group"
+                                aria-label="Seleziona un minuto per consultarne i valori"></div>
+                        </div>
+                        <div class="richieste-trend-asse"><span id="richieste-trend-inizio"></span><span
+                                id="richieste-trend-fine"></span></div>
+                        <p id="richieste-trend-dettaglio" class="richieste-nota" role="status" aria-live="polite">
+                            Seleziona una barra per vedere il dettaglio.</p>
+                    </div>
+                    <div class="richieste-classifiche richieste-classifiche-sintesi">
+                        <section class="richieste-classifica" aria-labelledby="richieste-top-ip-titolo">
+                            <h3 id="richieste-top-ip-titolo">Computer con più carico</h3>
+                            <p class="richieste-nota">I primi tre IP per il valore scelto, sui dati recenti.</p>
+                            <ol id="richieste-top-ip"></ol>
+                        </section>
+                    </div>
+                    <p class="richieste-apri-log"><a class="pulsante-operativo pulsante-secondario" href="#log"><i
+                                class="fa-solid fa-list" aria-hidden="true"></i> Consulta i log</a></p>
+                </section>
+            </section>
+
+            <section id="richieste-vista-log" aria-labelledby="richieste-tab-log" hidden>
+                <section aria-label="Riepilogo dall'avvio del servizio">
+                    <p id="richieste-avvio" class="richieste-nota">Contatori dall'avvio del servizio</p>
+                    <dl class="richieste-metriche">
+                        <div>
+                            <dt>Richieste ricevute</dt>
+                            <dd id="richieste-totale">—</dd>
+                            <dd class="richieste-metrica-nota" id="richieste-concorrenza"></dd>
+                        </div>
+                        <div>
+                            <dt>Risposte prodotte</dt>
+                            <dd id="richieste-byte">—</dd>
+                            <dd class="richieste-metrica-nota">Byte del corpo delle risposte</dd>
+                        </div>
+                        <div>
+                            <dt>Tempo medio</dt>
+                            <dd id="richieste-tempo">—</dd>
+                            <dd class="richieste-metrica-nota" id="richieste-tempo-max"></dd>
+                        </div>
+                        <div>
+                            <dt>Errori HTTP</dt>
+                            <dd id="richieste-errori">—</dd>
+                            <dd class="richieste-metrica-nota" id="richieste-interrotte"></dd>
+                        </div>
+                    </dl>
+                </section>
+
+                <section class="richieste-sezione" aria-labelledby="richieste-log-titolo">
+                    <h2 id="richieste-log-titolo">Richieste per IP</h2>
+                    <p class="richieste-nota">Una riga per computer, sulle ultime 500 richieste concluse. Espandi i
+                        percorsi per consultarne i conteggi.</p>
+                    <div class="richieste-filtri">
+                        <label for="richieste-cerca">Cerca<input type="search" id="richieste-cerca"
+                                placeholder="Es. 10.50.0.154 oppure /api/stato" maxlength="100"
+                                autocomplete="off"></label>
+                        <label for="richieste-filtro">Mostra<span class="richieste-select"><select
+                                    id="richieste-filtro">
+                                    <option value="tutte">Tutti gli IP</option>
+                                    <option value="errori">IP con errori HTTP (400 e oltre)</option>
+                                    <option value="lente">IP con richieste lente (almeno 1 secondo)</option>
+                                    <option value="pesanti">IP con risposte pesanti (almeno 1 MiB)</option>
+                                    <option value="interrotte">IP con richieste interrotte</option>
+                                </select><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></span></label>
+                        <label for="richieste-metrica-log">Ordina per<span class="richieste-select"><select
+                                    id="richieste-metrica-log">
+                                    <option value="richieste">Richieste</option>
+                                    <option value="traffico">Dati inviati</option>
+                                    <option value="tempo">Tempo di risposta</option>
+                                    <option value="errori">Errori</option>
+                                </select><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></span></label>
+                    </div>
+                    <div class="table-wrapper richieste-tabella" role="region"
+                        aria-label="Richieste accorpate per IP, scorribile orizzontalmente" tabindex="0">
+                        <table>
+                            <caption class="sr-only">Riepilogo per IP delle ultime 500 richieste concluse</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">IP</th>
+                                    <th scope="col">Richieste</th>
+                                    <th scope="col">Ultimo contatto</th>
+                                    <th scope="col">Percorsi</th>
+                                    <th scope="col">Reparti</th>
+                                    <th scope="col">Errori HTTP</th>
+                                    <th scope="col">Interrotte</th>
+                                    <th scope="col">Media</th>
+                                    <th scope="col">Massima</th>
+                                    <th scope="col">Risposte</th>
+                                </tr>
+                            </thead>
+                            <tbody id="richieste-log"></tbody>
+                        </table>
+                    </div>
+                    <div class="tabella-footer">
+                        <nav class="tabella-paginazione" aria-label="Pagine degli IP">
+                            <button id="richieste-precedente" type="button"
+                                class="pulsante-operativo pulsante-secondario" disabled><i
+                                    class="fa-solid fa-chevron-left" aria-hidden="true"></i> Precedente</button>
+                            <span id="richieste-pagina">Pagina 1 di 1</span>
+                            <button id="richieste-successiva" type="button"
+                                class="pulsante-operativo pulsante-secondario" disabled>Successiva <i
+                                    class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+                        </nav>
+                        <div class="tabella-meta">
+                            <p id="richieste-conteggio" role="status" aria-live="polite"></p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="richieste-sezione" aria-labelledby="richieste-percorsi-titolo">
+                    <h2 id="richieste-percorsi-titolo">Carico per percorso</h2>
+                    <p id="richieste-classifiche-nota" class="richieste-nota">Dall'avvio del servizio. Include API,
+                        pagine e download.</p>
+                    <div class="table-wrapper richieste-tabella" role="region"
+                        aria-label="Carico per percorso, scorribile orizzontalmente" tabindex="0">
+                        <table>
+                            <caption class="sr-only">Carico cumulativo per percorso</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Percorso</th>
+                                    <th scope="col">Richieste</th>
+                                    <th scope="col">Risposte</th>
+                                    <th scope="col">Media</th>
+                                    <th scope="col">Massima</th>
+                                    <th scope="col">Errori HTTP</th>
+                                    <th scope="col">304</th>
+                                </tr>
+                            </thead>
+                            <tbody id="richieste-percorsi"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <details class="richieste-sezione richieste-dettagli-tecnici">
+                    <summary id="richieste-sql-titolo"><i class="fa-solid fa-chevron-right richieste-freccia"
+                            aria-hidden="true"></i> Dettagli SQL dei monitor</summary>
+                    <dl class="richieste-metriche richieste-metriche-sql">
+                        <div>
+                            <dt>Query eseguite</dt>
+                            <dd id="richieste-sql-query">—</dd>
+                        </div>
+                        <div>
+                            <dt>Servite dalla cache</dt>
+                            <dd id="richieste-sql-cache">—</dd>
+                        </div>
+                        <div>
+                            <dt>Richieste accorpate</dt>
+                            <dd id="richieste-sql-accorpate">—</dd>
+                        </div>
+                        <div>
+                            <dt>Errori SQL</dt>
+                            <dd id="richieste-sql-errori">—</dd>
+                        </div>
+                    </dl>
+                    <p id="richieste-sql-tempi" class="richieste-nota"></p>
+                </details>
+                <p class="richieste-nota richieste-limiti">Log e contatori restano in memoria e si azzerano al riavvio.
+                    I byte escludono header e overhead TCP/TLS; per le richieste interrotte indicano i byte prodotti
+                    prima della chiusura. I controlli di questa pagina non entrano nei log. Query string, credenziali e
+                    contenuto delle richieste non vengono registrati.</p>
+            </section>
+        </div>
+    </main>
+    <script src="./js/richieste.js"></script>
+    <script src="./js/presenza.js" defer></script>
+</body>
+
+</html>

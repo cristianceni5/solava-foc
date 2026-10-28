@@ -268,6 +268,7 @@ input[type="checkbox"]:not(.switch input):checked::before {
     input[type="checkbox"]:not(.switch input) {
         appearance: auto;
     }
+
     input[type="checkbox"]:not(.switch input)::before {
         content: none;
     }
@@ -285,91 +286,97 @@ input[type="checkbox"]:not(.switch input):disabled {
 
 /* The switch - the box around the slider */
 .switch {
-  position: relative;
-  display: inline-block;
-  flex: 0 0 auto;
-  width: 52px;
-  height: 28px;
+    position: relative;
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 52px;
+    height: 28px;
 }
 
 /* Hide default HTML checkbox */
 .switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
 /* The slider */
 .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--colore-border);
-  border-radius: 28px;
-  -webkit-transition: .4s;
-  transition: .4s;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--colore-border);
+    border-radius: 28px;
+    -webkit-transition: .4s;
+    transition: .4s;
 }
 
 .slider:before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  left: 4px;
-  bottom: 4px;
-  background-color: var(--colore-card);
-  -webkit-transition: .4s;
-  transition: .4s;
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--colore-card);
+    -webkit-transition: .4s;
+    transition: .4s;
 }
 
-input:checked + .slider {
-  background-color: var(--solava-princ);
+input:checked+.slider {
+    background-color: var(--solava-princ);
 }
 
-input:focus + .slider {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--solava-princ) 25%, transparent);
+input:focus+.slider {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--solava-princ) 25%, transparent);
 }
 
-input:checked + .slider:before {
-  -webkit-transform: translateX(24px);
-  -ms-transform: translateX(24px);
-  transform: translateX(24px);
+input:checked+.slider:before {
+    -webkit-transform: translateX(24px);
+    -ms-transform: translateX(24px);
+    transform: translateX(24px);
 }
 
 /* Rounded sliders */
 .slider.round {
-  border-radius: 28px;
+    border-radius: 28px;
 }
 
 .slider.round:before {
-  border-radius: 50%;
+    border-radius: 50%;
 }
 
 #minuti-riapertura {
-  box-sizing: border-box;
-  width: 94px;
-  min-height: 40px;
-  padding: 8px 10px;
-  border: 1px solid var(--colore-border);
-  border-radius: 8px;
-  background-color: var(--colore-card);
-  color: var(--colore-text);
-  font: inherit;
-  text-align: center;
+    box-sizing: border-box;
+    width: 94px;
+    min-height: 40px;
+    padding: 8px 10px;
+    border: 1px solid var(--colore-border);
+    border-radius: 8px;
+    background-color: var(--colore-card);
+    color: var(--colore-text);
+    font: inherit;
+    text-align: center;
 }
 
 #minuti-riapertura::placeholder {
-  color: var(--colore-subtext);
-  opacity: 0.8;
+    color: var(--colore-subtext);
+    opacity: 0.8;
 }
 
 
 /* Componenti comuni a monitor, tabelle e report. */
-.tabella-pagina > .container { min-width: 0; }
-.tabella-pagina [hidden] { display: none !important; }
+.tabella-pagina>.container {
+    min-width: 0;
+}
+
+.tabella-pagina [hidden] {
+    display: none !important;
+}
+
 .tabella-intro {
     margin-top: 36px;
     padding-bottom: 26px;
@@ -423,34 +430,46 @@ input:checked + .slider:before {
     color: var(--colore-text);
 }
 
-.tabella-viste {
+.tabella-viste,
+.report-eventi {
     display: flex;
     gap: 32px;
     border-bottom: 1px solid var(--colore-border);
     margin-bottom: 28px;
 }
 
-.tabella-viste a {
+.tabella-viste a,
+.report-evento {
     position: relative;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    min-height: 44px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    cursor: pointer;
     padding: 14px 4px 17px;
-    font: 1rem var(--font-family-heading);
+    font: 1rem/1.4 var(--font-family-heading);
     text-decoration: none;
     color: var(--colore-subtext);
     transition: color .2s;
 }
 
-.tabella-viste a:hover {
+.tabella-viste a:hover,
+.report-evento:hover {
     color: var(--colore-text);
 }
 
-.tabella-viste a[aria-current="page"] {
+.tabella-viste a[aria-current="page"],
+.report-evento[aria-pressed="true"] {
     color: var(--solava-princ);
 }
 
-.tabella-viste a[aria-current="page"]::after {
+.tabella-viste a[aria-current="page"]::after,
+.report-evento[aria-pressed="true"]::after {
     content: '';
     position: absolute;
-    bottom: -1px;
+    bottom: 0;
     height: 3px;
     left: 0;
     right: 0;
@@ -479,12 +498,14 @@ input:checked + .slider:before {
     color: var(--colore-subtext);
     margin: 0;
 }
+
 @media (max-width: 640px) {
     .tabella-paginazione {
         gap: 8px;
         width: 100%;
         justify-content: space-between;
     }
+
     .tabella-paginazione .pulsante-operativo {
         padding: 10px 12px;
         font-size: .85rem;

@@ -7,6 +7,38 @@ const os = require('node:os');
 const creaAccesso = require('../middleware/accesso');
 const { creaRegistro } = require('../services/pcConnessi');
 
+test('alias PC separati: elenco e report aggiornati senza riscrivere gli alias ai segnali', async () => {
+  const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'fop-alias-'));
+  const file = path.join(directory, 'pc.json');
+  const fileAlias = path.join(directory, 'aliasPc.json');
+  const registro = creaRegistro(file, () => new Date('2026-10-26T08:00:00Z'));
+  try {
+    await registro.registra('10.50.0.154', '/index.html');
+    assert.equal((await registro.elenco())[0].alias, '');
+    const salvati = JSON.parse(await fs.readFile(file, 'utf8'));
+    salvati[0].alias = 'Nome precedente';
+    await fs.writeFile(file, JSON.stringify(salvati));
+    assert.equal((await registro.elenco())[0].alias, 'Nome precedente');
+    const configurazione = JSON.stringify({ '10.50.0.154': 'SLVW11ISC' });
+    await fs.writeFile(fileAlias, configurazione);
+    await registro.registra('10.50.0.154', '/index.html');
+    assert.equal(await fs.readFile(fileAlias, 'utf8'), configurazione);
+    assert.equal((await registro.elenco())[0].alias, 'SLVW11ISC');
+    assert.equal((await registro.report('2026-10-26')).dati[0].alias, 'SLVW11ISC');
+    await fs.writeFile(fileAlias, JSON.stringify({ '10.50.0.154': '' }));
+    assert.equal((await registro.elenco())[0].alias, '');
+    await fs.writeFile(fileAlias, '{incompleto');
+    await assert.rejects(registro.elenco());
+    // Un errore nel file alias non interrompe la raccolta delle presenze.
+    await registro.registra('10.50.0.154', '/index.html');
+    assert.equal(await fs.readFile(fileAlias, 'utf8'), '{incompleto');
+  } finally {
+    await fs.unlink(file).catch(() => {});
+    await fs.unlink(fileAlias).catch(() => {});
+    await fs.rmdir(directory);
+  }
+});
+
 test('richiesta auth protegge pagine e API mantenendo pubblico il reparto', async () => {
   let richiediAuth = true;
   const app = express();

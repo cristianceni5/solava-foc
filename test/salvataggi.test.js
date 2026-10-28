@@ -187,7 +187,7 @@ test('report raggruppa tutti i campi, conserva gli zeri e include i campi nuovi'
 test('report apre il record richiesto e permette di passare al riepilogo del giorno seguente', async () => {
     const dati = [{ ID: 1, DATA_ORA: '2026-10-08T08:00:00' }, { ID: 2, DATA_ORA: '2026-10-09T08:00:00' }];
     const { get } = await paginaConDati(dati, 'report', '?id=1');
-    assert.equal(get('report-titolo').textContent, 'Salvataggio - 1');
+    assert.equal(get('report-titolo').textContent, 'Versamento - 1');
     get('report-successivo').events.click();
     assert.equal(get('report-data').textContent, '09/10/2026');
     assert.equal(get('report-titolo').textContent, 'Riepilogo giornaliero');
@@ -236,11 +236,11 @@ test('riepilogo giornaliero usa intervalli dei contatori e conserva tutti gli ev
     ];
     const { get } = await paginaConDati(dati, 'report', '?giorno=2026-10-08');
     const cards = get('report-griglia').children;
-    assert.equal(cards.find(c => c.children[0].textContent === 'Produzione').children[1].children[0].children[1].textContent, '100 – 150');
+    assert.equal(cards.find(c => c.children[0].textContent === 'Terra pesata').children[1].children[0].children[1].textContent, '100 – 150');
     assert.equal(get('report-eventi').children.length, 3);
-    assert.equal(get('report-eventi').children[0].textContent, 'Riepilogo - 2');
+    assert.equal(get('report-eventi').children[0].textContent, 'Riepilogo - 2 salvataggi');
     get('report-eventi').children[1].events.click();
-    assert.equal(get('report-titolo').textContent, 'Salvataggio - 2');
+    assert.equal(get('report-titolo').textContent, 'Versamento - 2');
     get('report-eventi').children[0].events.click();
     assert.equal(get('report-titolo').textContent, 'Riepilogo giornaliero');
     const giorno8 = get('calendario-giorni').children.find(c => c.attributes['aria-label'] === '08/10/2026, 2 salvataggi');
@@ -250,4 +250,34 @@ test('riepilogo giornaliero usa intervalli dei contatori e conserva tutti gli ev
     assert.equal(get('report-data').textContent, '09/10/2026');
     assert.equal(get('report-eventi').children.length, 2);
     assert.equal(get('calendario-report').hidden, true);
+});
+
+test('versamenti numerati per ora e giornata indipendentemente dagli ID', async () => {
+    const { get } = await paginaConDati([
+        { ID: 900, DATA_ORA: '2026-10-08T08:00:00' },
+        { ID: 12, DATA_ORA: '2026-10-08T16:29:08' },
+        { ID: 700, DATA_ORA: '2026-10-09T09:00:00' }
+    ], 'report', '?id=12');
+    assert.equal(get('report-titolo').textContent, 'Versamento - 2');
+    assert.equal(get('report-eventi').children[1].textContent, '16:29:08 - 2');
+    assert.equal(get('report-eventi').children[2].textContent, '08:00:00 - 1');
+    const campi = get('report-griglia').children.flatMap(card => card.children[1].children);
+    assert.equal(campi.some(campo => campo.dataset.campo === 'ID'), false);
+    assert.equal(campi.find(campo => campo.dataset.campo === 'VERSAMENTO').children[1].textContent, '2');
+    get('report-successivo').events.click();
+    assert.equal(get('report-eventi').children[1].textContent, '09:00:00 - 1');
+});
+
+test('riepilogo distingue elenco ricette e confronto di ogni salvataggio', async () => {
+    const { get } = await paginaConDati([
+        { ID: 1, DATA_ORA: '2026-10-08T08:00:00', RICETTA_OMR: 13, RICETTA_MES: 1 },
+        { ID: 2, DATA_ORA: '2026-10-08T09:00:00', RICETTA_OMR: 1, RICETTA_MES: 13 }
+    ], 'report');
+    const identita = get('report-griglia').children[0];
+    const ricette = identita.children[1].children.filter(campo => campo.dataset.campo.startsWith('RICETTA_'));
+    assert.equal(ricette[0].children[1].textContent, '1, 13');
+    assert.equal(ricette[0].children[0].textContent, 'Ricette OMR presenti');
+    assert.equal(identita.children[2].textContent, 'Ricette OMR e MES coincidenti in 0 salvataggi su 2.');
+    get('report-eventi').children[1].events.click();
+    assert.equal(get('report-griglia').children[0].children.length, 2);
 });

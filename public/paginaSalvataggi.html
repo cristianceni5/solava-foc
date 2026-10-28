@@ -1,6 +1,5 @@
+<!-- Cristian Ceni - 2026 -->
 <!DOCTYPE html>
-<!-- Autore: Codex | Ultima modifica: 10/10/2026
-     Scopo: consultare gli ultimi salvataggi di produzione della prelavorazione. -->
 <html lang="it">
 
 <head>
@@ -36,7 +35,9 @@
                         <i class="fa-solid fa-arrow-rotate-left"></i>
                         Aggiorna dati
                     </button>
-                    <button type="button" id="excel-salvataggi" onclick="clickButton('tabella-salvataggi', 'salvataggiPrelav');" class="pulsante-operativo pulsante-secondario">
+                    <button type="button" id="excel-salvataggi"
+                        onclick="clickButton('tabella-salvataggi', 'salvataggiPrelav');"
+                        class="pulsante-operativo pulsante-secondario">
                         <i class="fa-solid fa-file-excel"></i>
                         Esporta in Excel
                     </button>
@@ -82,7 +83,7 @@
                     </div>
                 </div>
                 <div id="report-eventi" class="report-eventi" role="group" aria-label="Eventi della giornata"></div>
-            <div id="report-griglia" class="report-griglia"></div>
+                <div id="report-griglia" class="report-griglia"></div>
             </section>
             <div class="table-wrapper salvataggi-tabella" id="contenitore-salvataggi" tabindex="0" role="region"
                 aria-label="Tabella dei salvataggi" hidden>
@@ -93,8 +94,7 @@
             </div>
             <div id="salvataggi-vuoto" class="salvataggi-vuoto" hidden></div>
             <div class="tabella-footer">
-                <nav class="tabella-paginazione" aria-label="Pagine dei salvataggi" id="paginazione-salvataggi"
-                    hidden>
+                <nav class="tabella-paginazione" aria-label="Pagine dei salvataggi" id="paginazione-salvataggi" hidden>
                     <button type="button" id="pagina-precedente"
                         class="pulsante-operativo pulsante-secondario">Precedente</button>
                     <span id="numero-pagina" aria-live="polite"></span>

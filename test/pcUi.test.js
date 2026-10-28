@@ -21,7 +21,7 @@ test('PC UI: evita richieste sovrapposte, conserva dati su errore e gestisce vuo
     const destinazioni = [];
     const esportazioni = [];
     const context = vm.createContext({
-        document: { getElementById: id => elementi[id], createElement: elemento },
+        document: { addEventListener() {}, getElementById: id => elementi[id], createElement: elemento },
         window: { addEventListener() {}, setTimeout() {}, setInterval() {}, location: { assign: url => destinazioni.push(url) } },
         AbortSignal, Date,
         exportTableToExcel: (...args) => esportazioni.push(args),
@@ -44,7 +44,8 @@ test('PC UI: evita richieste sovrapposte, conserva dati su errore e gestisce vuo
     elementi['excel-pc'].eventi.click();
     assert.deepEqual(esportazioni[0].slice(0, 2), ['tabella-pc', 'computerConnessi']);
     assert.equal(esportazioni[0][2].length, 2);
-    assert.equal(righe[0].children[2].textContent, '<img src=x>');
+    assert.equal(righe[0].children[1].textContent, '—');
+    assert.equal(righe[0].children[3].textContent, '<img src=x>');
     assert.equal(elementi['aggiorna-pc'].disabled, false);
     assert.equal(elementi['elenco-pc'].attributi['aria-busy'], 'false');
     context.fetch = async () => { throw new Error('Offline'); };
@@ -53,7 +54,7 @@ test('PC UI: evita richieste sovrapposte, conserva dati su errore e gestisce vuo
     assert.match(elementi['stato-pc'].textContent, /Dati precedenti/);
     context.fetch = async () => ({ ok: true, status: 200, json: async () => [] });
     await vm.runInContext('caricaPc()', context);
-    assert.equal(elementi['elenco-pc'].children[0].children[0].colSpan, 6);
+    assert.equal(elementi['elenco-pc'].children[0].children[0].colSpan, 7);
     assert.match(elementi['elenco-pc'].children[0].children[0].textContent, /Nessun PC/);
     assert.equal(elementi['excel-pc'].disabled, true);
     elementi['excel-pc'].eventi.click();
@@ -94,7 +95,7 @@ test('PC UI: evita richieste sovrapposte, conserva dati su errore e gestisce vuo
     await vm.runInContext('caricaPc()', context);
     assert.equal(elementi['stato-pc'].className, '');
     assert.equal(elementi['errore-pc-dettagli'].hidden, true);
-    assert.equal(elementi['elenco-pc'].children[0].children[3].textContent, 'Prelavorazione - Cava');
+    assert.equal(elementi['elenco-pc'].children[0].children[4].textContent, 'Prelavorazione - Cava');
 });
 
 test('report PC carica la giornata scelta ed esporta lo storico anziché lo stato attuale', async () => {
@@ -102,15 +103,17 @@ test('report PC carica la giornata scelta ed esporta lo storico anziché lo stat
     const el = id => elementi[id] ||= { ...elemento(), value: '' };
     const storico = [{ ip: '192.168.1.5', primoContatto: '2026-10-23T08:00:00Z', ultimoContatto: '2026-10-23T09:00:00Z', secondiOsservati: 60, rilevazioni: 3, usi: [] }];
     const esportazioni = [], report = [];
+    const richieste = [];
     let fallisci = false;
     const contesto = vm.createContext({
-        document: { body: { dataset: { vista: 'report' } }, getElementById: el, createElement: elemento },
+        document: { addEventListener() {}, body: { dataset: { vista: 'report' } }, getElementById: el, createElement: elemento },
         window: { addEventListener() {}, setTimeout() {}, setInterval() {}, location: { assign() {} } },
         AbortSignal, Date, AnalisiReport: require('../public/js/analisiReport'),
         creaReportTabella: () => ({ aggiorna: dati => report.push(dati) }),
         creaCalendarioReport: () => ({ aggiorna() {} }),
         exportTableToExcel: (...args) => esportazioni.push(args),
         fetch: async url => {
+            richieste.push(url);
             if (url.includes('/report')) {
                 if (fallisci) throw new Error('Offline');
                 return { ok: true, json: async () => ({ giorno: '2026-10-23', giorni: ['2026-10-23', '2026-10-22'], dati: storico }) };
@@ -120,6 +123,8 @@ test('report PC carica la giornata scelta ed esporta lo storico anziché lo stat
     });
     vm.runInContext(fs.readFileSync(path.join(__dirname, '../public/js/pcConnessi.js'), 'utf8'), contesto);
     await vm.runInContext('caricaPc()', contesto);
+    assert.equal(richieste.length, 1);
+    assert.equal(richieste[0], '/api/pc-connessi/report');
     assert.equal(el('pc-giorno').value, '2026-10-23');
     assert.equal(report.at(-1)[0].ip, '192.168.1.5');
     assert.equal(el('excel-pc').disabled, false);
@@ -131,4 +136,32 @@ test('report PC carica la giornata scelta ed esporta lo storico anziché lo stat
     await vm.runInContext('caricaPc()', contesto);
     assert.equal(el('pc-giorno').value, '2026-10-23');
     assert.equal(el('excel-pc').disabled, true);
+});
+
+test('PC nascosti: niente caricamenti iniziali o polling, aggiornamento al ritorno in primo piano', async () => {
+    const elementi = {};
+    const eventi = {};
+    const eventiFinestra = {};
+    let polling;
+    let chiamate = 0;
+    const document = { hidden: true, getElementById: id => elementi[id] ||= elemento(), createElement: elemento,
+        addEventListener(nome, fn) { eventi[nome] = fn; } };
+    const context = vm.createContext({ document, AbortSignal, Date,
+        window: { addEventListener(nome, fn) { eventiFinestra[nome] = fn; }, setTimeout() {}, setInterval(fn) { polling = fn; } },
+        fetch: async () => { chiamate++; return { ok: true, json: async () => [] }; } });
+    vm.runInContext(fs.readFileSync(path.join(__dirname, '../public/js/pcConnessi.js'), 'utf8'), context);
+    eventiFinestra['fop-presenza']();
+    polling();
+    assert.equal(chiamate, 0);
+    document.hidden = false;
+    eventi.visibilitychange();
+    await new Promise(resolve => setImmediate(resolve));
+    assert.equal(chiamate, 1);
+    document.hidden = true;
+    polling();
+    assert.equal(chiamate, 1);
+    document.hidden = false;
+    polling();
+    await new Promise(resolve => setImmediate(resolve));
+    assert.equal(chiamate, 2);
 });

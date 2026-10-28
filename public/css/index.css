@@ -1,7 +1,6 @@
 /*
  * Autori: Cristian Ceni, Codex
  * Ultima modifica: 10/10/2026
- * Scopo: presentare le aree del gestionale con pari rilievo e impostazioni in dialog.
  */
 
 @font-face {
@@ -155,6 +154,50 @@
     line-height: 1.65;
 }
 
+.home-saluto-meteo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 20px;
+    row-gap: 8px;
+    margin-top: 12px;
+    font-size: .88rem;
+    line-height: 1.65;
+}
+
+.home-saluto-meteo #saluto-home {
+    margin: 0;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.home-meteo {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    color: var(--home-muted);
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.home-meteo > i {
+    align-self: center;
+    flex: 0 0 1.3em;
+    color: var(--solava-princ);
+    width: 1.3em;
+    text-align: center;
+}
+
+.home-meteo-fonte {
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    white-space: nowrap;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
 .home-section {
     box-sizing: border-box;
     display: grid;
@@ -184,10 +227,8 @@
     flex: 0 0 42px;
     width: 42px;
     height: 42px;
-    border-radius: 13px;
     color: var(--solava-princ);
-    background: #f7e9e6;
-    font-size: 1rem;
+    font-size: 1.25rem;
 }
 
 .home-section-heading h2 {

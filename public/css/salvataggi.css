@@ -1,3 +1,8 @@
+/*
+ * Autori: Cristian Ceni, Codex
+ * Ultima modifica: 28/10/2026
+ */
+
 /* Salvataggi: tabella condivisa con le lavorazioni e report giornaliero. */
 .salvataggi-pagina {
     --report-radius: 16px;
@@ -46,9 +51,19 @@
 
 /* Griglia piena: 4+4+4 colonne, poi 4+8. */
 .report-posizione {
-    font: .75rem/1.5 var(--font-family-base);
+    font: .85rem/1.5 var(--font-family-heading);
     color: var(--colore-subtext);
     margin: 0 0 14px;
+}
+
+.report-nota {
+    margin: 18px 0 0;
+    font: .78rem/1.5 var(--font-family-heading);
+    color: var(--colore-subtext);
+}
+
+.report-produzione .report-nota {
+    color: #fff;
 }
 
 .report-griglia {
@@ -105,7 +120,7 @@
 }
 
 .report-campo[data-campo="DATA_ORA"] dd {
-    font-family: var(--font-family-base);
+    font-family: var(--font-family-heading);
     line-height: 1.5;
 }
 
@@ -115,12 +130,12 @@
     gap: 20px;
 }
 
-.report-identita .report-campo:nth-child(2) {
+.report-identita .report-campo[data-campo="DATA_ORA"] {
     grid-column: 1 / -1;
     grid-row: 1;
 }
 
-.report-identita .report-campo:nth-child(2) dd {
+.report-identita .report-campo[data-campo="DATA_ORA"] dd {
     font-size: 1rem;
 }
 
@@ -155,6 +170,20 @@
 
 .report-produzione dd {
     font-size: clamp(2.5rem, 5vw, 4rem);
+}
+
+.report-produzione .report-campi {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.report-produzione [data-campo="QUINT_TERRA"] dd {
+    font-size: 3rem;
+}
+
+.report-produzione [data-campo="TONN_TERRA"] dd {
+    font-size: 1.6rem;
 }
 
 .report-cassoni {
@@ -214,12 +243,7 @@
     }
 
     .report-identita .report-campi {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    .report-identita .report-campo:nth-child(n) {
-        grid-column: auto;
-        grid-row: auto;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .report-linea {
@@ -242,7 +266,7 @@
         grid-template-columns: 1fr 1fr;
     }
 
-    .report-identita .report-campo:nth-child(2) {
+    .report-linea {
         grid-column: 1 / -1;
     }
 
@@ -273,4 +297,10 @@
         justify-content: center;
     }
 
+}
+
+@media (max-width: 400px) {
+    .report-identita .report-campi {
+        grid-template-columns: minmax(0, 1fr);
+    }
 }

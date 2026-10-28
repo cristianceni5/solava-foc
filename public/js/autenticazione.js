@@ -1,4 +1,8 @@
-﻿const formAccesso = document.getElementById('formAccesso');
+﻿// Autori: Cristian Ceni, Codex
+// Ultima modifica: 26/10/2026
+// Scopo: autenticazione - file di utenti dentro config
+
+const formAccesso = document.getElementById('formAccesso');
 const pulsanteAccesso = document.getElementById('btnCerca');
 const erroreAccesso = document.getElementById('erroreAccesso');
 

@@ -62,12 +62,12 @@ function mostraArticolo(articolo) {
     scheda.append(elemento('p', `Articolo ${articolo.ARTICOLO}`, 'articolo-codice'),
         elemento('h2', articolo.DESCRIZIONE || 'Unità di misura', 'sezione-titolo'));
     const griglia = elemento('div', undefined, 'dati-griglia');
-    const fattore = CalcoliBolla.numero(articolo.FATTPESO);
+    const fattore = CalcoliBolla.numero(articolo.FATTORE_CONVERSIONE);
     griglia.append(campo('UM1', articolo.UM1), campo('UM2', articolo.UM2),
-        campo('Fattore di conversione (FATTPESO)', Number.isFinite(fattore) ? formato.format(fattore) : '—'));
+        campo('Fattore di conversione (FATTORE_CONVERSIONE)', Number.isFinite(fattore) ? formato.format(fattore) : '—'));
     scheda.append(griglia);
     if (Number.isFinite(fattore) && fattore > 0) {
-        scheda.append(elemento('p', `1 ${articolo.UM1 || 'UM1'} = ${formato.format(fattore)} ${articolo.UM2 || 'UM2'}`));
+        scheda.append(elemento('p', `1 ${articolo.UM2 || 'UM2'} = ${formato.format(fattore)} ${articolo.UM1 || 'UM1'}`));
     }
 
     const calcolo = elemento('section', undefined, 'sezione-articolo');

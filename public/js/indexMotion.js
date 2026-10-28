@@ -1,6 +1,6 @@
 // Autori: Cristian Ceni, Codex
 // Ultima modifica: 10/10/2026
-// Scopo: animare con discrezione l'ingresso delle sezioni e dei link della home.
+// Scopo: animare con discrezione l'ingresso delle sezioni e dei link della home - non troppo essenziale.
 
 (() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||

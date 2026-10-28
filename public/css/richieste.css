@@ -1,0 +1,573 @@
+/*
+ * Autori: Cristian Ceni, Codex
+ * Ultima modifica: 26/10/2026
+ */
+
+.richieste-pagina :is(p, span, label, input, select, button, summary, li) {
+    font-family: var(--font-family-heading);
+}
+
+.richieste-pagina .tabella-intro>p,
+.richieste-nota {
+    color: var(--colore-subtext);
+    font: .95rem/1.6 var(--font-family-heading);
+}
+
+.richieste-pagina .tabella-intro {
+    padding-bottom: 12px;
+}
+
+.richieste-pagina h2 {
+    font-size: 1.6rem;
+    margin: 0 0 8px;
+}
+
+.richieste-pagina .pulsante-operativo {
+    min-height: 48px;
+    padding: 12px 20px;
+}
+
+.richieste-auto {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    font: 1rem var(--font-family-heading);
+}
+
+#richieste-stato {
+    min-height: 1.7em;
+}
+
+#richieste-stato.errore {
+    color: var(--colore-errore);
+}
+
+.richieste-metriche {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 12px 0 0;
+    border: 1px solid var(--colore-border);
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--colore-card);
+}
+
+.richieste-metriche>div {
+    padding: 24px;
+    border-right: 1px solid var(--colore-border);
+}
+
+.richieste-metriche>div:last-child {
+    border-right: 0;
+}
+
+.richieste-metriche dt {
+    font: .95rem var(--font-family-heading);
+    color: var(--colore-subtext);
+}
+
+.richieste-metriche dd {
+    margin: 12px 0 0;
+    font: clamp(1.8rem, 3vw, 2.5rem) var(--font-family-heading);
+    color: var(--colore-text);
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+}
+
+.richieste-metriche .richieste-metrica-nota {
+    margin: 12px 0 0;
+    font: .85rem/1.6 var(--font-family-heading);
+    color: var(--colore-subtext);
+}
+
+.richieste-sezione {
+    margin-top: 44px;
+}
+
+.richieste-filtri {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 16px;
+    margin: 24px 0 18px;
+}
+
+.richieste-filtri label {
+    display: grid;
+    min-width: 0;
+    gap: 8px;
+    font: .95rem var(--font-family-heading);
+    color: var(--colore-text);
+}
+
+.richieste-filtri label:first-child {
+    flex: 1 1 300px;
+}
+
+.richieste-filtri label:last-child {
+    flex: 0 1 23rem;
+}
+
+.richieste-filtri input,
+.richieste-filtri select {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    min-height: 48px;
+    padding: 12px 20px;
+    border: 1px solid var(--colore-border);
+    border-radius: 99px;
+    background: #fff;
+    color: var(--colore-text);
+    font: 1rem/1.5 var(--font-family-heading);
+}
+
+.richieste-filtri input::placeholder {
+    color: var(--colore-subtext);
+    opacity: 1;
+}
+
+.richieste-filtri select {
+    appearance: none;
+    padding-right: 44px;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.richieste-select {
+    position: relative;
+    display: block;
+    min-width: 0;
+}
+
+.richieste-select>i {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--colore-text);
+    font-size: .8rem;
+    pointer-events: none;
+}
+
+.richieste-pagina .tabella-viste a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#richieste-viste {
+    scroll-margin-top: 100px;
+}
+
+.richieste-metriche-sintesi {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.richieste-metriche-sintesi .richieste-sintesi-errori {
+    color: var(--colore-errore);
+}
+
+.richieste-pagina .richieste-tabella {
+    box-sizing: border-box;
+    border: 1px solid var(--colore-border);
+    background: #fff;
+    overflow-x: auto;
+}
+
+.richieste-tabella table {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font: 1rem/1.5 var(--font-family-heading);
+}
+
+.richieste-tabella thead {
+    display: table-header-group;
+}
+
+.richieste-tabella tbody {
+    display: table-row-group;
+    width: auto;
+}
+
+.richieste-tabella tr {
+    display: table-row;
+    width: auto;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+}
+
+.richieste-tabella th,
+.richieste-tabella td {
+    display: table-cell;
+    width: auto;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--colore-border);
+    white-space: nowrap;
+    text-align: left;
+    color: var(--colore-text);
+    font-size: inherit;
+    font-variant-numeric: tabular-nums;
+}
+
+.richieste-tabella td::before {
+    content: none;
+}
+
+.richieste-tabella th {
+    background: var(--colore-text);
+    color: #fff;
+    font-weight: 600;
+}
+
+.richieste-tabella tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.richieste-tabella .richiesta-percorso {
+    max-width: 400px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.richieste-percorsi-ip summary {
+    min-height: 36px;
+    line-height: 36px;
+    cursor: pointer;
+    color: var(--colore-text);
+}
+
+.richieste-percorsi-ip summary,
+.richieste-dettagli-tecnici>summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    list-style: none;
+}
+
+.richieste-percorsi-ip summary::-webkit-details-marker,
+.richieste-dettagli-tecnici>summary::-webkit-details-marker {
+    display: none;
+}
+
+.richieste-freccia {
+    font-size: .8rem;
+}
+
+.richieste-percorsi-ip[open]>summary .richieste-freccia,
+.richieste-dettagli-tecnici[open]>summary .richieste-freccia {
+    transform: rotate(90deg);
+}
+
+.richieste-dettagli-tecnici>summary {
+    min-height: 48px;
+    color: var(--colore-text);
+    font-size: 1.15rem;
+    cursor: pointer;
+}
+
+.richieste-percorsi-ip ul {
+    min-width: 220px;
+    max-width: 420px;
+    margin: 8px 0;
+    padding: 0;
+    list-style: none;
+}
+
+.richieste-percorsi-ip li {
+    padding: 8px 0;
+    border-top: 1px solid var(--colore-border);
+    color: var(--colore-text);
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.richieste-tabella .richiesta-errore {
+    color: var(--colore-errore);
+    font-weight: 600;
+}
+
+.richieste-tabella .richiesta-attenzione {
+    color: #896314;
+    font-weight: 600;
+}
+
+.richieste-tabella .richiesta-vuota {
+    text-align: center;
+    color: var(--colore-subtext);
+    white-space: normal;
+}
+
+.richieste-metriche-sql dd {
+    font-size: 1.8rem;
+}
+
+.richieste-pagina .tabella-paginazione span,
+.richieste-pagina .tabella-meta p {
+    font: .85rem/1.5 var(--font-family-heading);
+}
+
+.richieste-pagina .richieste-limiti {
+    margin-top: 36px;
+    border-top: 1px solid var(--colore-border);
+    padding-top: 20px;
+    font: .75rem/1.7 var(--font-family-base);
+}
+
+.richieste-trend-testata {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 18px;
+}
+
+.richieste-trend-testata>div:first-child {
+    flex: 1 1 380px;
+}
+
+.richieste-trend-testata p {
+    margin-bottom: 0;
+}
+
+.richieste-trend-selettore {
+    flex: 0 1 23rem;
+    margin: 0;
+}
+
+.richieste-trend-selettore label:last-child {
+    flex: 1 1 100%;
+}
+
+.richieste-trend-scheda {
+    min-width: 0;
+    padding: 24px;
+    border: 1px solid var(--colore-border);
+    border-radius: 20px;
+    background: var(--colore-card);
+}
+
+.richieste-classifica {
+    min-width: 0;
+}
+
+.richieste-trend-scheda>p:first-child {
+    margin: 0 0 20px;
+    color: var(--colore-text);
+}
+
+.richieste-trend-scroll {
+    overflow-x: auto;
+    padding: 4px;
+}
+
+.richieste-trend-grafico {
+    display: grid;
+    align-items: end;
+    gap: 4px;
+    height: 180px;
+    min-width: 480px;
+}
+
+.richieste-trend-minuto {
+    display: flex;
+    align-items: end;
+    justify-self: center;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 36px;
+    height: 100%;
+    padding: 5px 3px 0;
+    border: 0;
+    border-bottom: 2px solid var(--colore-border);
+    background: transparent;
+    cursor: pointer;
+}
+
+.richieste-trend-barra {
+    display: block;
+    width: 100%;
+    background: var(--solava-sec);
+    border-radius: 5px 5px 0 0;
+}
+
+.richieste-trend-minuto-picco .richieste-trend-barra {
+    background: var(--solava-princ);
+}
+
+.richieste-trend-minuto:hover,
+.richieste-trend-minuto[aria-pressed="true"] {
+    outline: 2px solid var(--solava-princ);
+    outline-offset: 0;
+    border-radius: 6px;
+    background: #fcf4f1;
+}
+
+.richieste-trend-asse {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 10px;
+    font-size: .85rem;
+}
+
+.richieste-trend-scheda #richieste-trend-dettaglio {
+    margin: 18px 0 0;
+}
+
+.richieste-classifiche {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin-top: 18px;
+}
+
+.richieste-classifiche-sintesi {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.richieste-apri-log {
+    margin: 24px 0 0;
+}
+
+.richieste-classifica h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.richieste-classifica>p {
+    margin: 6px 0 22px;
+}
+
+.richieste-classifica ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.richieste-classifica li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 12px 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--colore-border);
+}
+
+.richieste-classifica li:last-child {
+    border-bottom: 0;
+}
+
+.richieste-classifica-nome {
+    min-width: 0;
+    color: var(--colore-text);
+    font-size: 1rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.richieste-classifica-valore {
+    color: var(--colore-subtext);
+    font-size: 1rem;
+    line-height: 1.5;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.richieste-classifica-prima .richieste-classifica-valore {
+    color: var(--solava-princ);
+    font-weight: 600;
+}
+
+.richieste-classifica .richieste-classifica-vuota {
+    display: block;
+    color: var(--colore-subtext);
+}
+
+.richieste-tabella .richiesta-picco-valore {
+    color: var(--solava-princ);
+    font-weight: 600;
+}
+
+@media (max-width: 900px) {
+    .richieste-metriche {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .richieste-metriche>div:nth-child(2) {
+        border-right: 0;
+    }
+
+    .richieste-metriche>div:nth-child(-n+2) {
+        border-bottom: 1px solid var(--colore-border);
+    }
+
+    .richieste-metriche-sintesi {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .richieste-metriche-sintesi>div:nth-child(-n+2) {
+        border-bottom: 0;
+        border-right: 1px solid var(--colore-border);
+    }
+}
+
+@media (max-width: 640px) {
+    .richieste-pagina>.container {
+        padding: 12px 0;
+    }
+
+    .richieste-metriche>div {
+        padding: 18px 14px;
+    }
+
+    .richieste-filtri label:first-child,
+    .richieste-filtri label:nth-child(2),
+    .richieste-filtri label:last-child {
+        flex: 1 1 100%;
+    }
+
+    .richieste-tabella table {
+        min-width: 1050px;
+    }
+
+    .richieste-trend-selettore {
+        flex-basis: 100%;
+    }
+
+    .richieste-trend-scheda {
+        padding: 20px 16px;
+    }
+
+    .richieste-classifiche {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .richieste-metriche-sintesi {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .richieste-metriche-sintesi>div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+    }
+
+    .richieste-metriche-sintesi>div:nth-child(-n+2) {
+        border-right: 0;
+        border-bottom: 1px solid var(--colore-border);
+    }
+
+    .richieste-metriche-sintesi dd {
+        margin: 0;
+        font-size: 1.8rem;
+    }
+}

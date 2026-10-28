@@ -57,13 +57,15 @@ function creaReportTabella(opzioni) {
         const indice = records.findIndex((record, i) => `record:${chiave(record, i)}` === selezione);
         const record = indice >= 0 ? records[indice] : null;
         griglia.className = 'report-tabella-griglia' + (record ? ' report-tabella-griglia--dettaglio' : '');
-        titolo.textContent = record ? etichetta(record, indice) : (opzioni.titolo || 'Riepilogo');
+        titolo.textContent = record && !opzioni.titoloFisso ? etichetta(record, indice) : (opzioni.titolo || 'Riepilogo');
         vuoto.hidden = records.length > 0;
         griglia.hidden = records.length === 0;
         const colonne = opzioni.colonne || [...new Set(records.flatMap(voce => Object.keys(voce)))].map(nome => ({ chiave: nome, etichetta: nome }));
-        const campi = record ? colonne.map(colonna => ({
+        const campi = record ? colonne.filter(colonna => !colonna.nascondiDettaglio).map(colonna => ({
             etichetta: colonna.etichetta || colonna.chiave,
             ampio: colonna.ampio,
+            tipo: colonna.tipo,
+            voci: colonna.voci ? colonna.voci(record[colonna.chiave], record) : undefined,
             valore: colonna.formatta ? colonna.formatta(record[colonna.chiave], record) : record[colonna.chiave]
         })) : opzioni.riepilogo ? opzioni.riepilogo(records) : [{ etichetta: 'Record registrati', valore: records.length }];
         griglia.replaceChildren(...campi.map(campo => {
@@ -71,6 +73,7 @@ function creaReportTabella(opzioni) {
             blocco.className = 'report-tabella-campo';
             if (campo.ampio) blocco.className += ' report-tabella-campo--ampio';
             if (campo.tipo === 'metrica') blocco.className += ' report-tabella-campo--metrica';
+            if (campo.tipo === 'identita') blocco.className += ' report-tabella-campo--identita';
             if (Array.isArray(campo.voci)) blocco.className += ' report-tabella-campo--distribuzione';
             const nome = document.createElement('dt');
             nome.textContent = campo.etichetta;
@@ -81,21 +84,50 @@ function creaReportTabella(opzioni) {
                 const lista = document.createElement('ol');
                 lista.className = 'report-distribuzione';
                 const totale = campo.voci.reduce((somma, voce) => somma + voce.valore, 0);
+                const ciambella = opzioni.graficoDistribuzione === 'ciambella' && totale > 0;
+                const colori = ['#9e4438', '#327b82', '#bd8a2e', '#716299', '#477455', '#b35c80', '#536881', '#8a724d'];
+                const settori = [];
+                let cumulata = 0;
+                let indiceVoce = 0;
                 for (const voce of campo.voci) {
                     const riga = document.createElement('li');
+                    if (ciambella) {
+                        const colore = colori[indiceVoce++ % colori.length];
+                        const fine = cumulata + voce.valore / totale * 100;
+                        settori.push(`${colore} ${cumulata}% ${fine}%`);
+                        cumulata = fine;
+                        riga.setAttribute('style', `--colore-voce: ${colore}`);
+                    }
                     const etichetta = document.createElement('span');
                     etichetta.className = 'report-distribuzione-nome';
                     etichetta.textContent = voce.etichetta;
                     const numero = document.createElement('span');
                     numero.className = 'report-distribuzione-numero';
                     const quota = totale ? Math.round(voce.valore / totale * 100) : 0;
-                    numero.textContent = `${voce.valore} rilevazioni · ${quota}%`;
+                    numero.textContent = `${voce.valore} ${voce.valore === 1 ? 'rilevazione' : 'rilevazioni'} · ${quota}%`;
                     const barra = document.createElement('progress');
                     barra.max = totale || 1;
                     barra.value = voce.valore;
                     barra.setAttribute('aria-label', `${voce.etichetta}: ${quota}% delle rilevazioni`);
-                    riga.append(etichetta, numero, barra);
+                    riga.append(etichetta, numero);
+                    if (!ciambella) riga.append(barra);
                     lista.append(riga);
+                }
+                if (ciambella) {
+                    valore.className = 'report-grafico-distribuzione';
+                    lista.className += ' report-distribuzione--legenda';
+                    const grafico = document.createElement('div');
+                    grafico.className = 'report-ciambella';
+                    grafico.setAttribute('style', `background: conic-gradient(${settori.join(', ')});`);
+                    grafico.setAttribute('aria-hidden', 'true');
+                    const centro = document.createElement('span');
+                    const numeroTotale = document.createElement('strong');
+                    numeroTotale.textContent = totale.toLocaleString('it-IT');
+                    const didascalia = document.createElement('small');
+                    didascalia.textContent = totale === 1 ? 'rilevazione' : 'rilevazioni';
+                    centro.append(numeroTotale, didascalia);
+                    grafico.append(centro);
+                    valore.append(grafico);
                 }
                 valore.append(lista);
             }

@@ -1,6 +1,6 @@
 // Autori: Cristian Ceni, Codex
-// Ultima modifica: 10/10/2026
-// Scopo: caricare i reparti e gestire il dialog delle impostazioni.
+// Ultima modifica: 26/10/2026
+// Scopo: caricare i reparti e gestire il dialog delle impostazioni - aggiunto saluto e meteo.
 
 const dialogImpostazioni = document.getElementById('dialog-impostazioni');
 document.getElementById('apri-impostazioni').addEventListener('click', () => dialogImpostazioni.showModal());
@@ -12,6 +12,87 @@ dialogImpostazioni.addEventListener('click', evento => {
         dialogImpostazioni.close();
     }
 });
+
+function salutoDinamico()
+{
+    const saluto = document.getElementById('saluto-home');
+    let testoSalutoDinamico;
+    const data = Date.now();
+    const oggi = new Date(data);
+    const giorno = oggi.toUTCString();  
+    const ora = oggi.getHours();
+
+    let salutoOra;
+    if(ora <= 12)
+        salutoOra = 'Buongiorno';
+    else if(ora > 12 && ora < 17)
+        salutoOra = 'Buon pomeriggio';
+    else if(ora >= 17 && ora <= 23)
+        salutoOra = 'Buona sera'
+
+    let giornoForm;
+    if(giorno.includes('Fri'))
+        giornoForm = ' e buon venerdì';
+    else if (giorno.includes('Sat'))
+        giornoForm = ' e buon sabato.';
+    else if (giorno.includes('Sun'))
+        giornoForm = ' e buona domenica.';
+    else if (giorno.includes('Mon'))
+        giornoForm = ' e buon lunedì.';
+    else if (giorno.includes('Tue'))
+        giornoForm = ' e buon martedì.';
+    else if (giorno.includes('Wed'))
+        giornoForm = ' e buon mercoledì';
+    else if (giorno.includes('Thu'))
+        giornoForm = ' e buon giovedì.';
+
+    testoSalutoDinamico = salutoOra + giornoForm;
+
+    console.log(testoSalutoDinamico);
+    saluto.textContent = testoSalutoDinamico; 
+}
+
+function descriviMeteo(simbolo) {
+    const notte = simbolo.endsWith('_night');
+    const condizione = simbolo.split('_')[0];
+    if (condizione.includes('thunder')) return ['fa-cloud-bolt', 'Temporale'];
+    if (condizione.includes('sleet')) return ['fa-cloud-rain', 'Pioggia mista a neve'];
+    if (condizione.includes('snow')) return ['fa-snowflake', 'Neve'];
+    if (condizione.includes('rain')) return ['fa-cloud-showers-heavy', 'Pioggia'];
+    if (condizione === 'fog') return ['fa-smog', 'Nebbia'];
+    if (condizione === 'cloudy') return ['fa-cloud', 'Nuvoloso'];
+    if (condizione === 'partlycloudy') return [notte ? 'fa-cloud-moon' : 'fa-cloud-sun', 'Parzialmente nuvoloso'];
+    if (condizione === 'fair') return [notte ? 'fa-cloud-moon' : 'fa-cloud-sun', 'Poco nuvoloso'];
+    if (condizione === 'clearsky') return [notte ? 'fa-moon' : 'fa-sun', 'Sereno'];
+    return ['fa-temperature-half', 'Meteo'];
+}
+
+async function caricaMeteo() {
+    const contenitore = document.getElementById('meteo-home');
+    const testo = document.getElementById('meteo-testo');
+    const icona = document.getElementById('meteo-icona');
+    if (!contenitore || !testo || !icona) return;
+
+    try {
+        const risposta = await fetch('/api/meteo', { cache: 'no-store', signal: AbortSignal.timeout(12000) });
+        if (!risposta.ok) throw new Error('Meteo non disponibile');
+        const dati = await risposta.json();
+        if (!Number.isFinite(dati.temperatura) || typeof dati.simbolo !== 'string'
+            || !Number.isFinite(Date.parse(dati.orario))) throw new Error('Dati meteo non validi');
+        const [classe, descrizione] = descriviMeteo(dati.simbolo);
+        const temperatura = new Intl.NumberFormat('it-IT', { maximumFractionDigits: 0 }).format(dati.temperatura);
+        icona.className = `fa-solid ${classe}`;
+        testo.textContent = `${temperatura} °C - ${descrizione} - ${dati.localita   }`;
+        const orario = new Intl.DateTimeFormat('it-IT', {
+            timeZone: 'Europe/Rome', hour: '2-digit', minute: '2-digit'
+        }).format(new Date(dati.orario));
+        contenitore.title = `Meteo previsto per le ${orario} · Dati MET Norway (CC BY 4.0), temperatura arrotondata`;
+    } catch {
+        icona.className = 'fa-solid fa-cloud';
+        testo.textContent = 'Meteo non disponibile';
+        contenitore.removeAttribute('title');
+    }
+}
 
 async function caricaIndice() {
     const contenitore = document.getElementById('lista-reparti');
@@ -109,5 +190,13 @@ async function caricaImpostazioni() {
     minuti.addEventListener('change', salva);
 }
 
+salutoDinamico();
+caricaMeteo();
+window.setInterval(() => {
+    if (!document.hidden) {
+        salutoDinamico();
+        caricaMeteo();
+    }
+}, 15 * 60 * 1000);
 caricaImpostazioni();
 caricaIndice();

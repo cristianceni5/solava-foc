@@ -1,4 +1,8 @@
-﻿const statoPc = document.getElementById('stato-pc');
+﻿// Autori: Cristian Ceni, Codex
+// Ultima modifica: 23/10/2026
+// Scopo: servire lo stato dei PC connessi
+
+const statoPc = document.getElementById('stato-pc');
 const elencoPc = document.getElementById('elenco-pc');
 const aggiornaPc = document.getElementById('aggiorna-pc');
 const excelPc = document.getElementById('excel-pc');
@@ -14,6 +18,7 @@ const PC_PER_PAGINA = 25;
 const vistaReportPc = document.body?.dataset?.vista === 'report';
 const colonnePc = [
     { chiave: 'ip', etichetta: 'Indirizzo IP', formatta: ip => ['::1', '127.0.0.1'].includes(ip) ? `${ip} (Localhost)` : ip },
+    { chiave: 'alias', etichetta: 'Nome', formatta: alias => alias || '—' },
     { chiave: 'connesso', etichetta: 'Stato', formatta: valore => valore ? 'Connesso' : 'Non attivo' },
     { chiave: 'pagina', etichetta: 'Ultima pagina' },
     { chiave: 'reparto', etichetta: 'Reparto', formatta: (id, voce) => voce.nomeReparto ? `${voce.nomeReparto}` : id ? `${id} (non riconosciuto)` : '—' },
@@ -25,18 +30,22 @@ let giorniReportPc = [];
 let datiReportPc = [];
 let giornoReportCaricato = '';
 const colonneReportPc = [
-    { chiave: 'ip', etichetta: 'Computer', ampio: true },
+    { chiave: 'ip', etichetta: 'Computer', nascondiDettaglio: true },
+    { chiave: 'alias', etichetta: 'Nome', nascondiDettaglio: true, formatta: alias => alias || '—' },
+    { chiave: 'secondiOsservati', etichetta: 'Tempo osservato (stimato)', tipo: 'metrica', formatta: valore => AnalisiReport.durata(valore) },
+    { chiave: 'rilevazioni', etichetta: 'Rilevazioni ricevute', tipo: 'metrica' },
     { chiave: 'primoContatto', etichetta: 'Prima rilevazione', formatta: valore => new Date(valore).toLocaleString('it-IT') },
     { chiave: 'ultimoContatto', etichetta: 'Ultima rilevazione', formatta: valore => new Date(valore).toLocaleString('it-IT') },
-    { chiave: 'secondiOsservati', etichetta: 'Tempo osservato (stimato)', formatta: valore => AnalisiReport.durata(valore) },
-    { chiave: 'rilevazioni', etichetta: 'Rilevazioni ricevute' },
-    { chiave: 'usi', etichetta: 'Pagine e reparti usati', ampio: true, formatta: valore => (valore || []).map(uso => AnalisiReport.nomePagina(uso.pagina) + (uso.reparto ? ' · ' + (uso.nomeReparto || uso.reparto) : '') + ': ' + uso.rilevazioni + ' rilevazioni').join('\n') }
+    { chiave: 'usi', etichetta: 'Pagine e reparti usati', ampio: true,
+        voci: valore => AnalisiReport.usiPc([{ usi: valore || [] }]).map(([etichetta, valore]) => ({ etichetta, valore })),
+        formatta: valore => (valore || []).map(uso => AnalisiReport.nomePagina(uso.pagina) + (uso.reparto ? ' · ' + (uso.nomeReparto || uso.reparto) : '') + ': ' + uso.rilevazioni + (uso.rilevazioni === 1 ? ' rilevazione' : ' rilevazioni')).join('\n') }
 ];
 const reportPc = vistaReportPc ? creaReportTabella({
     contenitore: document.getElementById('report-pc'), titolo: 'Uso giornaliero del FOP',
-    layout: 'dashboard', etichettaSelettore: 'Computer',
+    layout: 'dashboard', etichettaSelettore: 'Computer', titoloFisso: true, graficoDistribuzione: 'ciambella',
     toolbar: document.getElementById('report-pc-data-toolbar'),
-    colonne: colonneReportPc, chiave: voce => voce.ip, etichetta: voce => 'Computer ' + voce.ip,
+    colonne: colonneReportPc, chiave: voce => voce.ip,
+    etichetta: voce => voce.alias?.trim() ? `${voce.alias.trim()} (${voce.ip})` : 'Computer ' + voce.ip,
     riepilogo: records => AnalisiReport.riepilogoPc(records),
     messaggioVuoto: 'Nessuna rilevazione per questa data. Lo storico inizia con l’attivazione della raccolta giornaliera.'
 }) : null;
@@ -58,6 +67,7 @@ function mostraPaginaPc() {
         valoriPc(voce).forEach((valore, indice) => {
             const cella = document.createElement('td');
             cella.textContent = valore;
+            cella.setAttribute('data-label', colonnePc[indice].etichetta);
             if (colonnePc[indice].chiave === 'connesso') cella.className = voce.connesso ? 'pc-attivo' : 'pc-inattivo';
             riga.append(cella);
         });
@@ -91,24 +101,28 @@ async function caricaPc() {
     if (dataReportPc) dataReportPc.disabled = true;
     elencoPc.setAttribute('aria-busy', 'true');
     try {
-        const risposta = await fetch('/api/pc-connessi', { cache: 'no-store', signal: AbortSignal.timeout(10000) });
-        if (risposta.status === 401) {
-            window.location.assign('/autenticazione.html?ritorno=' + encodeURIComponent(
-                vistaReportPc ? '/paginaReportPcConnessi.html' : '/paginaPcConnessi.html'));
-            return;
-        }
-        const pc = await risposta.json();
-        if (!risposta.ok) {
-            const errore = new Error(pc.errore || 'Impossibile leggere i PC connessi');
-            errore.erroreRaw = pc.erroreRaw;
-            throw errore;
-        }
-        if (!Array.isArray(pc)) throw new Error('Elenco non valido');
-        recordPc = pc;
-        mostraPaginaPc();
-        if (reportPc) {
+        if (!reportPc) {
+            const risposta = await fetch('/api/pc-connessi', { cache: 'no-store', signal: AbortSignal.timeout(10000) });
+            if (risposta.status === 401) {
+                window.location.assign('/autenticazione.html?ritorno=' + encodeURIComponent('/paginaPcConnessi.html'));
+                return;
+            }
+            const pc = await risposta.json();
+            if (!risposta.ok) {
+                const errore = new Error(pc.errore || 'Impossibile leggere i PC connessi');
+                errore.erroreRaw = pc.erroreRaw;
+                throw errore;
+            }
+            if (!Array.isArray(pc)) throw new Error('Elenco non valido');
+            recordPc = pc;
+            mostraPaginaPc();
+        } else {
             const query = dataReportPc.value ? '?giorno=' + encodeURIComponent(dataReportPc.value) : '';
             const resReport = await fetch('/api/pc-connessi/report' + query, { cache: 'no-store', signal: AbortSignal.timeout(10000) });
+            if (resReport.status === 401) {
+                window.location.assign('/autenticazione.html?ritorno=' + encodeURIComponent('/paginaReportPcConnessi.html'));
+                return;
+            }
             const storico = await resReport.json();
             if (!resReport.ok) {
                 const errore = new Error(storico.errore || 'Report non disponibile');
@@ -168,11 +182,14 @@ let elencoAvviato = false;
 function avviaElencoPc() {
     if (elencoAvviato) return;
     elencoAvviato = true;
-    caricaPc();
+    if (!document.hidden) caricaPc();
 }
 window.addEventListener('fop-presenza', avviaElencoPc, { once: true });
 window.setTimeout(avviaElencoPc, 1500);
-window.setInterval(caricaPc, 15000);
+window.setInterval(() => { if (!document.hidden) caricaPc(); }, 15000);
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && elencoAvviato) caricaPc();
+});
 
 const calendarioPc = vistaReportPc ? creaCalendarioReport({
     unita: 'PC rilevati', scegli: giorno => {

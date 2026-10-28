@@ -1,4 +1,9 @@
-﻿.pc-attivo {
+﻿/*
+ * Autori: Cristian Ceni, Codex
+ * Ultima modifica: 10/10/2026
+ */
+
+.pc-attivo {
     color: var(--colore-tranquillo);
     font-weight: bold;
 }
@@ -22,6 +27,42 @@
     white-space: normal;
     color: var(--colore-subtext);
     text-align: center;
+}
+
+/* Nel dettaglio, identità e metriche precedono i dati temporali di supporto. */
+#report-pc .report-tabella-griglia--dettaglio {
+    gap: 12px 16px;
+}
+#report-pc .report-tabella-griglia--dettaglio .report-tabella-campo {
+    padding: 16px 20px;
+}
+#report-pc .report-tabella-griglia--dettaglio dd {
+    font-family: var(--font-family-heading);
+    font-size: .95rem;
+    font-variant-numeric: tabular-nums;
+}
+#report-pc .report-tabella-griglia--dettaglio .report-tabella-campo--identita {
+    padding: 0 0 20px;
+    border: 0;
+    border-bottom: 1px solid var(--colore-border);
+    border-radius: 0;
+    background: transparent;
+}
+#report-pc .report-tabella-campo--identita dd {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    line-height: 1.2;
+}
+#report-pc .report-tabella-griglia--dettaglio .report-tabella-campo--metrica {
+    padding: 24px;
+}
+#report-pc .report-tabella-griglia--dettaglio .report-tabella-campo--metrica dd {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    line-height: 1.2;
+}
+#report-pc .report-tabella-griglia--dettaglio .report-tabella-campo--distribuzione {
+    margin-top: 8px;
+    padding: 24px;
 }
 
 @media (max-width: 640px) {

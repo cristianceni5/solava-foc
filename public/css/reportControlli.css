@@ -1,3 +1,8 @@
+/*
+ * Autori: Cristian Ceni, Codex
+ * Ultima modifica: 10/10/2026
+ */
+
 .tabella-pagina { --report-surface: var(--colore-card); --report-muted: #f2eee8; }
 .report-toolbar {
     display: flex;
@@ -76,35 +81,8 @@
 }
 
 .report-eventi {
-    display: flex;
     flex-wrap: nowrap;
-    gap: 28px;
-    margin: 0 0 20px;
     overflow-x: auto;
-    border-bottom: 1px solid var(--colore-border);
-}
-
-.report-evento {
-    flex: 0 0 auto;
-    padding: 14px 4px 17px;
-    min-height: 44px;
-    border: 0;
-    border-bottom: 3px solid transparent;
-    border-radius: 0;
-    background: transparent;
-    color: var(--colore-subtext);
-    font: .9rem/1.4 var(--font-family-heading);
-    cursor: pointer;
-    transition: color .2s;
-}
-
-.report-evento:hover {
-    color: var(--colore-text);
-}
-
-.report-evento[aria-pressed="true"] {
-    color: var(--solava-princ);
-    border-bottom-color: var(--solava-princ);
 }
 
 .report-evento:focus-visible {

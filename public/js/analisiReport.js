@@ -1,4 +1,8 @@
-﻿/* Calcoli puri condivisi dai report; nessuna dipendenza dal DOM o dalle API. */
+﻿// Autori: Cristian Ceni, Codex
+// Ultima modifica: 10/10/2026
+// Scopo: analisi dei report sull'uso del FOP
+
+/* Calcoli puri condivisi dai report; nessuna dipendenza dal DOM o dalle API. */
 const AnalisiReport = (() => {
     const nomePagina = pagina => ({ '/': 'Pannello', '/index.html': 'Pannello', '/paginaReparto.html': 'Monitor reparto', '/paginaPcConnessi.html': 'Computer connessi', '/paginaReportPcConnessi.html': 'Report computer', '/paginaSalvataggi.html': 'Salvataggi', '/paginaReportSalvataggi.html': 'Report salvataggi', '/paginaEtichetta.html': 'Etichette', '/paginaQuantitaBolla.html': 'Quantità bolla', '/paginaControllo.html': 'Controllo attributi', '/documentazione.html': 'Documentazione', '/autenticazione.html': 'Accesso' })[pagina] || pagina;
     const durata = secondi => {

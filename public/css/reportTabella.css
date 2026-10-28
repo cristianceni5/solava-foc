@@ -1,4 +1,9 @@
-﻿/* Report riutilizzabile: riepilogo e dettaglio per qualsiasi elenco di record. */
+﻿/*
+ * Autori: Cristian Ceni, Codex
+ * Ultima modifica: 10/10/2026
+ */
+
+/* Report riutilizzabile: riepilogo e dettaglio per qualsiasi elenco di record. */
 .report-tabella [hidden] {
     display: none !important;
 }
@@ -75,6 +80,7 @@
 .report-tabella-campo dd {
     margin: 0;
     color: var(--colore-text);
+    font-family: var(--font-family-heading);
     font-size: 1.1rem;
     line-height: 1.6;
     overflow-wrap: anywhere;
@@ -171,6 +177,53 @@
 .report-distribuzione progress::-webkit-progress-bar { background: var(--colore-border); }
 .report-distribuzione progress::-webkit-progress-value { background: var(--solava-princ); border-radius: 99px; }
 .report-distribuzione progress::-moz-progress-bar { background: var(--solava-princ); border-radius: 99px; }
+.report-grafico-distribuzione {
+    display: grid;
+    grid-template-columns: minmax(160px, 220px) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(24px, 4vw, 48px);
+    white-space: normal;
+}
+.report-ciambella {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
+.report-ciambella > span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+    background: var(--colore-card, #fff);
+    font-family: var(--font-family-heading);
+}
+.report-ciambella strong { font-size: 2rem; line-height: 1.2; }
+.report-ciambella small { font-size: .75rem; color: var(--colore-subtext); }
+.report-distribuzione--legenda li {
+    position: relative;
+    padding-left: 22px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--colore-border);
+}
+.report-distribuzione--legenda li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: .45em;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--colore-voce);
+}
+@media (max-width: 640px) {
+    .report-grafico-distribuzione { grid-template-columns: minmax(0, 1fr); }
+    .report-ciambella { max-width: 200px; justify-self: center; }
+}
 @media (max-width: 900px) {
     .report-tabella--dashboard .report-tabella-campo { grid-column: 1 / -1; }
     .report-tabella--dashboard .report-tabella-campo--metrica { grid-column: span 4; }

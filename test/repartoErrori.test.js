@@ -16,6 +16,7 @@ function elemento() {
 test('monitor reparto: errore rosso, raw come testo, recupero e stato vuoto senza errore', async () => {
     const elementi = {};
     const document = {
+        addEventListener() {},
         getElementById: id => elementi[id] ||= elemento(),
         createElement: elemento, createTextNode: textContent => ({ textContent })
     };
@@ -32,7 +33,7 @@ test('monitor reparto: errore rosso, raw come testo, recupero e stato vuoto senz
     assert.equal(elementi['risposta'].textContent, 'Il database non risponde');
     assert.equal(elementi['errore-reparto-raw'].textContent, '<sql>timeout</sql>');
     assert.equal(elementi['errore-reparto-dettagli'].hidden, false);
-    contesto.fetch = async () => ({ ok: true, json: async () => ({ ok: true, reparto: 'Cava', dati: [] }) });
+    contesto.fetch = async () => ({ ok: true, headers: new Headers(), json: async () => ({ ok: true, reparto: 'Cava', dati: [] }) });
     await vm.runInContext('caricaStato()', contesto);
     assert.equal(elementi['status-banner'].className, 'stato-vuoto');
     assert.equal(elementi['errore-reparto-dettagli'].hidden, true);

@@ -28,7 +28,7 @@ function riepilogaGiornata(righe) {
     for (const campo of new Set(righe.flatMap(riga => Object.keys(riga)))) {
         const valori = righe.map(riga => riga[campo]).filter(v => v !== null && v !== undefined && v !== '');
         if (!valori.length) { riepilogo[campo] = null; continue; }
-        if (/^(ORE_|TONN_|HZ_)/.test(campo) && valori.every(v => typeof v === 'number' && Number.isFinite(v))) {
+        if (/^(ORE_|QUINT_|TONN_|HZ_)/.test(campo) && valori.every(v => typeof v === 'number' && Number.isFinite(v))) {
             const minimo = Math.min(...valori), massimo = Math.max(...valori);
             riepilogo[campo] = minimo === massimo ? minimo : `${minimo} – ${massimo}`;
         } else if (campo === 'DATA_ORA') {
@@ -38,7 +38,7 @@ function riepilogaGiornata(righe) {
         } else if (campo === 'ID') {
             riepilogo.SALVATAGGI = righe.length;
         } else {
-            riepilogo[campo] = [...new Set(valori.map(v => formattaValore(campo, v)))].join(' - ');
+            riepilogo[campo] = [...new Set(valori.map(v => formattaValore(campo, v)))].join(', ');
         }
     }
     return riepilogo;
@@ -58,13 +58,14 @@ function mostraCalendario() {
     calendarioReport.aggiorna(giornoSelezionato, conteggi);
 }
 const NOMI_CAMPI = {
+    VERSAMENTO: 'Versamento del giorno',
     SALVATAGGI: 'Salvataggi',
     DATA_ORA: 'Data e ora', ID: 'ID', RICETTA_OMR: 'Ricetta OMR', RICETTA_MES: 'Ricetta MES',
     ORE_IMP_ACCESO_L1: 'L1 - Accensione (h)', ORE_IMP_LAVORAZIONE_L1: 'L1 - Lavorazione (h)',
     ORE_IMP_ACCESO_L2: 'L2 - Accensione (h)', ORE_IMP_LAVORAZIONE_L2: 'L2 - Lavorazione (h)',
     MIN_IMP_ACCESO_L1: 'L1 - Accensione (min)', MIN_IMP_LAVORAZIONE_L1: 'L1 - Lavorazione (min)',
     MIN_IMP_ACCESO_L2: 'L2 - Accensione (min)', MIN_IMP_LAVORAZIONE_L2: 'L2 - Lavorazione (min)',
-    TONN_TERRA: 'Terra (t)', 
+    QUINT_TERRA: 'Quintali terra pesati (Q)', TONN_TERRA: 'Tonnellate terra pesate (t)',
     ...Object.fromEntries([1, 2, 3, 4, 5].map(n => [`HZ_CASSONE_${n}`, `Cassone ${n} (Hz)`]))
 };
 const nomeCampo = nome => NOMI_CAMPI[nome] || nome.replaceAll('_', ' ');
@@ -98,15 +99,18 @@ function mostraReport(risultati) {
     const giorni = giorniDisponibili();
     if (!giorni.includes(giornoSelezionato)) giornoSelezionato = giornoRecord(risultati[0]);
     const giornata = risultati.filter(riga => giornoRecord(riga) === giornoSelezionato);
-    const riga = richiesto || riepilogaGiornata(giornata);
+    // La giornata è ordinata dal più recente: il primo versamento è l'ultimo della lista.
+    const numeroVersamento = giornata.length - giornata.indexOf(richiesto);
+    const riga = richiesto ? { ...richiesto, VERSAMENTO: numeroVersamento } : riepilogaGiornata(giornata);
+    delete riga.ID;
     const indice = giorni.indexOf(giornoSelezionato);
     document.getElementById('report-precedente').disabled = indice >= giorni.length - 1;
     document.getElementById('report-successivo').disabled = indice <= 0;
     document.getElementById('report-data').textContent = dataGiorno(giornoSelezionato);
-    document.getElementById('report-titolo').textContent = richiesto ? `Salvataggio - ${richiesto.ID}` : 'Riepilogo giornaliero';
+    document.getElementById('report-titolo').textContent = richiesto ? `Versamento - ${numeroVersamento}` : 'Riepilogo giornaliero';
     selettoreReport.aggiorna([
-        { chiave: '', etichetta: 'Riepilogo - ' + giornata.length },
-        ...giornata.map(voce => ({ chiave: String(voce.ID), etichetta: (dataRecord(voce.DATA_ORA)?.slice(11,19) || 'Senza ora') + ' -  ' + (voce.ID ?? '-') }))
+        { chiave: '', etichetta: 'Riepilogo - ' + giornata.length + (giornata.length === 1 ? ' salvataggio' : ' salvataggi') },
+        ...giornata.map((voce, indice) => ({ chiave: String(voce.ID), etichetta: (dataRecord(voce.DATA_ORA)?.slice(11,19) || 'Senza ora') + ' - ' + (giornata.length - indice) }))
     ], richiesto ? String(richiesto.ID) : '');
     const url = richiesto ? linkReport(richiesto) : `paginaReportSalvataggi.html?giorno=${encodeURIComponent(giornoSelezionato)}`;
     document.getElementById('vista-tabella').href = richiesto ? `paginaSalvataggi.html?id=${encodeURIComponent(richiesto.ID)}` : 'paginaSalvataggi.html';
@@ -117,17 +121,17 @@ function mostraReport(risultati) {
     griglia.replaceChildren();
     const usati = new Set();
     const gruppi = [
-        { titolo: richiesto ? 'Identificazione' : 'Giornata', classe: 'report-identita', campi: ['ID', 'SALVATAGGI', 'DATA_ORA', 'RICETTA_OMR', 'RICETTA_MES'] },
+        { titolo: richiesto ? 'Versamento' : 'Giornata', classe: 'report-identita', campi: ['VERSAMENTO', 'SALVATAGGI', 'DATA_ORA', 'RICETTA_OMR', 'RICETTA_MES'] },
         { titolo: 'Linea 1', classe: 'report-linea', campi: ['ORE_IMP_ACCESO_L1','MIN_IMP_ACCESO_L1', 'ORE_IMP_LAVORAZIONE_L1', 'MIN_IMP_LAVORAZIONE_L1'] },
         { titolo: 'Linea 2', classe: 'report-linea', campi: ['ORE_IMP_ACCESO_L2','MIN_IMP_ACCESO_L2', 'ORE_IMP_LAVORAZIONE_L2', 'MIN_IMP_LAVORAZIONE_L2'] },
-        { titolo: 'Produzione', classe: 'report-produzione', campi: ['TONN_TERRA'] },
+        { titolo: 'Terra pesata', classe: 'report-produzione', campi: ['QUINT_TERRA', 'TONN_TERRA'] },
         { titolo: 'Cassoni', classe: 'report-cassoni', campi: [1, 2, 3, 4, 5].map(n => `HZ_CASSONE_${n}`) }
     ];
     gruppi.forEach(gruppo => {
         const campi = gruppo.campi.filter(campo => Object.hasOwn(riga, campo));
         if (!campi.length) return;
         griglia.append(creaCardReport(gruppo.titolo, gruppo.classe, campi, riga,
-            confrontoRicette(richiesto ? [richiesto] : giornata), richiesto ? [richiesto] : giornata));
+            confrontoRicette(richiesto ? [richiesto] : giornata), richiesto ? [richiesto] : giornata, !richiesto));
         campi.forEach(campo => usati.add(campo));
     });
     const altri = Object.keys(riga).filter(campo => !usati.has(campo));
@@ -151,7 +155,7 @@ function formattaDurataReport(righe, campoOre) {
     return minimo === massimo ? formato(minimo) : `${formato(minimo)} – ${formato(massimo)}`;
 }
 
-function creaCardReport(titolo, classe, campi, riga, esitoRicette, righe = [riga]) {
+function creaCardReport(titolo, classe, campi, riga, esitoRicette, righe = [riga], riepilogo = false) {
     const card = elemento('section', `report-card ${classe}`);
     card.append(elemento('h3', '', titolo));
     const lista = elemento('dl', 'report-campi');
@@ -164,12 +168,27 @@ function creaCardReport(titolo, classe, campi, riga, esitoRicette, righe = [riga
             voce.dataset.ricette = esitoRicette;
             voce.title = esitoRicette === 'coerenti' ? 'Ricette OMR e MES coincidenti' : 'Ricette OMR e MES diverse o incomplete';
         }
-        const etichetta = durata ? nomeCampo(campo).replace(/L\d - /, '').replace('(h)', '(h:min)') : nomeCampo(campo);
+        let etichetta = durata ? nomeCampo(campo).replace(/L\d - /, '').replace('(h)', '(h:min)') : nomeCampo(campo);
+        if (riepilogo) {
+            if (campo === 'DATA_ORA') etichetta = 'Prima – ultima rilevazione';
+            if (campo === 'SALVATAGGI') etichetta = 'Salvataggi caricati';
+            if (campo.startsWith('RICETTA_')) etichetta = etichetta.replace('Ricetta', 'Ricette') + ' presenti';
+        }
         const valore = durata ? formattaDurataReport(righe, campo) : formattaValore(campo, riga[campo]);
         voce.append(elemento('dt', '', etichetta), elemento('dd', '', valore));
         lista.append(voce);
     }
     card.append(lista);
+    if (riepilogo && classe === 'report-identita' && campi.some(campo => campo.startsWith('RICETTA_'))) {
+        let coincidenti = 0;
+        for (const salvataggio of righe) {
+            if (confrontoRicette([salvataggio]) === 'coerenti') coincidenti++;
+        }
+        card.append(elemento('p', 'report-nota', `Ricette OMR e MES coincidenti in ${coincidenti} salvataggi su ${righe.length}.`));
+    }
+    if (riepilogo && ['report-linea', 'report-produzione', 'report-cassoni'].includes(classe)) {
+        card.append(elemento('p', 'report-nota', 'Minimo – massimo rilevato'));
+    }
     return card;
 }
 

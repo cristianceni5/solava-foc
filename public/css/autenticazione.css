@@ -1,4 +1,9 @@
-﻿/* Stili della pagina di autenticazione, allineati alle pagine interne. */
+﻿/*
+ * Autori: Cristian Ceni, Codex
+ * Ultima modifica: 10/10/2026
+ */
+
+ /* Pagina autenticazione - disabilitabile */
 .pagina-autenticazione {
     min-height: 100vh;
     min-height: 100svh;

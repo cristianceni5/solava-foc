@@ -1,41 +1,42 @@
 [
   {
     "ip": "::1",
+    "alias": "SLVW10BOX",
     "primoAccesso": "2026-10-23T07:41:07.749Z",
-    "ultimoContatto": "2026-10-23T10:08:01.818Z",
-    "pagina": "/paginaReparto.html",
-    "reparto": "cava",
+    "ultimoContatto": "2026-10-28T14:04:05.328Z",
+    "pagina": "/paginaSalvataggi.html",
+    "reparto": "",
     "attivita": {
       "2026-10-23": {
         "primoContatto": "2026-10-23T09:47:52.907Z",
-        "ultimoContatto": "2026-10-23T10:08:01.818Z",
-        "rilevazioni": 83,
-        "secondiOsservati": 1208.911,
+        "ultimoContatto": "2026-10-23T21:59:02.169Z",
+        "rilevazioni": 980,
+        "secondiOsservati": 43869.26200000005,
         "usi": [
           {
             "pagina": "/paginaPcConnessi.html",
             "reparto": "",
-            "rilevazioni": 15
+            "rilevazioni": 79
           },
           {
             "pagina": "/paginaReportPcConnessi.html",
             "reparto": "",
-            "rilevazioni": 32
+            "rilevazioni": 66
           },
           {
             "pagina": "/index.html",
             "reparto": "",
-            "rilevazioni": 8
+            "rilevazioni": 162
           },
           {
             "pagina": "/paginaSalvataggi.html",
             "reparto": "",
-            "rilevazioni": 2
+            "rilevazioni": 636
           },
           {
             "pagina": "/paginaReportSalvataggi.html",
             "reparto": "",
-            "rilevazioni": 13
+            "rilevazioni": 14
           },
           {
             "pagina": "/documentazione.html",
@@ -45,7 +46,7 @@
           {
             "pagina": "/autenticazione.html",
             "reparto": "",
-            "rilevazioni": 1
+            "rilevazioni": 2
           },
           {
             "pagina": "/paginaQuantitaBolla.html",
@@ -55,7 +56,217 @@
           {
             "pagina": "/paginaReparto.html",
             "reparto": "cava",
-            "rilevazioni": 10
+            "rilevazioni": 19
+          }
+        ]
+      },
+      "2026-10-24": {
+        "primoContatto": "2026-10-23T22:00:02.165Z",
+        "ultimoContatto": "2026-10-24T21:59:02.871Z",
+        "rilevazioni": 1440,
+        "secondiOsservati": 86340.70600000022,
+        "usi": [
+          {
+            "pagina": "/paginaSalvataggi.html",
+            "reparto": "",
+            "rilevazioni": 1440
+          }
+        ]
+      },
+      "2026-10-25": {
+        "primoContatto": "2026-10-24T22:00:02.880Z",
+        "ultimoContatto": "2026-10-25T22:59:03.520Z",
+        "rilevazioni": 1500,
+        "secondiOsservati": 89940.64000000009,
+        "usi": [
+          {
+            "pagina": "/paginaSalvataggi.html",
+            "reparto": "",
+            "rilevazioni": 1500
+          }
+        ]
+      },
+      "2026-10-26": {
+        "primoContatto": "2026-10-25T23:00:03.507Z",
+        "ultimoContatto": "2026-10-26T14:22:37.568Z",
+        "rilevazioni": 1020,
+        "secondiOsservati": 47632.18600000001,
+        "usi": [
+          {
+            "pagina": "/paginaSalvataggi.html",
+            "reparto": "",
+            "rilevazioni": 486
+          },
+          {
+            "pagina": "/paginaReportSalvataggi.html",
+            "reparto": "",
+            "rilevazioni": 100
+          },
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 112
+          },
+          {
+            "pagina": "/paginaPcConnessi.html",
+            "reparto": "",
+            "rilevazioni": 116
+          },
+          {
+            "pagina": "/paginaReportPcConnessi.html",
+            "reparto": "",
+            "rilevazioni": 100
+          },
+          {
+            "pagina": "/autenticazione.html",
+            "reparto": "",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/paginaEtichetta.html",
+            "reparto": "",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/paginaQuantitaBolla.html",
+            "reparto": "",
+            "rilevazioni": 3
+          },
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "cava",
+            "rilevazioni": 6
+          },
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "tlingl",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/paginaControllo.html",
+            "reparto": "",
+            "rilevazioni": 72
+          },
+          {
+            "pagina": "/",
+            "reparto": "",
+            "rilevazioni": 22
+          }
+        ]
+      },
+      "2026-10-27": {
+        "primoContatto": "2026-10-27T08:46:24.540Z",
+        "ultimoContatto": "2026-10-27T13:46:23.494Z",
+        "rilevazioni": 311,
+        "secondiOsservati": 13266.519000000004,
+        "usi": [
+          {
+            "pagina": "/",
+            "reparto": "",
+            "rilevazioni": 2
+          },
+          {
+            "pagina": "/paginaPcConnessi.html",
+            "reparto": "",
+            "rilevazioni": 50
+          },
+          {
+            "pagina": "/paginaReportPcConnessi.html",
+            "reparto": "",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 18
+          },
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "scape",
+            "rilevazioni": 4
+          },
+          {
+            "pagina": "/paginaEtichetta.html",
+            "reparto": "",
+            "rilevazioni": 6
+          },
+          {
+            "pagina": "/paginaControllo.html",
+            "reparto": "",
+            "rilevazioni": 81
+          },
+          {
+            "pagina": "/paginaSalvataggi.html",
+            "reparto": "",
+            "rilevazioni": 3
+          },
+          {
+            "pagina": "/paginaReportSalvataggi.html",
+            "reparto": "",
+            "rilevazioni": 14
+          },
+          {
+            "pagina": "/paginaRichieste.html",
+            "reparto": "",
+            "rilevazioni": 131
+          },
+          {
+            "pagina": "/documentazione.html",
+            "reparto": "",
+            "rilevazioni": 1
+          }
+        ]
+      },
+      "2026-10-28": {
+        "primoContatto": "2026-10-28T08:41:30.949Z",
+        "ultimoContatto": "2026-10-28T14:04:05.328Z",
+        "rilevazioni": 458,
+        "secondiOsservati": 18851.569999999992,
+        "usi": [
+          {
+            "pagina": "/",
+            "reparto": "",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/paginaSalvataggi.html",
+            "reparto": "",
+            "rilevazioni": 232
+          },
+          {
+            "pagina": "/paginaReportSalvataggi.html",
+            "reparto": "",
+            "rilevazioni": 186
+          },
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 14
+          },
+          {
+            "pagina": "/paginaQuantitaBolla.html",
+            "reparto": "",
+            "rilevazioni": 13
+          },
+          {
+            "pagina": "/paginaControllo.html",
+            "reparto": "",
+            "rilevazioni": 8
+          },
+          {
+            "pagina": "/paginaRichieste.html",
+            "reparto": "",
+            "rilevazioni": 2
+          },
+          {
+            "pagina": "/paginaPcConnessi.html",
+            "reparto": "",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/paginaReportPcConnessi.html",
+            "reparto": "",
+            "rilevazioni": 1
           }
         ]
       }
@@ -63,16 +274,17 @@
   },
   {
     "ip": "10.50.0.182",
+    "alias": "SIMATIC FIELD PG",
     "primoAccesso": "2026-10-23T07:52:00.026Z",
-    "ultimoContatto": "2026-10-23T09:49:33.996Z",
-    "pagina": "/paginaReportSalvataggi.html",
+    "ultimoContatto": "2026-10-23T12:14:18.991Z",
+    "pagina": "/index.html",
     "reparto": "",
     "attivita": {
       "2026-10-23": {
         "primoContatto": "2026-10-23T09:48:10.225Z",
-        "ultimoContatto": "2026-10-23T09:49:33.996Z",
-        "rilevazioni": 6,
-        "secondiOsservati": 83.771,
+        "ultimoContatto": "2026-10-23T12:14:18.991Z",
+        "rilevazioni": 39,
+        "secondiOsservati": 1340.127,
         "usi": [
           {
             "pagina": "/paginaReparto.html",
@@ -82,17 +294,22 @@
           {
             "pagina": "/index.html",
             "reparto": "",
-            "rilevazioni": 1
+            "rilevazioni": 4
           },
           {
             "pagina": "/paginaSalvataggi.html",
             "reparto": "",
-            "rilevazioni": 1
+            "rilevazioni": 2
           },
           {
             "pagina": "/paginaReportSalvataggi.html",
             "reparto": "",
-            "rilevazioni": 2
+            "rilevazioni": 30
+          },
+          {
+            "pagina": "/",
+            "reparto": "",
+            "rilevazioni": 1
           }
         ]
       }
@@ -100,21 +317,66 @@
   },
   {
     "ip": "10.50.0.154",
+    "alias": "SLVW11ISC",
     "primoAccesso": "2026-10-23T08:17:18.539Z",
-    "ultimoContatto": "2026-10-23T10:08:18.497Z",
+    "ultimoContatto": "2026-10-27T04:32:09.025Z",
     "pagina": "/paginaReparto.html",
-    "reparto": "",
+    "reparto": "scape",
     "attivita": {
       "2026-10-23": {
         "primoContatto": "2026-10-23T09:47:50.960Z",
-        "ultimoContatto": "2026-10-23T10:08:18.497Z",
-        "rilevazioni": 42,
-        "secondiOsservati": 1227.537,
+        "ultimoContatto": "2026-10-23T16:13:09.648Z",
+        "rilevazioni": 772,
+        "secondiOsservati": 23118.68800000002,
         "usi": [
           {
             "pagina": "/paginaReparto.html",
             "reparto": "",
-            "rilevazioni": 42
+            "rilevazioni": 141
+          },
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "scape",
+            "rilevazioni": 631
+          }
+        ]
+      },
+      "2026-10-24": {
+        "primoContatto": "2026-10-24T03:50:12.676Z",
+        "ultimoContatto": "2026-10-24T14:55:38.509Z",
+        "rilevazioni": 1332,
+        "secondiOsservati": 39925.83300000007,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "scape",
+            "rilevazioni": 1332
+          }
+        ]
+      },
+      "2026-10-26": {
+        "primoContatto": "2026-10-26T04:48:47.094Z",
+        "ultimoContatto": "2026-10-26T18:08:07.932Z",
+        "rilevazioni": 1522,
+        "secondiOsservati": 45570.73000000003,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "scape",
+            "rilevazioni": 1522
+          }
+        ]
+      },
+      "2026-10-27": {
+        "primoContatto": "2026-10-27T04:29:39.013Z",
+        "ultimoContatto": "2026-10-27T04:32:09.025Z",
+        "rilevazioni": 6,
+        "secondiOsservati": 150.012,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "scape",
+            "rilevazioni": 6
           }
         ]
       }
@@ -122,21 +384,91 @@
   },
   {
     "ip": "10.50.0.162",
+    "alias": "",
     "primoAccesso": "2026-10-23T08:40:51.795Z",
-    "ultimoContatto": "2026-10-23T10:07:47.566Z",
-    "pagina": "/index.html",
-    "reparto": "",
+    "ultimoContatto": "2026-10-26T15:53:52.059Z",
+    "pagina": "/paginaReparto.html",
+    "reparto": "tcape",
     "attivita": {
       "2026-10-23": {
         "primoContatto": "2026-10-23T09:48:47.531Z",
-        "ultimoContatto": "2026-10-23T10:07:47.566Z",
-        "rilevazioni": 29,
-        "secondiOsservati": 1140.0349999999996,
+        "ultimoContatto": "2026-10-23T21:59:48.248Z",
+        "rilevazioni": 709,
+        "secondiOsservati": 39942.44600000001,
         "usi": [
           {
             "pagina": "/index.html",
             "reparto": "",
-            "rilevazioni": 29
+            "rilevazioni": 693
+          },
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "scape",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "clingl",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "slingl",
+            "rilevazioni": 12
+          },
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "tcape",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "tlingl",
+            "rilevazioni": 1
+          }
+        ]
+      },
+      "2026-10-24": {
+        "primoContatto": "2026-10-23T22:00:48.449Z",
+        "ultimoContatto": "2026-10-24T21:59:54.026Z",
+        "rilevazioni": 1343,
+        "secondiOsservati": 79272.15100000009,
+        "usi": [
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 1343
+          }
+        ]
+      },
+      "2026-10-25": {
+        "primoContatto": "2026-10-24T22:00:55.655Z",
+        "ultimoContatto": "2026-10-25T22:59:51.088Z",
+        "rilevazioni": 1470,
+        "secondiOsservati": 87762.1060000001,
+        "usi": [
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 1470
+          }
+        ]
+      },
+      "2026-10-26": {
+        "primoContatto": "2026-10-25T23:00:51.089Z",
+        "ultimoContatto": "2026-10-26T15:53:52.059Z",
+        "rilevazioni": 1075,
+        "secondiOsservati": 60420.961999999956,
+        "usi": [
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 516
+          },
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "tcape",
+            "rilevazioni": 559
           }
         ]
       }
@@ -144,21 +476,71 @@
   },
   {
     "ip": "10.50.0.158",
+    "alias": "SLVW11ICC",
     "primoAccesso": "2026-10-23T09:20:58.279Z",
-    "ultimoContatto": "2026-10-23T10:08:01.410Z",
-    "pagina": "/paginaReparto.html",
+    "ultimoContatto": "2026-10-27T17:54:01.953Z",
+    "pagina": "/index.html",
     "reparto": "",
     "attivita": {
       "2026-10-23": {
         "primoContatto": "2026-10-23T09:48:01.395Z",
-        "ultimoContatto": "2026-10-23T10:08:01.410Z",
-        "rilevazioni": 41,
-        "secondiOsservati": 1200.0149999999999,
+        "ultimoContatto": "2026-10-23T17:10:01.338Z",
+        "rilevazioni": 877,
+        "secondiOsservati": 26519.942999999974,
         "usi": [
           {
             "pagina": "/paginaReparto.html",
             "reparto": "",
-            "rilevazioni": 41
+            "rilevazioni": 877
+          }
+        ]
+      },
+      "2026-10-24": {
+        "primoContatto": "2026-10-24T03:51:24.856Z",
+        "ultimoContatto": "2026-10-24T14:48:24.787Z",
+        "rilevazioni": 1298,
+        "secondiOsservati": 39419.93100000001,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "ccape",
+            "rilevazioni": 1298
+          }
+        ]
+      },
+      "2026-10-26": {
+        "primoContatto": "2026-10-26T04:51:36.985Z",
+        "ultimoContatto": "2026-10-26T17:58:51.841Z",
+        "rilevazioni": 1163,
+        "secondiOsservati": 46904.84400000001,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "ccape",
+            "rilevazioni": 767
+          },
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 396
+          }
+        ]
+      },
+      "2026-10-27": {
+        "primoContatto": "2026-10-27T04:57:10.947Z",
+        "ultimoContatto": "2026-10-27T17:54:01.953Z",
+        "rilevazioni": 1178,
+        "secondiOsservati": 46516.002999999975,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "ccape",
+            "rilevazioni": 811
+          },
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 367
           }
         ]
       }
@@ -166,6 +548,7 @@
   },
   {
     "ip": "172.16.0.43",
+    "alias": "",
     "primoAccesso": "2026-10-23T09:50:24.923Z",
     "attivita": {
       "2026-10-23": {
@@ -180,10 +563,514 @@
             "rilevazioni": 12
           }
         ]
+      },
+      "2026-10-27": {
+        "primoContatto": "2026-10-27T08:09:27.086Z",
+        "ultimoContatto": "2026-10-27T10:16:46.113Z",
+        "rilevazioni": 129,
+        "secondiOsservati": 6910.557000000003,
+        "usi": [
+          {
+            "pagina": "/paginaEtichetta.html",
+            "reparto": "",
+            "rilevazioni": 129
+          }
+        ]
       }
     },
-    "ultimoContatto": "2026-10-23T09:55:36.158Z",
+    "ultimoContatto": "2026-10-27T10:16:46.113Z",
     "pagina": "/paginaEtichetta.html",
+    "reparto": ""
+  },
+  {
+    "ip": "10.50.0.163",
+    "alias": "",
+    "primoAccesso": "2026-10-23T11:24:26.324Z",
+    "attivita": {
+      "2026-10-23": {
+        "primoContatto": "2026-10-23T11:24:26.324Z",
+        "ultimoContatto": "2026-10-23T21:59:56.030Z",
+        "rilevazioni": 1263,
+        "secondiOsservati": 38129.706000000064,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "tlingl",
+            "rilevazioni": 1263
+          }
+        ]
+      },
+      "2026-10-24": {
+        "primoContatto": "2026-10-23T22:00:26.033Z",
+        "ultimoContatto": "2026-10-24T21:59:58.478Z",
+        "rilevazioni": 2023,
+        "secondiOsservati": 86012.43699999999,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "tlingl",
+            "rilevazioni": 1166
+          },
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 857
+          }
+        ]
+      },
+      "2026-10-25": {
+        "primoContatto": "2026-10-24T22:00:58.489Z",
+        "ultimoContatto": "2026-10-25T11:49:58.028Z",
+        "rilevazioni": 770,
+        "secondiOsservati": 46049.30500000003,
+        "usi": [
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 770
+          }
+        ]
+      },
+      "2026-10-26": {
+        "primoContatto": "2026-10-26T06:06:44.718Z",
+        "ultimoContatto": "2026-10-26T17:00:57.098Z",
+        "rilevazioni": 70,
+        "secondiOsservati": 3513.6789999999987,
+        "usi": [
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 70
+          }
+        ]
+      },
+      "2026-10-27": {
+        "primoContatto": "2026-10-27T05:17:44.549Z",
+        "ultimoContatto": "2026-10-27T18:07:04.985Z",
+        "rilevazioni": 238,
+        "secondiOsservati": 7673.796000000002,
+        "usi": [
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 18
+          },
+          {
+            "pagina": "/paginaSalvataggi.html",
+            "reparto": "",
+            "rilevazioni": 7
+          },
+          {
+            "pagina": "/paginaReportSalvataggi.html",
+            "reparto": "",
+            "rilevazioni": 7
+          },
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "tlingl",
+            "rilevazioni": 206
+          }
+        ]
+      },
+      "2026-10-28": {
+        "primoContatto": "2026-10-28T02:04:39.832Z",
+        "ultimoContatto": "2026-10-28T06:53:46.639Z",
+        "rilevazioni": 427,
+        "secondiOsservati": 12896.442999999994,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "tlingl",
+            "rilevazioni": 426
+          },
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 1
+          }
+        ]
+      }
+    },
+    "ultimoContatto": "2026-10-28T06:53:46.639Z",
+    "pagina": "/index.html",
+    "reparto": ""
+  },
+  {
+    "ip": "10.50.0.155",
+    "alias": "SLVW11ISL",
+    "primoAccesso": "2026-10-24T03:51:46.183Z",
+    "attivita": {
+      "2026-10-24": {
+        "primoContatto": "2026-10-24T03:51:46.183Z",
+        "ultimoContatto": "2026-10-24T03:53:16.405Z",
+        "rilevazioni": 4,
+        "secondiOsservati": 90.22200000000001,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "slingl",
+            "rilevazioni": 4
+          }
+        ]
+      },
+      "2026-10-26": {
+        "primoContatto": "2026-10-26T04:56:52.680Z",
+        "ultimoContatto": "2026-10-26T18:09:52.416Z",
+        "rilevazioni": 795,
+        "secondiOsservati": 47279.74600000002,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "slingl",
+            "rilevazioni": 795
+          }
+        ]
+      },
+      "2026-10-27": {
+        "primoContatto": "2026-10-27T04:59:01.587Z",
+        "ultimoContatto": "2026-10-27T22:59:44.341Z",
+        "rilevazioni": 1086,
+        "secondiOsservati": 64842.75399999999,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "slingl",
+            "rilevazioni": 1086
+          }
+        ]
+      },
+      "2026-10-28": {
+        "primoContatto": "2026-10-27T23:00:44.331Z",
+        "ultimoContatto": "2026-10-28T14:04:43.991Z",
+        "rilevazioni": 905,
+        "secondiOsservati": 54239.66000000004,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "slingl",
+            "rilevazioni": 905
+          }
+        ]
+      }
+    },
+    "ultimoContatto": "2026-10-28T14:04:43.991Z",
+    "pagina": "/paginaReparto.html",
+    "reparto": "slingl"
+  },
+  {
+    "ip": "10.50.0.157",
+    "alias": "",
+    "primoAccesso": "2026-10-24T05:37:37.798Z",
+    "attivita": {
+      "2026-10-24": {
+        "primoContatto": "2026-10-24T05:37:37.798Z",
+        "ultimoContatto": "2026-10-24T05:37:37.798Z",
+        "rilevazioni": 1,
+        "secondiOsservati": 0,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "tcape",
+            "rilevazioni": 1
+          }
+        ]
+      }
+    },
+    "ultimoContatto": "2026-10-24T05:37:37.798Z",
+    "pagina": "/paginaReparto.html",
+    "reparto": "tcape"
+  },
+  {
+    "ip": "10.50.0.159",
+    "alias": "",
+    "primoAccesso": "2026-10-24T06:23:58.740Z",
+    "attivita": {
+      "2026-10-24": {
+        "primoContatto": "2026-10-24T06:23:58.740Z",
+        "ultimoContatto": "2026-10-24T12:24:46.222Z",
+        "rilevazioni": 412,
+        "secondiOsservati": 12526.296000000002,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "clingl",
+            "rilevazioni": 412
+          }
+        ]
+      },
+      "2026-10-26": {
+        "primoContatto": "2026-10-26T06:23:11.834Z",
+        "ultimoContatto": "2026-10-26T11:30:13.861Z",
+        "rilevazioni": 193,
+        "secondiOsservati": 5886.669999999997,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "clingl",
+            "rilevazioni": 178
+          },
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 7
+          },
+          {
+            "pagina": "/documentazione.html",
+            "reparto": "",
+            "rilevazioni": 5
+          },
+          {
+            "pagina": "/paginaPcConnessi.html",
+            "reparto": "",
+            "rilevazioni": 2
+          },
+          {
+            "pagina": "/paginaEtichetta.html",
+            "reparto": "",
+            "rilevazioni": 1
+          }
+        ]
+      },
+      "2026-10-27": {
+        "primoContatto": "2026-10-27T04:11:25.418Z",
+        "ultimoContatto": "2026-10-27T11:36:25.425Z",
+        "rilevazioni": 856,
+        "secondiOsservati": 26700.006999999994,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "clingl",
+            "rilevazioni": 856
+          }
+        ]
+      }
+    },
+    "ultimoContatto": "2026-10-27T11:36:25.425Z",
+    "pagina": "/paginaReparto.html",
+    "reparto": "clingl"
+  },
+  {
+    "ip": "10.50.0.156",
+    "alias": "",
+    "primoAccesso": "2026-10-24T07:22:11.504Z",
+    "attivita": {
+      "2026-10-24": {
+        "primoContatto": "2026-10-24T07:22:11.504Z",
+        "ultimoContatto": "2026-10-24T09:30:41.401Z",
+        "rilevazioni": 25,
+        "secondiOsservati": 764.236,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "cava",
+            "rilevazioni": 25
+          }
+        ]
+      },
+      "2026-10-26": {
+        "primoContatto": "2026-10-26T14:47:08.761Z",
+        "ultimoContatto": "2026-10-26T16:15:39.041Z",
+        "rilevazioni": 111,
+        "secondiOsservati": 5310.279999999999,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "cava",
+            "rilevazioni": 111
+          }
+        ]
+      },
+      "2026-10-27": {
+        "primoContatto": "2026-10-27T04:54:51.019Z",
+        "ultimoContatto": "2026-10-27T10:14:02.799Z",
+        "rilevazioni": 23,
+        "secondiOsservati": 660.6960000000001,
+        "usi": [
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "cava",
+            "rilevazioni": 23
+          }
+        ]
+      }
+    },
+    "ultimoContatto": "2026-10-27T10:14:02.799Z",
+    "pagina": "/paginaReparto.html",
+    "reparto": "cava"
+  },
+  {
+    "ip": "10.50.1.249",
+    "alias": "",
+    "primoAccesso": "2026-10-26T06:52:12.723Z",
+    "attivita": {
+      "2026-10-26": {
+        "primoContatto": "2026-10-26T06:52:12.723Z",
+        "ultimoContatto": "2026-10-26T12:57:32.550Z",
+        "rilevazioni": 125,
+        "secondiOsservati": 4337.434,
+        "usi": [
+          {
+            "pagina": "/",
+            "reparto": "",
+            "rilevazioni": 6
+          },
+          {
+            "pagina": "/paginaSalvataggi.html",
+            "reparto": "",
+            "rilevazioni": 116
+          },
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "cava",
+            "rilevazioni": 2
+          },
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 1
+          }
+        ]
+      },
+      "2026-10-27": {
+        "primoContatto": "2026-10-27T08:37:55.513Z",
+        "ultimoContatto": "2026-10-27T08:56:46.238Z",
+        "rilevazioni": 45,
+        "secondiOsservati": 1130.725,
+        "usi": [
+          {
+            "pagina": "/",
+            "reparto": "",
+            "rilevazioni": 3
+          },
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "slingl",
+            "rilevazioni": 8
+          },
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 4
+          },
+          {
+            "pagina": "/documentazione.html",
+            "reparto": "",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/paginaReparto.html",
+            "reparto": "scape",
+            "rilevazioni": 29
+          }
+        ]
+      }
+    },
+    "ultimoContatto": "2026-10-27T08:56:46.238Z",
+    "pagina": "/paginaReparto.html",
+    "reparto": "scape"
+  },
+  {
+    "ip": "172.16.0.67",
+    "alias": "",
+    "primoAccesso": "2026-10-26T09:04:36.436Z",
+    "attivita": {
+      "2026-10-26": {
+        "primoContatto": "2026-10-26T09:04:36.436Z",
+        "ultimoContatto": "2026-10-26T09:05:06.456Z",
+        "rilevazioni": 2,
+        "secondiOsservati": 30.02,
+        "usi": [
+          {
+            "pagina": "/paginaEtichetta.html",
+            "reparto": "",
+            "rilevazioni": 2
+          }
+        ]
+      },
+      "2026-10-28": {
+        "primoContatto": "2026-10-28T09:51:08.197Z",
+        "ultimoContatto": "2026-10-28T10:42:02.271Z",
+        "rilevazioni": 53,
+        "secondiOsservati": 2958.0850000000005,
+        "usi": [
+          {
+            "pagina": "/paginaEtichetta.html",
+            "reparto": "",
+            "rilevazioni": 53
+          }
+        ]
+      }
+    },
+    "ultimoContatto": "2026-10-28T10:42:02.271Z",
+    "pagina": "/paginaEtichetta.html",
+    "reparto": ""
+  },
+  {
+    "ip": "172.16.0.40",
+    "alias": "",
+    "primoAccesso": "2026-10-28T08:20:05.127Z",
+    "attivita": {
+      "2026-10-28": {
+        "primoContatto": "2026-10-28T08:20:05.127Z",
+        "ultimoContatto": "2026-10-28T09:10:08.377Z",
+        "rilevazioni": 62,
+        "secondiOsservati": 2653.8990000000003,
+        "usi": [
+          {
+            "pagina": "/",
+            "reparto": "",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/paginaEtichetta.html",
+            "reparto": "",
+            "rilevazioni": 42
+          },
+          {
+            "pagina": "/index.html",
+            "reparto": "",
+            "rilevazioni": 7
+          },
+          {
+            "pagina": "/paginaControllo.html",
+            "reparto": "",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/documentazione.html",
+            "reparto": "",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/paginaQuantitaBolla.html",
+            "reparto": "",
+            "rilevazioni": 4
+          },
+          {
+            "pagina": "/paginaPcConnessi.html",
+            "reparto": "",
+            "rilevazioni": 2
+          },
+          {
+            "pagina": "/paginaReportPcConnessi.html",
+            "reparto": "",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/paginaRichieste.html",
+            "reparto": "",
+            "rilevazioni": 1
+          },
+          {
+            "pagina": "/paginaSalvataggi.html",
+            "reparto": "",
+            "rilevazioni": 2
+          }
+        ]
+      }
+    },
+    "ultimoContatto": "2026-10-28T09:10:08.377Z",
+    "pagina": "/index.html",
     "reparto": ""
   }
 ]

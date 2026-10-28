@@ -9,10 +9,15 @@ require('dotenv').config();
 const express = require('express');
 const path = require('node:path');
 const app = express();
+const diagnosticaRete = require('./middleware/diagnosticaRete').creaDiagnosticaRete();
+app.use(diagnosticaRete.middleware);
 app.use(express.json());
 app.use(require('./routes/autenticazione'));
 app.use(require('./middleware/accesso')());
+// Segue le stesse regole di accesso delle altre API gestionali.
+app.use(require('./routes/diagnosticaRete')(diagnosticaRete));
 app.use(require('./routes/pcConnessi'));
+app.use(require('./routes/meteo'));
 
 //Butto fori la cartella public per servire i file statici, tipo index.html e gli altri file
 app.use(express.static(path.join(__dirname, 'public')));

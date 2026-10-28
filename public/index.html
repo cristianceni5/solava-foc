@@ -1,7 +1,7 @@
-<!-- Autori: Cristian Ceni, Codex | Ultima modifica: 10/10/2026
-     Scopo: collegare monitor, strumenti, salvataggi e impostazioni del gestionale. -->
+<!-- Cristian Ceni - 2026 -->
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,8 +9,10 @@
     <link rel="icon" href="./assets/logo-solava-rid.png">
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="./css/index.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        referrerpolicy="no-referrer">
 </head>
+
 <body class="home-dashboard">
     <header class="navigazione home-nav">
         <a href="index.html" class="nav-brand" aria-label="Solava - pagina principale">
@@ -23,7 +25,8 @@
             <a href="#salvataggi">Salvataggi</a>
             <a href="documentazione.html">Documentazione</a>
         </nav>
-        <button type="button" class="home-settings-trigger" id="apri-impostazioni" aria-label="Impostazioni" aria-haspopup="dialog" aria-controls="dialog-impostazioni">
+        <button type="button" class="home-settings-trigger" id="apri-impostazioni" aria-label="Impostazioni"
+            aria-haspopup="dialog" aria-controls="dialog-impostazioni">
             <i class="fa-solid fa-gear" aria-hidden="true"></i><span>Impostazioni</span>
         </button>
     </header>
@@ -32,7 +35,13 @@
         <div class="home-intro">
             <div class="home-intro-copy">
                 <h1>Pannello operativo</h1>
-                <p>Seleziona la pagina che ti serve.</p>
+                <div class="home-saluto-meteo">
+                    <p id="saluto-home">Seleziona la pagina che ti serve.</p>
+                    <div id="meteo-home" class="home-meteo" role="status" aria-live="polite">
+                        <i id="meteo-icona" class="fa-solid fa-temperature-half" aria-hidden="true"></i>
+                        <span id="meteo-testo">Caricamento meteo…</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -40,35 +49,61 @@
             <section class="home-section" id="monitor" aria-labelledby="titolo-monitor">
                 <div class="home-section-heading">
                     <span class="home-section-icon"><i class="fa-solid fa-industry" aria-hidden="true"></i></span>
-                    <div><h2 id="titolo-monitor">Monitor impianti</h2><p>Consulta le lavorazioni MES del reparto.</p></div>
+                    <div>
+                        <h2 id="titolo-monitor">Monitor impianti</h2>
+                        <p>Consulta le lavorazioni MES del reparto.</p>
+                    </div>
                 </div>
                 <div class="home-section-content">
-                    <p id="stato-reparti" class="stato-caricamento" role="status" aria-live="polite">Caricamento reparti...</p>
+                    <p id="stato-reparti" class="stato-caricamento" role="status" aria-live="polite">Caricamento
+                        reparti...</p>
                     <div class="lista-reparti home-link-grid" id="lista-reparti"></div>
                 </div>
             </section>
 
             <section class="home-section" id="strumenti" aria-labelledby="titolo-strumenti">
                 <div class="home-section-heading">
-                    <span class="home-section-icon"><i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i></span>
-                    <div><h2 id="titolo-strumenti">Strumenti</h2><p>Etichette, controllo articoli e istruzioni.</p></div>
+                    <span class="home-section-icon"><i class="fa-solid fa-screwdriver-wrench"
+                            aria-hidden="true"></i></span>
+                    <div>
+                        <h2 id="titolo-strumenti">Strumenti</h2>
+                        <p>Etichette, controllo articoli e istruzioni.</p>
+                    </div>
                 </div>
                 <div class="home-section-content home-link-grid">
-                    <a class="home-page-link" href="paginaEtichetta.html"><i class="fa-solid fa-barcode" aria-hidden="true"></i><span>Compilazione etichette</span><i class="fa-solid fa-arrow-right home-link-arrow" aria-hidden="true"></i></a>
-                    <a class="home-page-link" href="paginaControllo.html"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><span>Controllo attributi</span><i class="fa-solid fa-arrow-right home-link-arrow" aria-hidden="true"></i></a>
-                    <a class="home-page-link" href="documentazione.html"><i class="fa-solid fa-book-open" aria-hidden="true"></i><span>Documentazione</span><i class="fa-solid fa-arrow-right home-link-arrow" aria-hidden="true"></i></a>
-                    <a class="home-page-link" href="paginaQuantitaBolla.html"><i class="fa-solid fa-trowel-bricks"></i><span>Quantità bolla</span><i class="fa-solid fa-arrow-right home-link-arrow" aria-hidden="true"></i></a>
-                    <a class="home-page-link" href="paginaPcConnessi.html"><i class="fa-solid fa-computer"></i><span>Computer connessi</span><i class="fa-solid fa-arrow-right home-link-arrow" aria-hidden="true"></i></a>
+                    <a class="home-page-link" href="paginaEtichetta.html"><i class="fa-solid fa-barcode"
+                            aria-hidden="true"></i><span>Compilazione etichette</span><i
+                            class="fa-solid fa-arrow-right home-link-arrow" aria-hidden="true"></i></a>
+                    <a class="home-page-link" href="paginaControllo.html"><i class="fa-solid fa-magnifying-glass"
+                            aria-hidden="true"></i><span>Controllo attributi</span><i
+                            class="fa-solid fa-arrow-right home-link-arrow" aria-hidden="true"></i></a>
+                    <a class="home-page-link" href="documentazione.html"><i class="fa-solid fa-book-open"
+                            aria-hidden="true"></i><span>Documentazione</span><i
+                            class="fa-solid fa-arrow-right home-link-arrow" aria-hidden="true"></i></a>
+                    <a class="home-page-link" href="paginaQuantitaBolla.html"><i
+                            class="fa-solid fa-trowel-bricks"></i><span>Quantità bolla</span><i
+                            class="fa-solid fa-arrow-right home-link-arrow" aria-hidden="true"></i></a>
+                    <a class="home-page-link" href="paginaPcConnessi.html"><i
+                            class="fa-solid fa-computer"></i><span>Computer connessi</span><i
+                            class="fa-solid fa-arrow-right home-link-arrow" aria-hidden="true"></i></a>
+                    <a class="home-page-link" href="paginaRichieste.html"><i class="fa-solid fa-network-wired"
+                            aria-hidden="true"></i><span>Richieste e log</span><i
+                            class="fa-solid fa-arrow-right home-link-arrow" aria-hidden="true"></i></a>
                 </div>
             </section>
 
             <section class="home-section" id="salvataggi" aria-labelledby="titolo-salvataggi">
                 <div class="home-section-heading">
                     <span class="home-section-icon"><i class="fa-solid fa-table-list" aria-hidden="true"></i></span>
-                    <div><h2 id="titolo-salvataggi">Salvataggi</h2><p>Consulta le registrazioni per reparto prelevate dai PLC.</p></div>
+                    <div>
+                        <h2 id="titolo-salvataggi">Salvataggi</h2>
+                        <p>Consulta le registrazioni per reparto prelevate dai PLC.</p>
+                    </div>
                 </div>
                 <div class="home-section-content home-link-grid">
-                    <a class="home-page-link" href="paginaSalvataggi.html"><i class="fa-solid fa-layer-group" aria-hidden="true"></i><span>Prelavorazione</span><i class="fa-solid fa-arrow-right home-link-arrow" aria-hidden="true"></i></a>
+                    <a class="home-page-link" href="paginaSalvataggi.html"><i class="fa-solid fa-layer-group"
+                            aria-hidden="true"></i><span>Prelavorazione</span><i
+                            class="fa-solid fa-arrow-right home-link-arrow" aria-hidden="true"></i></a>
                 </div>
             </section>
         </div>
@@ -77,20 +112,24 @@
     <dialog id="dialog-impostazioni" class="home-settings-dialog" aria-labelledby="titolo-impostazioni">
         <div class="home-dialog-heading">
             <h2 id="titolo-impostazioni">Impostazioni</h2>
-            <button type="button" id="chiudi-impostazioni" class="home-dialog-close" aria-label="Chiudi impostazioni"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+            <button type="button" id="chiudi-impostazioni" class="home-dialog-close" aria-label="Chiudi impostazioni"><i
+                    class="fa-solid fa-xmark" aria-hidden="true"></i></button>
         </div>
         <p class="home-dialog-description">Gestisci sicurezza e riapertura delle pagine reparto.</p>
         <div class="home-setting-row">
             <span id="etichetta-auto">Riapri automaticamente</span>
-            <label class="switch"><input type="checkbox" id="check-auto" aria-labelledby="etichetta-auto" disabled><span class="slider round"></span></label>
+            <label class="switch"><input type="checkbox" id="check-auto" aria-labelledby="etichetta-auto" disabled><span
+                    class="slider round"></span></label>
         </div>
         <div class="home-setting-row">
             <span id="etichetta-auth">Richiedi l'accesso per le pagine non di reparto</span>
-            <label class="switch"><input type="checkbox" id="check-auth" aria-labelledby="etichetta-auth" disabled><span class="slider round"></span></label>
+            <label class="switch"><input type="checkbox" id="check-auth" aria-labelledby="etichetta-auth" disabled><span
+                    class="slider round"></span></label>
         </div>
         <div class="home-setting-row">
             <label for="minuti-riapertura">Intervallo in minuti</label>
-            <input id="minuti-riapertura" type="number" min="0" step="1" inputmode="numeric" placeholder="Minuti" autocomplete="off" required disabled>
+            <input id="minuti-riapertura" type="number" min="0" step="1" inputmode="numeric" placeholder="Minuti"
+                autocomplete="off" required disabled>
         </div>
         <p id="stato-impostazioni" role="status" aria-live="polite">Caricamento impostazioni...</p>
     </dialog>
@@ -102,4 +141,5 @@
     <script src="./js/indexMotion.js" defer></script>
     <script src="./js/presenza.js" defer></script>
 </body>
+
 </html>

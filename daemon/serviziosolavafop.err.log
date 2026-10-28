@@ -58,3 +58,26 @@ Errore stampa etichetta: Error: Timeout connessione stampante
 (Use `node --trace-deprecation ...` to show where the warning was created)
 (node:5568) [DEP0123] DeprecationWarning: Setting the TLS ServerName to an IP address is not permitted by RFC 6066. This will be ignored in a future version.
 (Use `node --trace-deprecation ...` to show where the warning was created)
+(node:14956) [DEP0123] DeprecationWarning: Setting the TLS ServerName to an IP address is not permitted by RFC 6066. This will be ignored in a future version.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Errore registro PC: EPERM: operation not permitted, rename 'C:\Users\Confezionamento\Documents\Factory Operation Panel - Solava\config\pcConnessi.json.a66dc37a-1aed-41dd-9204-9c84c4c0f810.tmp' -> 'C:\Users\Confezionamento\Documents\Factory Operation Panel - Solava\config\pcConnessi.json'
+Errore registro PC: EPERM: operation not permitted, rename 'C:\Users\Confezionamento\Documents\Factory Operation Panel - Solava\config\pcConnessi.json.d4c97610-2a3e-48f2-9020-11884456364c.tmp' -> 'C:\Users\Confezionamento\Documents\Factory Operation Panel - Solava\config\pcConnessi.json'
+Errore registro PC: EPERM: operation not permitted, rename 'C:\Users\Confezionamento\Documents\Factory Operation Panel - Solava\config\pcConnessi.json.b0c3c81a-4c67-4473-977b-018bcc18d7b0.tmp' -> 'C:\Users\Confezionamento\Documents\Factory Operation Panel - Solava\config\pcConnessi.json'
+Errore registro PC: EPERM: operation not permitted, rename 'C:\Users\Confezionamento\Documents\Factory Operation Panel - Solava\config\pcConnessi.json.65685be9-848e-465e-8ba0-cc9e7ffeef0f.tmp' -> 'C:\Users\Confezionamento\Documents\Factory Operation Panel - Solava\config\pcConnessi.json'
+Errore registro PC: EPERM: operation not permitted, rename 'C:\Users\Confezionamento\Documents\Factory Operation Panel - Solava\config\pcConnessi.json.dece4ed3-9368-4190-87c1-de834b4f2117.tmp' -> 'C:\Users\Confezionamento\Documents\Factory Operation Panel - Solava\config\pcConnessi.json'
+(node:4204) [DEP0123] DeprecationWarning: Setting the TLS ServerName to an IP address is not permitted by RFC 6066. This will be ignored in a future version.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:14592) [DEP0123] DeprecationWarning: Setting the TLS ServerName to an IP address is not permitted by RFC 6066. This will be ignored in a future version.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:11072) [DEP0123] DeprecationWarning: Setting the TLS ServerName to an IP address is not permitted by RFC 6066. This will be ignored in a future version.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:9924) [DEP0123] DeprecationWarning: Setting the TLS ServerName to an IP address is not permitted by RFC 6066. This will be ignored in a future version.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:12252) [DEP0123] DeprecationWarning: Setting the TLS ServerName to an IP address is not permitted by RFC 6066. This will be ignored in a future version.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:12472) [DEP0123] DeprecationWarning: Setting the TLS ServerName to an IP address is not permitted by RFC 6066. This will be ignored in a future version.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:6988) [DEP0123] DeprecationWarning: Setting the TLS ServerName to an IP address is not permitted by RFC 6066. This will be ignored in a future version.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:10708) [DEP0123] DeprecationWarning: Setting the TLS ServerName to an IP address is not permitted by RFC 6066. This will be ignored in a future version.
+(Use `node --trace-deprecation ...` to show where the warning was created)
