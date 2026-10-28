@@ -81,3 +81,7 @@ Errore registro PC: EPERM: operation not permitted, rename 'C:\Users\Confezionam
 (Use `node --trace-deprecation ...` to show where the warning was created)
 (node:10708) [DEP0123] DeprecationWarning: Setting the TLS ServerName to an IP address is not permitted by RFC 6066. This will be ignored in a future version.
 (Use `node --trace-deprecation ...` to show where the warning was created)
+(node:11736) [DEP0123] DeprecationWarning: Setting the TLS ServerName to an IP address is not permitted by RFC 6066. This will be ignored in a future version.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:6968) [DEP0123] DeprecationWarning: Setting the TLS ServerName to an IP address is not permitted by RFC 6066. This will be ignored in a future version.
+(Use `node --trace-deprecation ...` to show where the warning was created)

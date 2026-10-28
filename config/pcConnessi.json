@@ -3,8 +3,8 @@
     "ip": "::1",
     "alias": "SLVW10BOX",
     "primoAccesso": "2026-10-23T07:41:07.749Z",
-    "ultimoContatto": "2026-10-28T14:04:05.328Z",
-    "pagina": "/paginaSalvataggi.html",
+    "ultimoContatto": "2026-10-28T15:25:29.589Z",
+    "pagina": "/index.html",
     "reparto": "",
     "attivita": {
       "2026-10-23": {
@@ -219,9 +219,9 @@
       },
       "2026-10-28": {
         "primoContatto": "2026-10-28T08:41:30.949Z",
-        "ultimoContatto": "2026-10-28T14:04:05.328Z",
-        "rilevazioni": 458,
-        "secondiOsservati": 18851.569999999992,
+        "ultimoContatto": "2026-10-28T15:25:29.589Z",
+        "rilevazioni": 562,
+        "secondiOsservati": 23735.831,
         "usi": [
           {
             "pagina": "/",
@@ -231,7 +231,7 @@
           {
             "pagina": "/paginaSalvataggi.html",
             "reparto": "",
-            "rilevazioni": 232
+            "rilevazioni": 242
           },
           {
             "pagina": "/paginaReportSalvataggi.html",
@@ -241,7 +241,7 @@
           {
             "pagina": "/index.html",
             "reparto": "",
-            "rilevazioni": 14
+            "rilevazioni": 98
           },
           {
             "pagina": "/paginaQuantitaBolla.html",
@@ -256,17 +256,22 @@
           {
             "pagina": "/paginaRichieste.html",
             "reparto": "",
-            "rilevazioni": 2
+            "rilevazioni": 3
           },
           {
             "pagina": "/paginaPcConnessi.html",
             "reparto": "",
-            "rilevazioni": 1
+            "rilevazioni": 6
           },
           {
             "pagina": "/paginaReportPcConnessi.html",
             "reparto": "",
-            "rilevazioni": 1
+            "rilevazioni": 2
+          },
+          {
+            "pagina": "/paginaReportMes.html",
+            "reparto": "",
+            "rilevazioni": 3
           }
         ]
       }
@@ -741,19 +746,19 @@
       },
       "2026-10-28": {
         "primoContatto": "2026-10-27T23:00:44.331Z",
-        "ultimoContatto": "2026-10-28T14:04:43.991Z",
-        "rilevazioni": 905,
-        "secondiOsservati": 54239.66000000004,
+        "ultimoContatto": "2026-10-28T15:25:43.964Z",
+        "rilevazioni": 986,
+        "secondiOsservati": 59099.633000000045,
         "usi": [
           {
             "pagina": "/paginaReparto.html",
             "reparto": "slingl",
-            "rilevazioni": 905
+            "rilevazioni": 986
           }
         ]
       }
     },
-    "ultimoContatto": "2026-10-28T14:04:43.991Z",
+    "ultimoContatto": "2026-10-28T15:25:43.964Z",
     "pagina": "/paginaReparto.html",
     "reparto": "slingl"
   },
